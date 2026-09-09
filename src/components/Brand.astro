@@ -1,0 +1,37 @@
+---
+/**
+ * Marca denominativa — implementa 12-brand.md (Q-M resuelta).
+ *
+ * Forma elegida por el usuario: **prompt + cursor de bloque** → `>daxho▮`
+ * Encadena con la boot sequence (ADR-0019) y con el prompt del hero, de modo
+ * que el sitio entero habla el mismo idioma de terminal.
+ *
+ * Es un <a> con TEXTO REAL, no una imagen: legible por buscadores y por
+ * lectores de pantalla, y seleccionable.
+ */
+interface Props {
+  href?: string;
+  /** `lg` en el header, `sm` para espacios reducidos. */
+  size?: 'sm' | 'lg';
+  class?: string;
+}
+
+const { href = '/', size = 'lg', class: className }: Props = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'text-fg-primary hover:text-accent-text inline-flex items-baseline font-mono font-bold tracking-tight transition-colors',
+    size === 'lg' ? 'text-lg' : 'text-sm',
+    className,
+  ]}
+>
+  {/* Prompt y cursor son decorativos: el nombre accesible del enlace debe ser
+      solo "daxho". */}
+  <span class="text-accent-text mr-0.5" aria-hidden="true">&gt;</span>
+  <span>daxho</span>
+  <span
+    class="brand-caret bg-accent-text ml-0.5 inline-block h-[0.9em] w-[0.5em]"
+    aria-hidden="true"></span>
+</a>

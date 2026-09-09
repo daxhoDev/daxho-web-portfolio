@@ -1,0 +1,22 @@
+---
+/**
+ * Encabezado de sección con glitch disparado (ADR-0014).
+ *
+ * El glitch se dispara al entrar en viewport y al hacer hover; NUNCA en bucle.
+ * Un <h2> vibrando de forma permanente es ilegible y distrae de la lectura.
+ *
+ * `data-text` duplica el texto para los pseudo-elementos del efecto. Como son
+ * ::before/::after posicionados en absoluto, no ocupan espacio: CLS = 0.
+ */
+interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+
+const { text, as: Tag = 'h2', class: className }: Props = Astro.props;
+---
+
+<Tag class:list={['text-3xl', className]}>
+  <span class="glitch" data-text={text}>{text}</span>
+</Tag>

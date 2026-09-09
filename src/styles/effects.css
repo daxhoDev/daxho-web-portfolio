@@ -1,0 +1,290 @@
+/* =============================================================================
+   EFECTOS — implementa ADR-0014
+   -----------------------------------------------------------------------------
+   REGLAS DURAS de la spec, aplicadas en todo este archivo:
+     1. prefers-reduced-motion: reduce desactiva TODO el movimiento.
+     2. CLS = 0. Ninguna animación altera el layout: solo transform y opacity.
+     3. El texto animado existe completo en el HTML; la animación revela, no
+        inyecta (SEO y lectores de pantalla).
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+   GLITCH — mecanismo: PowerGlitch (ver DEVIATIONS.md)
+   La librería genera las rebanadas y el temblor por Web Animations API. Aquí
+   se aporta lo que ella no hace:
+     1. Teñir cada capa con un rojo distinto de la rampa Blood. Sin esto todas
+        las capas salen del color del texto, y con `hueRotate` saldrían verdes
+        y azules, que no pintan nada en esta paleta.
+     2. Deformar las letras (cizalla y estiramiento), que PowerGlitch no cubre:
+        solo desplaza rebanadas.
+
+   `.glitch-container` y `.is-warping` los pone el script tras inicializar.
+   -------------------------------------------------------------------------- */
+.glitch {
+  display: inline-block;
+}
+
+.glitch-container {
+  display: inline-block;
+  position: relative;
+}
+
+/* Estructura que crea PowerGlitch:
+   .glitch-container > [layer container, display grid] > [original, clon, clon...]
+   El primer hijo es el texto real y se deja intacto. */
+.glitch-container > * > *:nth-child(2) {
+  color: var(--color-blood-500);
+}
+
+.glitch-container > * > *:nth-child(3) {
+  color: var(--color-blood-300);
+}
+
+.glitch-container > * > *:nth-child(4) {
+  color: var(--color-blood-700);
+}
+
+.glitch-container > * > *:nth-child(5) {
+  color: var(--color-blood-400);
+}
+
+.glitch-container > * > *:nth-child(6) {
+  color: var(--color-blood-600);
+}
+
+.glitch-container > * > *:nth-child(7) {
+  color: var(--color-blood-800);
+}
+
+/* Deformación de las letras, sincronizada con la duración del glitch.
+   Solo transform: no altera el layout, así que CLS = 0. */
+.glitch-container.is-warping > * {
+  animation: glitch-warp 520ms steps(5, end) 1;
+}
+
+@keyframes glitch-warp {
+  0%,
+  100% {
+    transform: none;
+  }
+  15% {
+    transform: skewX(-16deg) scaleY(1.1);
+  }
+  32% {
+    transform: skewX(10deg) scaleY(0.92) scaleX(1.04);
+  }
+  48% {
+    transform: skewX(-6deg) scaleY(1.06);
+  }
+  66% {
+    transform: skewX(14deg) scaleX(0.97);
+  }
+  84% {
+    transform: skewX(-4deg) scaleY(1.02);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   GRAIN
+   Overlay estático (no animado): coste despreciable.
+
+   VA DETRÁS DEL CONTENIDO, no encima (z-index: -1).
+   Motivo: una capa a pantalla completa por encima del texto reduce su
+   contraste, y el contraste es una regla dura verificada con números
+   (02-design-system.md §2.4). Poniéndola detrás se puede subir la opacidad
+   todo lo que haga falta sin tocar ni un ratio.
+   Para que funcione, el color de fondo vive en <html> y <body> es transparente
+   con su propio contexto de apilamiento (ver global.css).
+
+   El ruido se pasa a escala de grises con feColorMatrix. Sin eso, feTurbulence
+   genera ruido de color con alfa variable que sobre fondo claro queda lavado:
+   era la causa de que no se viera en tema claro.
+   -------------------------------------------------------------------------- */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* La intensidad se ajusta por tema con una sola variable.
+     El mismo ruido NO se percibe igual en los dos: sobre fondo casi negro los
+     píxeles claros del ruido destacan con muchísimo más contraste que los
+     oscuros sobre fondo casi blanco. Por eso el tema oscuro necesita bastante
+     menos opacidad para el mismo efecto visual. */
+  opacity: var(--grain-opacity, 0.42);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:root {
+  --grain-opacity: 0.42;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --grain-opacity: 0.16;
+  }
+}
+
+:root[data-theme='dark'] {
+  --grain-opacity: 0.16;
+}
+
+/* -----------------------------------------------------------------------------
+   TYPING
+   El texto completo YA está en el DOM desde el primer render (requisito de SEO
+   y de lectores de pantalla, ADR-0014).
+
+   Se revela carácter a carácter animando SOLO la opacidad de cada uno. Se
+   descartó el enfoque clásico de animar el ancho con steps() porque solo
+   funciona en una línea sin ajuste: el titular del hero ocupa varias.
+
+   CLS = 0: cada carácter ocupa su espacio desde el principio, aunque sea
+   invisible. El texto nunca se reflota.
+   -------------------------------------------------------------------------- */
+.typing-char {
+  opacity: 0;
+  animation: typing-char-in 1ms linear forwards;
+  animation-delay: var(--char-delay, 0ms);
+}
+
+@keyframes typing-char-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  vertical-align: text-bottom;
+  background-color: var(--accent-text);
+  /* Invisible hasta que arranca la animación (tras --caret-delay). */
+  opacity: 0;
+  /* step-end mantiene cada valor hasta el siguiente fotograma: el cambio es
+     un corte seco entre 0 y 1, sin ningún estado intermedio. Antes había dos
+     animaciones solapadas cuyos valores se componían y producían un tercer
+     tono a medio camino. */
+  animation: caret-blink 1.05s step-end var(--caret-delay, 0ms) infinite;
+}
+
+@keyframes caret-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   CARRUSEL INFINITO
+   CSS puro, sin JavaScript y sin isla (03-architecture.md).
+
+   Mecánica: el track contiene la lista DOS veces. Se desplaza -50%, que es
+   exactamente el ancho de la primera copia, de modo que al terminar el ciclo
+   la segunda copia está donde estaba la primera y el salto es invisible.
+   La copia duplicada va aria-hidden para no leerla dos veces.
+   -------------------------------------------------------------------------- */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  /* Desvanecido en los extremos, para que los iconos no aparezcan cortados */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.carousel-track {
+  display: flex;
+  width: max-content;
+  animation: carousel-scroll var(--carousel-duration, 60s) linear infinite;
+}
+
+.carousel:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes carousel-scroll {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   CURSOR DE LA MARCA (12-brand.md)
+   -------------------------------------------------------------------------- */
+.brand-caret {
+  /* Mismo corte seco que el caret del typing: sin estado intermedio. */
+  animation: caret-blink 1.05s step-end infinite;
+}
+
+/* =============================================================================
+   REGLA TRANSVERSAL E INNEGOCIABLE (ADR-0014)
+   Bajo prefers-reduced-motion se desactiva todo el movimiento.
+   El grain estático permanece: no implica movimiento.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .glitch-container.is-warping > * {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .typing-char {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+  .caret {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+  .carousel-track {
+    animation: none !important;
+  }
+
+  .carousel {
+    overflow-x: auto;
+  }
+
+  .brand-caret {
+    animation: none !important;
+  }
+}
+
+/* Simulador para /styleguide: permite comprobar la desactivación sin tocar los
+   ajustes del sistema operativo. Replica exactamente el bloque anterior. */
+[data-reduce-motion='true'] .glitch-container.is-warping > * {
+  animation: none !important;
+  transform: none !important;
+}
+
+[data-reduce-motion='true'] .typing-char {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+[data-reduce-motion='true'] .caret {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+[data-reduce-motion='true'] .carousel-track {
+  animation: none !important;
+}
+
+[data-reduce-motion='true'] .carousel {
+  overflow-x: auto;
+}
+
+[data-reduce-motion='true'] .brand-caret {
+  animation: none !important;
+}

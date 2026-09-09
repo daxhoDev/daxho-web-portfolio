@@ -1,0 +1,48 @@
+---
+/**
+ * Punto de entrada único para los iconos de tecnología.
+ *
+ * Resuelve por la clave del catálogo: si la entrada tiene slug de Simple
+ * Icons, usa el trazado oficial; si no, cae al icono propio.
+ *
+ * Consumidores: carrusel del home, fila de stack de ProjectCard, stack del
+ * detalle y skills de /about. Ninguno debe importar iconos sueltos.
+ */
+import SimpleIcon from '@/components/icons/tech/SimpleIcon.astro';
+import PlaywrightIcon from '@/components/icons/tech/playwright.astro';
+import { getTechByKey } from '@/content/tech';
+
+interface Props {
+  /** Clave del catálogo, p. ej. "postgresql". */
+  tech: string;
+  size?: number;
+  /** Si se omite, el icono se marca decorativo. */
+  title?: string;
+  class?: string;
+}
+
+const { tech, size = 24, title, class: className }: Props = Astro.props;
+
+const entry = getTechByKey(tech);
+
+// Falla el BUILD si la tecnología no está en el catálogo, en vez de renderizar
+// un hueco silencioso (04-content-model.md).
+if (!entry) {
+  throw new Error(`"${tech}" no existe en el catálogo de tecnologías.`);
+}
+
+const CUSTOM = {
+  playwright: PlaywrightIcon,
+} as const;
+---
+
+{
+  entry.icon ? (
+    <SimpleIcon slug={entry.icon} size={size} title={title} class={className} />
+  ) : (
+    (() => {
+      const Custom = CUSTOM[entry.key as keyof typeof CUSTOM];
+      return <Custom size={size} title={title} class={className} />;
+    })()
+  )
+}

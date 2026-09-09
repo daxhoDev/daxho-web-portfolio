@@ -1,0 +1,49 @@
+---
+/**
+ * Script de tema — implementa ADR-0011.
+ *
+ * PREVENCIÓN DEL FLASH (FOUC)
+ * ---------------------------
+ * El HTML se genera en el build, cuando localStorage no existe. Sin esta
+ * técnica el navegador pintaría con el tema por defecto y repintaría al
+ * hidratar: un fogonazo de 100-300 ms, especialmente feo en un sitio de
+ * estética oscura.
+ *
+ * Este script es SÍNCRONO y va en <head> antes de cualquier contenido. El
+ * navegador detiene el parseo, lo ejecuta (~1 ms) y solo entonces continúa, de
+ * modo que el primer píxel ya sale con el tema correcto.
+ *
+ * `is:inline` es OBLIGATORIO: sin esa directiva Astro lo empaqueta y lo
+ * difiere, perdiendo justo la propiedad síncrona que se necesita.
+ *
+ * Se mantiene mínimo y sin imports a propósito. Duplica la lógica de
+ * src/lib/theme.ts porque no puede importar nada; el test de Playwright cubre
+ * que ambos coincidan.
+ */
+---
+
+<script is:inline>
+  (function () {
+    try {
+      const stored = localStorage.getItem('theme');
+      const preference =
+        stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+      const resolved =
+        preference === 'system'
+          ? window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
+          : preference;
+      document.documentElement.setAttribute('data-theme', resolved);
+    } catch {
+      // localStorage puede LANZAR (modo privado, cookies bloqueadas). En ese
+      // caso se cae al media query del CSS, que ya cubre el tema del sistema.
+      document.documentElement.setAttribute(
+        'data-theme',
+        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light',
+      );
+    }
+  })();
+</script>

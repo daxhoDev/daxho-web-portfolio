@@ -1,0 +1,85 @@
+---
+/**
+ * Carrusel infinito de tecnologías — 05-pages/home.md.
+ *
+ * CSS PURO, sin JavaScript y sin isla (03-architecture.md).
+ *
+ * Mecánica: la lista se emite DOS veces. El track se desplaza -50%, que es
+ * exactamente el ancho de la primera copia, así que cuando el ciclo termina la
+ * segunda copia ocupa la posición de la primera y el salto es invisible.
+ *
+ * La copia duplicada va aria-hidden para que un lector de pantalla no lea la
+ * lista dos veces.
+ */
+import TechIcon from '@/components/icons/tech/TechIcon.astro';
+import { getCarouselTech } from '@/content/tech';
+
+interface Props {
+  /**
+   * Segundos que tarda un icono en recorrer el ancho de un grupo. Se define
+   * POR ICONO y no como duración total para que la velocidad percibida sea la
+   * misma tenga el catálogo 3 tecnologías o 25.
+   */
+  secondsPerItem?: number;
+  iconSize?: number;
+  showLabels?: boolean;
+  /**
+   * Mínimo de iconos por grupo. El truco del -50% solo funciona si CADA grupo
+   * es más ancho que el contenedor; si no, quedan huecos y los iconos se ven
+   * apelotonados en mitad de la banda.
+   */
+  minPerGroup?: number;
+}
+
+const {
+  secondsPerItem = 3,
+  iconSize = 40,
+  showLabels = false,
+  minPerGroup = 14,
+} = Astro.props;
+
+const catalog = getCarouselTech();
+
+// Cuántas veces repetir el catálogo para que un grupo llene el ancho.
+const repeats = Math.max(1, Math.ceil(minPerGroup / catalog.length));
+const items = Array.from({ length: repeats }, () => catalog).flat();
+
+const duration = `${(items.length * secondsPerItem).toFixed(1)}s`;
+---
+
+<div class="carousel py-6" style={`--carousel-duration: ${duration}`}>
+  <div class="carousel-track">
+    {
+      [0, 1].map((copy) => (
+        <ul
+          class="text-accent-text flex shrink-0 items-center gap-12 pr-12"
+          aria-label={copy === 0 ? 'Technologies' : undefined}
+          aria-hidden={copy === 1 ? 'true' : undefined}
+        >
+          {items.map((tech, index) => {
+            // Solo la primera aparición de cada tecnología en el primer grupo
+            // lleva nombre accesible; las repeticiones son decorativas.
+            const named = copy === 0 && index < catalog.length;
+            return (
+              <li
+                class="flex flex-col items-center gap-2"
+                aria-hidden={named ? undefined : 'true'}
+              >
+                <TechIcon
+                  tech={tech.key}
+                  size={iconSize}
+                  title={named ? tech.label : undefined}
+                />
+                {showLabels && (
+                  <span class="text-fg-muted font-mono text-xs whitespace-nowrap">
+                    {tech.label}
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      ))
+    }
+  </div>
+</div>

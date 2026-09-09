@@ -1,0 +1,43 @@
+---
+/**
+ * Texto con efecto de tecleo — ADR-0014, 05-pages/home.md.
+ *
+ * CERO JAVASCRIPT: cada carácter se emite con su propio animation-delay en
+ * línea. No hay isla, no hay hidratación, no hay coste de runtime.
+ *
+ * Accesibilidad: la versión partida en caracteres va aria-hidden, y el texto
+ * íntegro se expone en un nodo sr-only. Sin esto, un lector de pantalla podría
+ * deletrear la frase carácter a carácter.
+ */
+interface Props {
+  text: string;
+  /** Milisegundos entre caracteres. */
+  speed?: number;
+  /** Retardo antes de empezar. En el home encadenará con la boot sequence. */
+  delay?: number;
+  class?: string;
+  showCaret?: boolean;
+}
+
+const { text, speed = 45, delay = 0, class: className, showCaret = true } = Astro.props;
+
+const characters = [...text];
+const totalDuration = delay + characters.length * speed;
+---
+
+<span class:list={['inline', className]}>
+  <span class="sr-only">{text}</span>
+  <span aria-hidden="true">
+    {
+      characters.map((char, index) => (
+        <span
+          class="typing-char"
+          style={`--char-delay: ${delay + index * speed}ms`}
+        >
+          {char === ' ' ? ' ' : char}
+        </span>
+      ))
+    }
+    {showCaret && <span class="caret" style={`--caret-delay: ${totalDuration}ms`} />}
+  </span>
+</span>

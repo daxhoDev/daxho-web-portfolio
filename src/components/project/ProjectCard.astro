@@ -1,0 +1,109 @@
+---
+/**
+ * ProjectCard — implementa 06-components.md.
+ *
+ * PATRÓN: enlace principal con área extendida.
+ * ------------------------------------------------------------------
+ * Requisito: hacer clic en la tarjeta FUERA de los botones equivale a
+ * "View details".
+ *
+ * Está PROHIBIDO resolverlo con onClick sobre un <div>: rompería la navegación
+ * por teclado, impediría abrir en pestaña nueva o copiar el enlace, y sería un
+ * incumplimiento directo de WCAG AA.
+ *
+ * En su lugar, el título es un <a> real cuyo ::after se estira hasta cubrir la
+ * tarjeta entera. Los botones se elevan con position: relative + z-index para
+ * quedar por encima de esa área.
+ *
+ * Limitación conocida y aceptada: seleccionar texto dentro de la tarjeta se
+ * vuelve difícil. Aceptable porque el texto es corto y no está pensado para
+ * copiarse.
+ */
+import Card from '@/components/ui/Card.astro';
+import Button from '@/components/ui/Button.astro';
+import Chip from '@/components/ui/Chip.astro';
+import TechIcon from '@/components/icons/tech/TechIcon.astro';
+import { getTechByKey } from '@/content/tech';
+
+interface Props {
+  title: string;
+  summary: string;
+  stack: string[];
+  detailHref: string;
+  liveUrl?: string;
+  /** Fase 1: sin capturas reales. Ver 04-content-model.md. */
+  placeholder?: boolean;
+}
+
+const { title, summary, stack, detailHref, liveUrl, placeholder = true } = Astro.props;
+
+const stackEntries = stack
+  .map((key) => getTechByKey(key))
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+---
+
+<Card as="article" interactive class="group flex flex-col">
+  {/* 1. Captura: ocupa el mayor espacio posible. aspect-ratio fijo para que
+      no haya CLS cuando lleguen las imágenes reales. */}
+  <div class="bg-inset border-subtle relative aspect-video w-full border-b">
+    {
+      placeholder && (
+        <div class="text-fg-muted absolute inset-0 flex items-center justify-center font-mono text-xs tracking-widest">
+          PLACEHOLDER
+        </div>
+      )
+    }
+  </div>
+
+  <div class="flex flex-1 flex-col gap-3 p-4">
+    {/* 2. Nombre: es el enlace principal. Su ::after cubre toda la tarjeta. */}
+    <h3 class="text-xl">
+      <a
+        href={detailHref}
+        class="text-fg-primary group-hover:text-accent-text transition-colors after:absolute after:inset-0 after:content-['']"
+      >
+        {title}
+      </a>
+    </h3>
+
+    <p class="text-fg-secondary flex-1 text-sm">{summary}</p>
+
+    {/* 3. Fila de iconos de tecnologías */}
+    <ul class="flex flex-wrap gap-2" aria-label="Tech stack">
+      {stackEntries.map((tech) => (
+        <li>
+          <Chip label={tech.label}>
+            <TechIcon slot="icon" tech={tech.key} size={14} />
+          </Chip>
+        </li>
+      ))}
+    </ul>
+
+    {/* 4. Dos botones. relative + z-10 los eleva por encima del área extendida
+        del enlace principal; sin esto, el clic en un botón dispararía el
+        enlace de la tarjeta. */}
+    <div class="relative z-10 flex flex-wrap gap-2 pt-1">
+      <Button href={detailHref} variant="secondary" size="sm">View details</Button>
+      {
+        liveUrl && (
+          <Button href={liveUrl} variant="primary" size="sm" target="_blank" rel="noopener noreferrer">
+            Open project
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M14 4h6v6M20 4l-8 8M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+            </svg>
+          </Button>
+        )
+      }
+    </div>
+  </div>
+</Card>

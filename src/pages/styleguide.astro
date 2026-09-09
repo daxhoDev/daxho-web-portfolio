@@ -1,0 +1,441 @@
+---
+/**
+ * /styleguide — implementa 11-styleguide.md.
+ *
+ * Primer incremento de implementación. Permite ver y aprobar el sistema de
+ * diseño en el navegador, en ambos temas y con las animaciones vivas, antes de
+ * construir ninguna página.
+ *
+ * NO forma parte del sitio público: noindex y fuera del sitemap.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Card from '@/components/ui/Card.astro';
+import Chip from '@/components/ui/Chip.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import TypingText from '@/components/ui/TypingText.astro';
+import Brand from '@/components/Brand.astro';
+import TechCarousel from '@/components/sections/TechCarousel.astro';
+import ProjectCard from '@/components/project/ProjectCard.astro';
+import ThemeToggle from '@/components/islands/ThemeToggle';
+import TechIcon from '@/components/icons/tech/TechIcon.astro';
+import { TECH_CATALOG } from '@/content/tech';
+import { BLOOD, CONTRAST_CHECKS, DARK, INK, LIGHT } from '@/lib/palette';
+import { contrastRatio, formatRatio, wcagLevel } from '@/lib/contrast';
+
+// Los ratios se calculan EN EL BUILD a partir de los tokens reales
+// (02-design-system.md §2.4 exige verificarlos, no estimarlos).
+const contrastRows = CONTRAST_CHECKS.map((check) => {
+  const lightRatio = contrastRatio(LIGHT[check.fg], LIGHT[check.bg]);
+  const darkRatio = contrastRatio(DARK[check.fg], DARK[check.bg]);
+  return {
+    label: check.label,
+    large: check.large,
+    light: { ratio: lightRatio, level: wcagLevel(lightRatio, check.large) },
+    dark: { ratio: darkRatio, level: wcagLevel(darkRatio, check.large) },
+  };
+});
+
+const TYPE_SCALE = [
+  { token: 'text-hero', className: 'text-(length:--text-hero)', sample: 'daxho' },
+  { token: 'text-4xl', className: 'text-(length:--text-4xl)', sample: 'Heading 1' },
+  { token: 'text-3xl', className: 'text-(length:--text-3xl)', sample: 'Heading 2' },
+  { token: 'text-2xl', className: 'text-(length:--text-2xl)', sample: 'Heading 3' },
+  { token: 'text-xl', className: 'text-(length:--text-xl)', sample: 'Heading 4' },
+  { token: 'text-lg', className: 'text-lg', sample: 'Entradilla' },
+  { token: 'text-base', className: 'text-base', sample: 'Cuerpo de texto' },
+  { token: 'text-sm', className: 'text-sm', sample: 'Texto secundario' },
+  { token: 'text-xs', className: 'text-xs', sample: 'Metadatos' },
+];
+
+const SPACING = [4, 8, 12, 16, 24, 32, 48, 64, 96];
+const RADII = [
+  { token: 'none', value: '0' },
+  { token: 'sm', value: '2px' },
+  { token: 'md', value: '4px' },
+  { token: 'full', value: '9999px' },
+];
+---
+
+<BaseLayout title="Styleguide — Daxho">
+  <Container class="py-12">
+    {/* ---------------------------------------------------------------- */}
+    <header class="border-subtle mb-16 flex flex-wrap items-center justify-between gap-4 border-b pb-6">
+      <div>
+        <h1 class="text-4xl">
+          <span class="glitch" data-text="Styleguide">Styleguide</span>
+        </h1>
+        <p class="text-fg-secondary mt-2 font-mono text-sm">
+          Fase 1 · sistema de diseño · no forma parte del sitio público
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button
+          type="button"
+          id="motion-toggle"
+          class="border-interactive text-fg-secondary hover:text-accent-text hover:border-accent-border inline-flex h-11 items-center rounded-sm border px-3 font-mono text-xs transition-colors"
+          aria-pressed="false"
+        >
+          Simular reduced-motion: <span id="motion-state" class="ml-1">off</span>
+        </button>
+        <ThemeToggle client:load />
+      </div>
+    </header>
+
+    <main id="main" class="flex flex-col gap-20">
+      {/* =============================================================
+          1. COLOR
+          ============================================================= */}
+      <section aria-labelledby="s-color">
+        <SectionHeading text="01 · Color" as="h2" class="mb-6" />
+        <p class="text-fg-secondary mb-8 max-w-(--container-reading)">
+          Base <code class="text-accent-text font-mono">#8A0303</code> elegida por el usuario
+          (ADR-0012). Los grises llevan una temperatura fría: un neutro puro se lee como
+          «documento», uno con un punto de azul se lee como «pantalla».
+        </p>
+
+        <h3 class="mb-3 text-xl">Rampa Blood</h3>
+        <div class="mb-10 grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-11">
+          {
+            Object.entries(BLOOD).map(([step, hex]) => (
+              <div class="flex flex-col gap-1">
+                <div
+                  class="border-subtle h-16 w-full rounded-sm border"
+                  style={`background-color: ${hex}`}
+                />
+                <span class="text-fg-muted font-mono text-xs">{step}</span>
+                <span class="text-fg-muted font-mono text-[10px] uppercase">{hex}</span>
+              </div>
+            ))
+          }
+        </div>
+
+        <h3 class="mb-3 text-xl">Rampa Ink</h3>
+        <div class="mb-10 grid grid-cols-3 gap-2 sm:grid-cols-7 lg:grid-cols-13">
+          {
+            Object.entries(INK).map(([step, hex]) => (
+              <div class="flex flex-col gap-1">
+                <div
+                  class="border-subtle h-16 w-full rounded-sm border"
+                  style={`background-color: ${hex}`}
+                />
+                <span class="text-fg-muted font-mono text-xs">{step}</span>
+                <span class="text-fg-muted font-mono text-[10px] uppercase">{hex}</span>
+              </div>
+            ))
+          }
+        </div>
+
+        <h3 class="mb-3 text-xl">Contraste verificado</h3>
+        <p class="text-fg-secondary mb-4 max-w-(--container-reading) text-sm">
+          Calculado en el build a partir de los tokens reales, no estimado. Un fallo aquí
+          rompe también la suite de tests.
+        </p>
+        <div class="border-subtle overflow-x-auto rounded-md border">
+          <table class="w-full min-w-[520px] text-left font-mono text-xs">
+            <thead class="bg-elevated text-fg-secondary">
+              <tr>
+                <th scope="col" class="p-3 font-normal">Combinación</th>
+                <th scope="col" class="p-3 font-normal">Umbral</th>
+                <th scope="col" class="p-3 font-normal">Claro</th>
+                <th scope="col" class="p-3 font-normal">Oscuro</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                contrastRows.map((row) => (
+                  <tr class="border-subtle border-t">
+                    <td class="text-fg-primary p-3">{row.label}</td>
+                    <td class="text-fg-muted p-3">{row.large ? '3:1' : '4.5:1'}</td>
+                    <td class="p-3">
+                      <span class={row.light.level === 'fail' ? 'text-state-error' : 'text-state-success'}>
+                        {formatRatio(row.light.ratio)} · {row.light.level}
+                      </span>
+                    </td>
+                    <td class="p-3">
+                      <span class={row.dark.level === 'fail' ? 'text-state-error' : 'text-state-success'}>
+                        {formatRatio(row.dark.ratio)} · {row.dark.level}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* =============================================================
+          2. TIPOGRAFÍA
+          ============================================================= */}
+      <section aria-labelledby="s-type">
+        <SectionHeading text="02 · Tipografía" as="h2" class="mb-6" />
+        <p class="text-fg-secondary mb-8 max-w-(--container-reading)">
+          JetBrains Mono para encabezados, Inter para cuerpo. Autoalojadas, subconjuntos
+          latin y latin-ext (ADR-0013).
+        </p>
+        <div class="flex flex-col gap-6">
+          {
+            TYPE_SCALE.map((item) => (
+              <div class="border-subtle flex flex-col gap-1 border-b pb-4">
+                <span class="text-fg-muted font-mono text-xs">{item.token}</span>
+                <span class={`font-mono ${item.className}`}>{item.sample}</span>
+              </div>
+            ))
+          }
+        </div>
+        <div class="mt-10 max-w-(--container-reading)">
+          <span class="text-fg-muted font-mono text-xs">Cuerpo · Inter · máx. 65ch</span>
+          <p class="mt-2">
+            El sitio es visualmente agresivo por diseño, pero ningún efecto puede impedir leer
+            un nombre, un título o una descripción. Ñandú, ácido, güiro, cigüeña: prueba de
+            acentos del subconjunto latin-ext.
+          </p>
+        </div>
+      </section>
+
+      {/* =============================================================
+          3. ESPACIADO Y RADIOS
+          ============================================================= */}
+      <section aria-labelledby="s-space">
+        <SectionHeading text="03 · Espaciado y radios" as="h2" class="mb-6" />
+        <div class="mb-10 flex flex-wrap items-end gap-4">
+          {
+            SPACING.map((value) => (
+              <div class="flex flex-col items-center gap-2">
+                <div class="bg-accent-surface" style={`width:${value}px;height:${value}px`} />
+                <span class="text-fg-muted font-mono text-xs">{value}</span>
+              </div>
+            ))
+          }
+        </div>
+        <div class="flex flex-wrap gap-6">
+          {
+            RADII.map((radius) => (
+              <div class="flex flex-col items-center gap-2">
+                <div
+                  class="bg-inset border-interactive h-16 w-16 border"
+                  style={`border-radius:${radius.value}`}
+                />
+                <span class="text-fg-muted font-mono text-xs">{radius.token}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      {/* =============================================================
+          4. PRIMITIVOS
+          ============================================================= */}
+      <section aria-labelledby="s-ui">
+        <SectionHeading text="04 · Primitivos" as="h2" class="mb-6" />
+
+        <h3 class="mb-4 text-xl">Button</h3>
+        <div class="mb-4 flex flex-wrap items-center gap-3">
+          <Button variant="primary">Primary md</Button>
+          <Button variant="secondary">Secondary md</Button>
+          <Button variant="ghost">Ghost md</Button>
+        </div>
+        <div class="mb-4 flex flex-wrap items-center gap-3">
+          <Button variant="primary" size="sm">Primary sm</Button>
+          <Button variant="secondary" size="sm">Secondary sm</Button>
+          <Button variant="ghost" size="sm">Ghost sm</Button>
+        </div>
+        <div class="mb-4 flex flex-wrap items-center gap-3">
+          <Button variant="primary" disabled>Disabled</Button>
+          <Button variant="secondary" href="#s-ui">Como enlace &lt;a&gt;</Button>
+        </div>
+        <p class="text-fg-muted mb-10 font-mono text-xs">
+          Tabula con el teclado para comprobar el anillo de foco. Altura 44px en ambos tamaños.
+        </p>
+
+        <h3 class="mb-4 text-xl">Chip</h3>
+        <div class="mb-10 flex flex-wrap gap-2">
+          <Chip label="React" />
+          <Chip label="TypeScript" />
+          <Chip label="PostgreSQL" />
+        </div>
+
+        <h3 class="mb-4 text-xl">Card</h3>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <Card class="p-4">
+            <p class="text-fg-secondary text-sm">
+              Card estática. Elevación por borde y superficie, no por sombra difusa: en tema
+              oscuro las sombras no se ven.
+            </p>
+          </Card>
+          <Card interactive class="p-4">
+            <p class="text-fg-secondary text-sm">Card interactiva (hover).</p>
+          </Card>
+        </div>
+      </section>
+
+      {/* =============================================================
+          5. MARCA
+          ============================================================= */}
+      <section aria-labelledby="s-brand">
+        <SectionHeading text="05 · Marca" as="h2" class="mb-6" />
+        <p class="text-fg-secondary mb-8 max-w-(--container-reading)">
+          Prompt más cursor de bloque (12-brand.md, Q-M resuelta). Encadena con la boot
+          sequence y con el prompt del hero: el sitio entero habla el mismo idioma de terminal.
+        </p>
+        <div class="border-subtle flex flex-wrap items-end gap-12 rounded-md border p-8">
+          <div class="flex flex-col gap-2">
+            <Brand />
+            <span class="text-fg-muted font-mono text-xs">header · lg</span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <Brand size="sm" />
+            <span class="text-fg-muted font-mono text-xs">reducida · sm</span>
+          </div>
+        </div>
+        <p class="text-fg-muted mt-3 font-mono text-xs">
+          Texto real y seleccionable, no imagen. El prompt y el cursor van aria-hidden: el
+          nombre accesible del enlace es solo «daxho».
+        </p>
+      </section>
+
+      {/* =============================================================
+          6. ICONOS
+          ============================================================= */}
+      <section aria-labelledby="s-icons">
+        <SectionHeading text="06 · Iconos" as="h2" class="mb-6" />
+        <p class="text-fg-secondary mb-8 max-w-(--container-reading)">
+          Siluetas sólidas con los trazados oficiales de Simple Icons (decisión del usuario,
+          ver <code class="font-mono">DEVIATIONS.md</code>). 24 de 25 salen de la librería;
+          Playwright es el único dibujado a mano porque no está en ella.
+        </p>
+
+        <h3 class="mb-3 text-lg">Las 25, a 40px</h3>
+        <div class="border-subtle text-accent-text mb-8 grid grid-cols-4 gap-6 rounded-md border p-8 sm:grid-cols-6 lg:grid-cols-9">
+          {
+            TECH_CATALOG.map((tech) => (
+              <div class="flex flex-col items-center gap-2">
+                <TechIcon tech={tech.key} size={40} title={tech.label} />
+                <span class="text-fg-muted text-center font-mono text-[10px] leading-tight">
+                  {tech.label}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+
+        <h3 class="mb-3 text-lg">A 24px reales</h3>
+        <div class="border-subtle text-fg-primary flex flex-wrap items-center gap-5 rounded-md border p-6">
+          {TECH_CATALOG.map((tech) => <TechIcon tech={tech.key} size={24} title={tech.label} />)}
+        </div>
+        <p class="text-fg-muted mt-3 font-mono text-xs">
+          Playwright es el último de la fila: comprueba si aguanta junto a los oficiales.
+        </p>
+      </section>
+
+      {/* =============================================================
+          7. MOVIMIENTO
+          ============================================================= */}
+      <section aria-labelledby="s-motion">
+        <SectionHeading text="07 · Movimiento" as="h2" class="mb-6" />
+        <p class="text-fg-secondary mb-8 max-w-(--container-reading)">
+          Usa el botón de la cabecera para simular <code class="font-mono">prefers-reduced-motion</code>
+          y comprobar que todo se detiene.
+        </p>
+
+        <h3 class="mb-4 text-xl">Glitch (disparado, no en bucle)</h3>
+        <p class="mb-8">
+          <span class="glitch font-mono text-2xl" data-text="pasa el ratón por encima"
+            >pasa el ratón por encima</span
+          >
+        </p>
+
+        <h3 class="mb-4 text-xl">Typing</h3>
+        <div class="bg-surface border-subtle mb-8 rounded-md border p-6">
+          <p class="font-mono text-xl lowercase">
+            <span class="text-accent-text">&gt;</span>
+            <TypingText text="welcome to daxho's corner, what should we build?" speed={38} />
+          </p>
+          <p class="mt-4 font-mono text-xl lowercase">
+            <span class="text-accent-text">&gt;</span>
+            <TypingText
+              text="bienvenido a la guarida de daxho, ¿qué construimos?"
+              speed={38}
+              delay={2400}
+            />
+          </p>
+          <p class="text-fg-muted mt-4 font-mono text-xs">
+            Cero JavaScript. El texto completo está en el DOM desde el primer render y cada
+            carácter ocupa su espacio aunque sea invisible: CLS = 0.
+          </p>
+        </div>
+
+        <h3 class="mb-4 text-xl">Carrusel infinito</h3>
+        <div class="bg-surface border-subtle mb-2 rounded-md border">
+          <TechCarousel iconSize={40} showLabels />
+        </div>
+        <p class="text-fg-muted mb-8 font-mono text-xs">
+          CSS puro, sin isla. Pausa al pasar el ratón. Velocidad definida POR ICONO
+          (3 s cada uno), para que se perciba igual con 3 tecnologías que con 25.
+        </p>
+
+        <h3 class="mb-4 text-xl">Grain</h3>
+        <p class="text-fg-secondary max-w-(--container-reading)">
+          Overlay estático activo en toda la página (clase <code class="font-mono">grain</code> en
+          el body). Al no animarse, su coste es despreciable y permanece incluso bajo
+          reduced-motion.
+        </p>
+      </section>
+
+      {/* =============================================================
+          8. PROJECTCARD
+          ============================================================= */}
+      <section aria-labelledby="s-card">
+        <SectionHeading text="08 · ProjectCard" as="h2" class="mb-6" />
+        <p class="text-fg-secondary mb-8 max-w-(--container-reading)">
+          Clic en cualquier punto de la tarjeta fuera de los botones = «View details», resuelto
+          con enlace de área extendida, no con un div clicable. Tabula para comprobar el orden:
+          título, «View details», «Open project».
+        </p>
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <ProjectCard
+            title="Lorem Ipsum One"
+            summary="Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod."
+            stack={['react', 'postgresql']}
+            detailHref="#s-card"
+            liveUrl="https://example.com"
+          />
+          <ProjectCard
+            title="Lorem Ipsum Two"
+            summary="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+            stack={['react', 'vercel']}
+            detailHref="#s-card"
+          />
+          <ProjectCard
+            title="Lorem Ipsum Three With A Considerably Longer Title"
+            summary="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
+            stack={['vercel', 'react', 'postgresql']}
+            detailHref="#s-card"
+            liveUrl="https://example.com"
+          />
+        </div>
+        <p class="text-fg-muted mt-4 font-mono text-xs">
+          La tercera tarjeta lleva un título largo a propósito: comprueba que el layout aguanta
+          antes de que llegue el contenido real.
+        </p>
+      </section>
+    </main>
+  </Container>
+
+  <script>
+    // Simulador de prefers-reduced-motion para revisión (11-styleguide.md).
+    // Solo existe en /styleguide; no forma parte del sitio público.
+    const toggle = document.getElementById('motion-toggle');
+    const state = document.getElementById('motion-state');
+
+    toggle?.addEventListener('click', () => {
+      const root = document.documentElement;
+      const active = root.getAttribute('data-reduce-motion') === 'true';
+      root.setAttribute('data-reduce-motion', String(!active));
+      toggle.setAttribute('aria-pressed', String(!active));
+      if (state) state.textContent = active ? 'off' : 'on';
+    });
+  </script>
+</BaseLayout>
