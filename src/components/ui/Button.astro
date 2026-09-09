@@ -1,0 +1,60 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/**
+ * Los atributos aceptados dependen de la etiqueta que se renderice, así que se
+ * admite la unión de ambos conjuntos. `size` se omite porque colisiona con el
+ * atributo HTML homónimo, y `type` se declara a mano para acotarlo a los tres
+ * valores válidos de <button>.
+ */
+interface Props
+  extends Omit<HTMLAttributes<'a'> & HTMLAttributes<'button'>, 'size' | 'type'> {
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md';
+  /** Si se pasa, el componente renderiza un <a> real en lugar de un <button>. */
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  type,
+  class: className,
+  ...rest
+} = Astro.props;
+
+// Un enlace es un <a> y un botón es un <button>: HTML semántico antes que ARIA
+// (regla 1 de 07-conventions.md).
+const Tag = href ? 'a' : 'button';
+
+const base =
+  'inline-flex items-center justify-center gap-2 font-mono font-medium rounded-sm ' +
+  'border transition-colors duration-150 disabled:opacity-50 ' +
+  'disabled:pointer-events-none';
+
+// Altura mínima 44px (h-11) en ambos tamaños: área táctil de 07-conventions.md.
+const sizes = {
+  sm: 'h-11 px-3 text-xs',
+  md: 'h-11 px-5 text-sm',
+};
+
+const variants = {
+  primary:
+    'bg-accent-surface text-accent-on-surface border-accent-border hover:bg-blood-600 hover:border-blood-600',
+  secondary:
+    'bg-transparent text-fg-primary border-interactive hover:border-accent-border hover:text-accent-text',
+  ghost:
+    'bg-transparent text-fg-secondary border-transparent hover:text-accent-text hover:border-subtle',
+};
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : (type ?? 'button')}
+  class:list={[base, sizes[size], variants[variant], className]}
+  {...rest}
+>
+  <slot />
+</Tag>

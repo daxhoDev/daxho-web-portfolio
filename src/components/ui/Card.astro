@@ -1,0 +1,33 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  /**
+   * `interactive` prepara la tarjeta para el patrón de enlace con área
+   * extendida (06-components.md): necesita position: relative para que el
+   * ::after del enlace principal la cubra.
+   */
+  interactive?: boolean;
+  /**
+   * Etiqueta a renderizar. Una tarjeta de proyecto es contenido autónomo, así
+   * que debe ser <article>, no <div> (regla 1 de 07-conventions.md: HTML
+   * semántico antes que ARIA).
+   */
+  as?: 'div' | 'article' | 'li';
+}
+
+const { interactive = false, as: Tag = 'div', class: className, ...rest } = Astro.props;
+---
+
+<Tag
+  class:list={[
+    // Elevación por borde y superficie, no por sombra difusa: en tema oscuro
+    // las sombras no se ven (02-design-system.md §5).
+    'bg-surface border-subtle overflow-hidden rounded-md border',
+    interactive && 'relative transition-colors hover:border-accent-border',
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>

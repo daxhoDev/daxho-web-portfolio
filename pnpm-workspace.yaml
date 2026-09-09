@@ -1,0 +1,8 @@
+# pnpm 11 ya no lee el campo "pnpm" de package.json: los ajustes viven aquí.
+# `allowBuilds` autoriza explícitamente los scripts de instalación de estas
+# dependencias. Se listan una a una a propósito: aprobar todo a ciegas es una
+# vía conocida de ejecución de código arbitrario en la cadena de suministro.
+allowBuilds:
+  esbuild: true
+  '@tailwindcss/oxide': true
+  sharp: true

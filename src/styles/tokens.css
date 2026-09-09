@@ -1,0 +1,222 @@
+/* =============================================================================
+   TOKENS — implementa specs/02-design-system.md
+   -----------------------------------------------------------------------------
+   REGLA DURA (07-conventions.md): ningún componente escribe un color literal.
+   Todo consume los tokens semánticos definidos abajo.
+   ========================================================================== */
+
+@theme {
+  /* ---------------------------------------------------------------------
+     Rampa de acento — Blood. Base #8A0303 elegida por el usuario (ADR-0012).
+     ------------------------------------------------------------------ */
+  --color-blood-50: #fff0f0;
+  --color-blood-100: #ffdcdc;
+  --color-blood-200: #ffbdbd;
+  --color-blood-300: #ff8f8f;
+  --color-blood-400: #f04747;
+  --color-blood-500: #d41f1f;
+  --color-blood-600: #b31212;
+  --color-blood-700: #9c0808;
+  --color-blood-800: #8a0303;
+  --color-blood-900: #6e0404;
+  --color-blood-950: #3a0202;
+
+  /* ---------------------------------------------------------------------
+     Rampa neutra — Ink. Grises fríos: un neutro puro se lee como
+     "documento", uno con un punto de azul se lee como "pantalla".
+     ------------------------------------------------------------------ */
+  --color-ink-0: #fafbfc;
+  --color-ink-50: #f0f2f5;
+  --color-ink-100: #dfe3e8;
+  --color-ink-200: #bfc5ce;
+  --color-ink-300: #949ba6;
+  --color-ink-400: #6b7280;
+  --color-ink-500: #4a505b;
+  --color-ink-600: #333841;
+  --color-ink-700: #24282f;
+  --color-ink-800: #1a1d22;
+  --color-ink-850: #14171b;
+  --color-ink-900: #0e1013;
+  --color-ink-950: #08090b;
+
+  /* ---------------------------------------------------------------------
+     Tokens semánticos.
+     Apuntan a custom properties que cambian con el tema (bloques de abajo).
+     Generan utilidades: bg-base, text-fg-primary, border-default, etc.
+     ------------------------------------------------------------------ */
+  --color-base: var(--bg-base);
+  --color-surface: var(--bg-surface);
+  --color-elevated: var(--bg-elevated);
+  --color-inset: var(--bg-inset);
+
+  --color-fg-primary: var(--fg-primary);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
+
+  --color-subtle: var(--border-subtle);
+  --color-default: var(--border-default);
+  --color-strong: var(--border-strong);
+  --color-interactive: var(--border-interactive);
+
+  --color-accent-text: var(--accent-text);
+  --color-accent-text-hover: var(--accent-text-hover);
+  --color-accent-surface: var(--accent-surface);
+  --color-accent-on-surface: var(--accent-on-surface);
+  --color-accent-border: var(--accent-border);
+  --color-accent-glow: var(--accent-glow);
+
+  --color-focus-ring: var(--focus-ring);
+  --color-state-error: var(--state-error);
+  --color-state-success: var(--state-success);
+
+  /* ---------------------------------------------------------------------
+     Tipografía (ADR-0013)
+     ------------------------------------------------------------------ */
+  --font-mono:
+    'JetBrains Mono Variable', 'JetBrains Mono Fallback', ui-monospace, SFMono-Regular,
+    Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-sans:
+    'Inter Variable', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Escala modular 1.25, fluida con clamp() */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 1.875rem);
+  --text-3xl: clamp(1.875rem, 1.55rem + 1.5vw, 2.375rem);
+  --text-4xl: clamp(2.25rem, 1.75rem + 2.4vw, 3rem);
+  --text-hero: clamp(2.5rem, 1.4rem + 5.2vw, 4.75rem);
+
+  /* ---------------------------------------------------------------------
+     Radios. El sistema tiende a lo anguloso: es parte de la estética.
+     ------------------------------------------------------------------ */
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-full: 9999px;
+
+  /* ---------------------------------------------------------------------
+     Anchos de contenido
+     ------------------------------------------------------------------ */
+  --container-content: 1200px;
+  --container-reading: 720px;
+
+  /* ---------------------------------------------------------------------
+     Movimiento (ADR-0014). Se anulan bajo prefers-reduced-motion.
+     ------------------------------------------------------------------ */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =============================================================================
+   TEMAS
+   -----------------------------------------------------------------------------
+   Tres bloques, en este orden exacto (02-design-system.md):
+     1. :root                     -> paleta clara completa
+     2. @media prefers-dark       -> oscuro por preferencia del sistema,
+                                     guardado con :not([data-theme='light'])
+                                     para que el toggle manual gane
+     3. :root[data-theme='dark']  -> oscuro por elección explícita
+   El bloque 2 es además lo que hace que un usuario SIN JavaScript y con el
+   sistema en oscuro vea el sitio en oscuro.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --bg-base: #fafbfc; /* ink-0 */
+  --bg-surface: #ffffff;
+  --bg-elevated: #f0f2f5; /* ink-50 */
+  --bg-inset: #dfe3e8; /* ink-100 */
+
+  --fg-primary: #0e1013; /* ink-900 */
+  --fg-secondary: #333841; /* ink-600 */
+  --fg-muted: #6b7280; /* ink-400 */
+
+  --border-subtle: #dfe3e8; /* ink-100 */
+  --border-default: #bfc5ce; /* ink-200 */
+  --border-strong: #949ba6; /* ink-300 */
+  /* Borde de CONTROL: es lo único que delimita un botón o un input, así que
+     WCAG 1.4.11 le exige 3:1 contra el fondo adyacente. Los tres de arriba son
+     estructurales/decorativos y no tienen ese requisito. ink-400 es el único
+     valor de la rampa que cumple sobre TODAS las superficies de AMBOS temas. */
+  --border-interactive: #6b7280; /* ink-400 */
+
+  /* ADR-0012: en claro el acento de texto es el sangre profundo (~10:1 sobre
+     blanco). En oscuro NO puede serlo: ver bloques de abajo. */
+  --accent-text: #8a0303; /* blood-800 */
+  --accent-text-hover: #b31212; /* blood-600 */
+  --accent-surface: #8a0303; /* blood-800 */
+  --accent-on-surface: #ffffff;
+  --accent-border: #8a0303; /* blood-800 */
+  --accent-glow: #3a0202; /* blood-950 */
+
+  --focus-ring: #b31212; /* blood-600 */
+  --state-error: #b31212;
+  --state-success: #1f7a4d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --bg-base: #08090b; /* ink-950 */
+    --bg-surface: #0e1013; /* ink-900 */
+    --bg-elevated: #14171b; /* ink-850 */
+    --bg-inset: #1a1d22; /* ink-800 */
+
+    --fg-primary: #f0f2f5; /* ink-50 */
+    --fg-secondary: #949ba6; /* ink-300 */
+    --fg-muted: #6b7280; /* ink-400 */
+
+    --border-subtle: #1a1d22; /* ink-800 */
+    --border-default: #24282f; /* ink-700 */
+    --border-strong: #333841; /* ink-600 */
+    --border-interactive: #6b7280; /* ink-400 */
+
+    /* blood-800 sobre casi-negro da ~2:1 y NO cumple AA. Se aclara a
+       blood-400 solo para texto e iconos funcionales; las superficies
+       conservan el sangre profundo, donde el contraste no aplica. */
+    --accent-text: #f04747; /* blood-400 */
+    --accent-text-hover: #ff8f8f; /* blood-300 */
+    --accent-surface: #6e0404; /* blood-900 */
+    --accent-on-surface: #f0f2f5; /* ink-50 */
+    --accent-border: #9c0808; /* blood-700 */
+    --accent-glow: #3a0202; /* blood-950 */
+
+    --focus-ring: #f04747; /* blood-400 */
+    --state-error: #f04747;
+    --state-success: #3fbf85;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg-base: #08090b;
+  --bg-surface: #0e1013;
+  --bg-elevated: #14171b;
+  --bg-inset: #1a1d22;
+
+  --fg-primary: #f0f2f5;
+  --fg-secondary: #949ba6;
+  --fg-muted: #6b7280;
+
+  --border-subtle: #1a1d22;
+  --border-default: #24282f;
+  --border-strong: #333841;
+  --border-interactive: #6b7280; /* ink-400 */
+
+  --accent-text: #f04747;
+  --accent-text-hover: #ff8f8f;
+  --accent-surface: #6e0404;
+  --accent-on-surface: #f0f2f5;
+  --accent-border: #9c0808;
+  --accent-glow: #3a0202;
+
+  --focus-ring: #f04747;
+  --state-error: #f04747;
+  --state-success: #3fbf85;
+}

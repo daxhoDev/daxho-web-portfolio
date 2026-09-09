@@ -1,0 +1,55 @@
+---
+/**
+ * BaseLayout — versión mínima de la FASE 1.
+ *
+ * La fase 2 (13-roadmap.md) añade header, footer, i18n, boot sequence y SEO.
+ * Aquí solo se monta lo imprescindible para que /styleguide funcione.
+ */
+import ThemeScript from '@/components/ThemeScript.astro';
+import GlitchObserver from '@/components/GlitchObserver.astro';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Design system reference.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    {/* /styleguide no forma parte del sitio público (11-styleguide.md) */}
+    <meta name="robots" content="noindex, nofollow" />
+
+    {/* Precarga de las fuentes del primer viewport (ADR-0013) */}
+    <link
+      rel="preload"
+      href="/fonts/jetbrains-mono-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/inter-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    {/* DEBE ir antes de cualquier contenido: ver ADR-0011 */}
+    <ThemeScript />
+  </head>
+  <body class="grain">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <slot />
+    <GlitchObserver />
+  </body>
+</html>
