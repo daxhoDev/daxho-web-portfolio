@@ -1,0 +1,168 @@
+# CHANGELOG de las specs
+
+Historial de cambios de la especificación. No confundir con el changelog del
+producto.
+
+## [2026-09-09] Especificación inicial
+
+- Creado `AGENTS.md` con las tres reglas duras (specs como fuente de verdad, nunca
+  decidir sin aprobación, documentar desviaciones por partida doble).
+- Creada la estructura de `specs/`.
+- Añadido `09-testing.md`, no previsto en la estructura propuesta inicialmente, por
+  el énfasis del usuario en Q8 ("documenta que vas a testear cada nueva feature y
+  fix importante").
+- Registradas las decisiones de la primera ronda de preguntas (Q1-Q44) como ADRs
+  0001-0017.
+- Abiertas 9 preguntas en `OPEN-QUESTIONS.md`.
+
+## [2026-09-09] Ronda 2 de decisiones
+
+- Aprobadas ADR-0006 (ESLint + Prettier), ADR-0010 (rutas sin traducir), ADR-0014
+  (movimiento y efectos) y ADR-0015 (Vercel Web Analytics).
+- Resuelta Q-A: los iconos de tecnologías se dibujan a mano, uno por archivo →
+  **ADR-0018**. Actualizada la §6 de `02-design-system.md`.
+- Q34 (lista de tecnologías) pasa de "aplazado" a **bloqueante**, como consecuencia
+  de ADR-0018: sin la lista no se puede dimensionar el trabajo de iconos.
+- Nueva **ADR-0019** (pantalla de carga): análisis de qué se ve durante el script
+  del tema y del coste de un overlay de carga. Pendiente de decisión.
+- Nueva **ADR-0020** (envío de correo): reemplaza el análisis de Q-H, que estaba
+  mal planteado — el riesgo de spam afecta al buzón del destinatario, y el
+  destinatario aquí es el propio usuario. Pendiente de decisión.
+- Nueva **ADR-0021** (proceso de diseño): viabilidad de mockups en Figma frente a
+  una ruta `/styleguide` en el propio proyecto. Pendiente de decisión.
+- Q-H retirada y sustituida por Q-J en `OPEN-QUESTIONS.md`.
+
+## [2026-09-09] Ronda 3
+
+- Aprobadas ADR-0019 (boot sequence acotada, primera visita de sesión, retirada
+  por CSS), ADR-0020 (Resend con dominio de pruebas → Gmail, con Nodemailer+SMTP
+  como alternativa) y ADR-0021 (ruta `/styleguide` en lugar de mockups en Figma).
+- Nuevo `10-tech-catalog.md` con las 10 tecnologías confirmadas por el usuario y
+  una ampliación propuesta en tres grupos.
+- `04-content-model.md` actualizado para apuntar al nuevo catálogo.
+- Q34 deja de ser bloqueante para el grueso del trabajo: hay lista base con la que
+  empezar.
+
+## [2026-09-09] Ronda 3 — decisiones menores
+
+- **Q-B** resuelta: el home usa la misma `ProjectCard` que `/projects`, con prop
+  `variant` reservada para el futuro. → `05-pages/home.md`, `06-components.md`.
+- **Q-C** resuelta: sin filtros en `/projects`. → `05-pages/projects.md`.
+- **Q-D** resuelta: skills solo agrupadas por categoría, sin nivel de dominio.
+  → `05-pages/about.md`.
+- **Q-E** resuelta: galería del detalle en línea con enlace a imagen completa, sin
+  lightbox. → `05-pages/project-detail.md`.
+- **Q-G** sigue abierta (PDF del CV estático o generado).
+
+## [2026-09-09] Ronda 4
+
+- Catálogo de tecnologías cerrado en **25 entradas** (`10-tech-catalog.md`).
+  Selección del carrusel pendiente.
+- Detectado que Express **no tiene logotipo icónico**: su marca es la palabra
+  escrita. Se recomienda dejarlo fuera del carrusel y mantenerlo como etiqueta de
+  texto.
+- **Q-G** resuelta: PDF del CV estático, mantenido por el usuario.
+  → `05-pages/resume.md`, con nota de riesgo de desincronización.
+- **ADR-0021 corregida** a petición del usuario: se reconoce explícitamente que
+  `/styleguide` **es implementación**, no una fase previa. La comparación original
+  con Figma estaba mal planteada.
+- Nuevo `11-styleguide.md`: alcance acotado del primer incremento de
+  implementación, aprobado por el usuario.
+
+## [2026-09-09] Ronda 5
+
+- **Q-K** resuelta: el carrusel muestra **las 25** tecnologías, no una selección de
+  16. Es una derogación de una regla previa → primera entrada en `DEVIATIONS.md`.
+  Consecuencia: la fase 1 de iconos pasa de 16 a 25 dibujos.
+- **Q-L** resuelta: Express entra en el carrusel con la marca circular "ex"
+  aportada por el usuario. Segunda entrada en `DEVIATIONS.md`. Anotada la reserva
+  de legibilidad a 24px, a validar en la hoja de calibración.
+- Ambas decisiones propagadas a `10-tech-catalog.md` y `05-pages/home.md`.
+- Detectados dos huecos no vistos en rondas anteriores: **Q-M** (marca, logotipo y
+  favicon: nunca definidos) y **Q-N** (densidad del header: 8 elementos). Añadida
+  también **Q-O** (traducción del titular del hero).
+
+## [2026-09-09] Ronda 6
+
+- **Q-M** resuelta: marca denominativa "Daxho" en JetBrains Mono → nuevo
+  `12-brand.md`, con las variantes de favicon y tres candidatos de detalle de
+  acento a elegir en la hoja de calibración.
+- **Q-N** resuelta de forma distinta a la recomendada: en lugar de eliminar
+  "Home", la navegación cambia de forma en tres modos (completo / dropdown /
+  sidebar). Los 5 enlaces se conservan. → `06-components.md`.
+- **Q37** resuelta: tres campos (nombre, correo, mensaje). Sin asunto.
+- **Q40** resuelta: destinatario `developer.daxho@gmail.com`. Anotado el requisito
+  operativo de registrar la cuenta de Resend con esa misma dirección.
+- `05-pages/contact.md` deja de estar bloqueada; quedan Q38 (anti-spam) y Q41
+  (persistencia).
+
+## [2026-09-09] Ronda 7
+
+- **Q-O** resuelta: se conserva el texto original del brief; el registro underground
+  lo aporta la forma (minúsculas, monoespaciada, prompt `>`, cursor `▮`, typing
+  encadenado con la boot sequence). En español se elige **"guarida"** sobre
+  "rincón". Sin desviación del brief, por tanto sin entrada en `DEVIATIONS.md`.
+  Fijado que el subtítulo debe contener "Software Engineer".
+  → `05-pages/home.md`.
+- Nuevo `13-roadmap.md`: plan de implementación en 10 fases con camino crítico,
+  entregable revisable por fase y acciones del usuario. Pendiente de aprobación.
+
+## [2026-09-09] Fase 1 — implementación
+
+- Implementado el incremento 1 (`11-styleguide.md`) en la rama
+  `feat/design-system`. Lint, typecheck y 39 tests unitarios en verde.
+- **Hallazgo de contraste:** `border-default` daba 1.68:1 (claro) y 1.35:1
+  (oscuro) contra el fondo, incumpliendo el 3:1 que WCAG 1.4.11 exige a los
+  bordes que delimitan un control. Añadido el token `--border-interactive`
+  (ink-400), que cumple sobre todas las superficies de ambos temas. Protegido
+  por test. → `02-design-system.md`.
+- **Hallazgo de presupuesto:** React son 57 KB gzip solo por su runtime.
+  Presupuesto elevado a 75 KB por decisión del usuario → `DEVIATIONS.md`.
+- Añadida `src/lib/contrast.ts`: calcula los ratios WCAG reales en el build, de
+  modo que `/styleguide` muestra valores medidos y no estimaciones.
+- Añadida `src/lib/palette.ts` como espejo de `tokens.css`, con un test que
+  impide que ambos se desincronicen.
+
+## [2026-09-09] Fase 1 — revisión visual del usuario
+
+Cinco correcciones sobre lo implementado, más dos cambios de mecanismo:
+
+- **Glitch:** rehecho con **PowerGlitch** por petición del usuario (antes CSS
+  puro). Más agresivo, capas teñidas en varios rojos de la rampa Blood en lugar
+  de gris, y deformación de las letras aportada por CSS. Sigue siendo disparado
+  y sigue sin inicializarse bajo `prefers-reduced-motion`. → `DEVIATIONS.md`.
+- **Iconos:** se abandona el dibujo a mano y el lineart. 24 de 25 desde Simple
+  Icons como siluetas sólidas; Playwright es el único propio. Dos entradas en
+  `DEVIATIONS.md` (estrategia y estilo). **La fase 3 del roadmap desaparece.**
+- **Carrusel:** los iconos se apelotonaban en el centro porque cada grupo era
+  más estrecho que el contenedor; ahora la lista se repite hasta llenar. La
+  velocidad pasa a definirse **por icono** (3 s) en lugar de como duración
+  total, para que se perciba igual con 3 tecnologías que con 25.
+- **Grain:** opacidad subida de 0.035 a 0.11 (claro) y de 0.05 a 0.16 (oscuro).
+- **Caret:** tenía tres estados de color porque se solapaban dos animaciones
+  cuyos valores se componían. Ahora es una sola animación con `step-end`: corte
+  seco entre invisible y opaco.
+- **Cursor:** Tailwind v4 dejó de dar `cursor: pointer` a `<button>` en su
+  preflight. Restituido en la capa base, con `not-allowed` para deshabilitados.
+- **ProjectCard** pasa a ser `<article>`: es contenido autónomo y además lo hace
+  localizable por rol en los tests.
+- Catálogo de las 25 tecnologías escrito en código, con `TechIcon.astro` como
+  único punto de entrada; falla el build si una clave no existe.
+
+**Verificación:** lint limpio · typecheck 0 errores · 39 tests unitarios ·
+**23 tests E2E en verde** · JS 62,6 KB gzip de los 75 KB de presupuesto.
+
+## [2026-09-09] Cierre de la fase 1
+
+- **Q-M resuelta:** marca `>daxho▮` — prompt más cursor de bloque. Combina los
+  dos candidatos más fuertes y encadena con la boot sequence y con el prompt del
+  hero. → `12-brand.md`. Eliminadas las variantes descartadas del componente.
+- **Paleta y sistema de temas aprobados por el usuario** tras revisarlos en
+  `/styleguide`. El rojo sangre queda fijado con la rampa doble de ADR-0012.
+- **Grain rehecho.** No se veía en tema claro por dos motivos: `feTurbulence`
+  genera ruido de color con alfa variable que sobre fondo claro queda lavado, y
+  la opacidad era demasiado baja. Ahora el ruido pasa por `feColorMatrix` a
+  escala de grises y la capa se sitúa **detrás del contenido** (`z-index: -1`)
+  en lugar de encima, lo que permite subir la intensidad sin tocar ningún ratio
+  de contraste. Intensidad por tema mediante `--grain-opacity`: 0.42 en claro,
+  0.16 en oscuro. → `02-design-system.md` §8.1.
