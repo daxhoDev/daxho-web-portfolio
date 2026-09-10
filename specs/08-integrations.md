@@ -33,7 +33,8 @@ Reglas:
 
 ## Analytics
 
-Vercel Web Analytics — **PROPUESTA**, ver ADR-0015. Sin aprobar, no se instala.
+Vercel Web Analytics — **APROBADA**, ver ADR-0015. Se instala en la fase 8
+(`13-roadmap.md`).
 
 ## Vercel
 

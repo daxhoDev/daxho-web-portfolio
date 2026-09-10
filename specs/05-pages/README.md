@@ -10,7 +10,7 @@
 | `/contact` | `/es/contact` | `contact.md` |
 | 404 | 404 | `404.md` |
 
-Rutas en inglés en ambos idiomas: ver ADR-0010 (PROPUESTA, pendiente).
+Rutas en inglés en ambos idiomas: ver ADR-0010 (APROBADA).
 
 Cada spec de página define: objetivo, secciones en orden, contenido, estados y
 criterios de aceptación. Nada se implementa fuera de lo aquí descrito.

@@ -49,7 +49,8 @@ animación; el significado se mantiene intacto.
 - Carrusel **infinito**, desplazamiento continuo horizontal.
 - Muestra **las 25 tecnologías** del catálogo (`10-tech-catalog.md`). Su función es
   decorativa: textura visual, no inventario legible. Ver `DEVIATIONS.md`.
-- Iconos **monocromáticos, lineart**, en el color de acento.
+- Iconos **monocromáticos** en el color de acento, como **siluetas sólidas**
+  (Simple Icons). Ver `02-design-system.md` §6 y `DEVIATIONS.md`.
 - Implementación en **CSS puro** (duplicado del track + `animation`), sin
   JavaScript y sin isla.
 - Se detiene con `prefers-reduced-motion` (queda estático y con scroll manual).

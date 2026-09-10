@@ -1,6 +1,7 @@
 # 02 — Sistema de diseño
 
-**Estado:** BORRADOR v0 · 2026-09-09
+**Estado:** APROBADA · 2026-09-10 · Paleta y sistema de temas revisados y
+aprobados por el usuario en `/styleguide` al cierre de la fase 1.
 **Nota del usuario:** "TODO EL SISTEMA DE DISEÑO ESTÁ ABIERTO A CAMBIOS."
 Este documento es un punto de partida razonado, no un cierre. Cualquier cambio que
 apruebes se refleja aquí y se anota en `CHANGELOG.md`.
@@ -208,15 +209,16 @@ Diseño **mobile-first**: los estilos base son los del móvil.
 
 ## 6. Iconografía
 
-- Estilo: **lineart monocromático**, trazo uniforme.
-- Especificación técnica: `viewBox="0 0 24 24"`, `fill="none"`,
+El sistema usa **dos lenguajes de icono deliberadamente distintos**. No es una
+inconsistencia: ver `DEVIATIONS.md` y ADR-0018.
+
+- Iconos de **interfaz** (flechas, cerrar, enlace externo, tema): **lineart
+  monocromático**, trazo uniforme. Base: Lucide.
+  Especificación técnica: `viewBox="0 0 24 24"`, `fill="none"`,
   `stroke="currentColor"`, `stroke-width="1.5"`, `stroke-linecap="round"`,
   `stroke-linejoin="round"`.
-- `currentColor` es obligatorio: permite que el mismo SVG funcione en ambos temas
-  y adopte el acento sin duplicar archivos.
-- Iconos de interfaz: Lucide (coincide con la especificación anterior).
-- Iconos de **interfaz** (flechas, cerrar, enlace externo, tema): **lineart**, con
-  la especificación técnica de arriba. Base: Lucide.
+- `currentColor` es obligatorio en ambos lenguajes: permite que el mismo SVG
+  funcione en los dos temas y adopte el acento sin duplicar archivos.
 - Iconos de **tecnología**: **siluetas sólidas** (`fill: currentColor`,
   `stroke: none`) con los trazados oficiales de Simple Icons. Es una excepción
   deliberada al lineart, ver `DEVIATIONS.md` y ADR-0018. Se consumen siempre a
@@ -228,7 +230,7 @@ Diseño **mobile-first**: los estilos base son los del móvil.
 
 ## 7. Movimiento
 
-Ver ADR-0014 (propuesta pendiente de aprobación).
+Ver ADR-0014 (APROBADA).
 
 ### Duraciones
 | Token | Valor | Uso |

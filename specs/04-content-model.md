@@ -67,7 +67,7 @@ cada card y la sección de skills.
 |---|---|---|
 | `key` | string | identificador estable, ej. `react` |
 | `label` | string | nombre visible, ej. `React` |
-| `icon` | componente SVG | lineart, ver `02-design-system.md` §6 |
+| `icon` | componente SVG | silueta sólida, ver `02-design-system.md` §6 |
 | `category` | enum | `language` · `framework` · `tool` · `platform` |
 | `inCarousel` | boolean | si aparece en el carrusel del home |
 

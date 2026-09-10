@@ -1,6 +1,6 @@
 # 13 — Plan de implementación por fases
 
-**Estado:** PROPUESTA — pendiente de aprobación · 2026-09-09
+**Estado:** APROBADA · 2026-09-10 · Fase 1 completada y mergeada a `development`.
 
 Cada fase es una rama `feat/*` que mergea a `development` (ADR-0017), y termina en
 **algo que el usuario puede ver y aprobar**. Ninguna fase empieza sin que la
@@ -10,8 +10,9 @@ Tamaños relativos: **S** pequeña · **M** media · **L** grande.
 
 ---
 
-## Fase 1 — Fundación y sistema de diseño · **L**
-Rama: `feat/design-system` · Alcance detallado en `11-styleguide.md`
+## ~~Fase 1 — Fundación y sistema de diseño~~ · **L** · ✅ COMPLETADA
+Rama: `feat/design-system` → mergeada a `development` (PR #1, `7a48f63`) ·
+Alcance detallado en `11-styleguide.md`
 
 Proyecto Astro (pnpm, TS strict, alias, Tailwind v4, ESLint + Prettier, adapter de
 Vercel) · fuentes autoalojadas · tokens de `02-design-system.md` en `@theme` ·
@@ -25,14 +26,24 @@ la elección del detalle de acento de la marca (`12-brand.md`).
 **Entregable revisable:** `/styleguide` en local, en ambos temas, con las
 animaciones vivas y los ratios de contraste medidos en pantalla.
 
-**Riesgo:** es la fase donde se valida que el rojo sangre funciona en tema oscuro
-(ADR-0012). Si falla, se ajusta aquí y se propaga solo — más adelante costaría
-revisar todas las páginas.
+**Riesgo (resuelto):** era la fase donde se validaba que el rojo sangre funciona
+en tema oscuro (ADR-0012). Funciona: la paleta quedó aprobada en `/styleguide`
+con la rampa doble.
+
+**Cierre real:** lint limpio · typecheck 0 errores · 39 tests unitarios ·
+23 tests E2E · 62,6 KB gzip de los 75 KB de presupuesto. Dos hallazgos
+propagados a las specs: el token `--border-interactive` (contraste de bordes) y
+la subida del presupuesto de JS a 75 KB (`DEVIATIONS.md`).
+
+**Siguiente:** Fase 2.
 
 ---
 
-## Fase 2 — Esqueleto del sitio · **L**
+## Fase 2 — Esqueleto del sitio · **L** · ⬅️ SIGUIENTE
 Rama: `feat/site-skeleton`
+
+**Prerrequisito:** aprobar `06-components.md`, hoy en BORRADOR. Contiene el
+contrato de la navegación en tres modos (Q-N), que es el grueso de esta fase.
 
 `BaseLayout` · marca y favicon (`12-brand.md`) · header ocultable con los **tres
 modos** de navegación · footer · **i18n completo** (rutas `/` y `/es`, diccionarios,
