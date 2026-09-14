@@ -1,32 +1,72 @@
 ---
 /**
- * BaseLayout — versión mínima de la FASE 1.
+ * BaseLayout — fase 2 (13-roadmap.md).
  *
- * La fase 2 (13-roadmap.md) añade header, footer, i18n, boot sequence y SEO.
- * Aquí solo se monta lo imprescindible para que /styleguide funcione.
+ * Monta el cromo completo: boot sequence, skip link, header ocultable con la
+ * navegación de tres modos, footer, e i18n con `hreflang`.
+ *
+ * ORDEN DE LOS SCRIPTS DEL <head>, y no es arbitrario. Los cuatro son
+ * síncronos y todos deben decidir ANTES del primer pintado:
+ *   1. LangScript  — puede redirigir a otro idioma; va primero para no hacer
+ *                    trabajo que se va a tirar.
+ *   2. ThemeScript — evita el fogonazo de tema (ADR-0011).
+ *   3. TypingObserver / NavScript — marcan <html> para que el CSS pueda pausar
+ *                    el tecleo y colapsar la navegación.
  */
+import BootSequence from '@/components/layout/BootSequence.astro';
+import Footer from '@/components/layout/Footer.astro';
+import Header from '@/components/layout/Header.astro';
+import LangScript from '@/components/LangScript.astro';
+import NavScript from '@/components/layout/NavScript.astro';
+import SkipLink from '@/components/layout/SkipLink.astro';
 import ThemeScript from '@/components/ThemeScript.astro';
 import TypingObserver from '@/components/TypingObserver.astro';
+import { DEFAULT_LANG, alternates, getLangFromUrl } from '@/i18n/utils';
 import '@/styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  /** `/styleguide` no forma parte del sitio público (11-styleguide.md). */
+  noindex?: boolean;
+  /** El 404 y la styleguide no llevan cromo de navegación completo. */
+  chrome?: boolean;
 }
 
-const { title, description = 'Design system reference.' } = Astro.props;
+const { title, description = '', noindex = false, chrome = true } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+
+// ADR-0008: cada página emite hreflang para ambos idiomas y x-default al
+// inglés. Es lo que hace que el español posicione de verdad, y lo que permite
+// que la detección de idioma viva en cliente sin perjudicar a los rastreadores
+// (regla 5 de ADR-0009).
+const links = alternates(Astro.url.pathname).map((entry) => ({
+  ...entry,
+  href: new URL(entry.path, Astro.site ?? Astro.url).toString(),
+}));
+const xDefault = links.find((entry) => entry.lang === DEFAULT_LANG);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={description} />
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    {/* /styleguide no forma parte del sitio público (11-styleguide.md) */}
-    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString()} />
+    {links.map((entry) => <link rel="alternate" hreflang={entry.lang} href={entry.href} />)}
+    {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault.href} />}
+
+    {/* Favicon derivado de la marca reducida (12-brand.md). El SVG cambia con
+        el tema para que no desaparezca en la barra de pestañas contraria. */}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     {/* Precarga de las fuentes del primer viewport (ADR-0013) */}
     <link
@@ -44,15 +84,18 @@ const { title, description = 'Design system reference.' } = Astro.props;
       crossorigin
     />
 
-    {/* DEBE ir antes de cualquier contenido: ver ADR-0011 */}
+    <LangScript />
     <ThemeScript />
-
-    {/* También antes del contenido: marca <html> para que el CSS pueda dejar
-        el tecleo en pausa antes de que se pinte el primer encabezado. */}
     <TypingObserver />
+    <NavScript />
   </head>
   <body class="grain">
-    <a href="#main" class="skip-link">Skip to content</a>
-    <slot />
+    {chrome && <BootSequence />}
+    <SkipLink />
+    {chrome && <Header lang={lang} />}
+    <main id="main">
+      <slot />
+    </main>
+    {chrome && <Footer lang={lang} />}
   </body>
 </html>

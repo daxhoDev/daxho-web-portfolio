@@ -65,9 +65,31 @@ de las refactorizaciones más caras y propensas a error que existen.
 
 **Entregable:** el sitio navegable en dos idiomas con páginas vacías.
 
+**Cierre real (2026-09-14), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **57 tests unitarios** (39 + 18 de i18n) · **46 tests E2E**
+(26 + 20 de i18n, header, navegación y boot sequence) · **62,1 KB gzip** de los
+75 KB · 12 rutas generadas, 6 por idioma.
+
+Dos hallazgos de la implementación, propagados a las specs:
+
+1. **`i18n/routes.ts` no llega a existir.** Era un mapa de rutas equivalentes
+   entre idiomas, y solo hace falta si los segmentos se traducen — que es
+   justamente lo que ADR-0010 decidió NO hacer, y por este motivo exacto. Con
+   rutas en inglés en ambos idiomas la equivalencia es quitar o poner el
+   prefijo. Vive en `i18n/utils.ts`.
+2. **Dos islas no pueden ser dueñas del mismo atributo.** `NavDropdown` y
+   `MobileNav` escribían ambas `data-open` sobre `#site-nav`; con `client:idle`
+   no hay garantía de orden de hidratación, y la que llegaba segunda pisaba a la
+   primera. Se resolvió no escribiendo al montar: el estado inicial lo fija el
+   HTML servido y cada isla solo toca el atributo tras una acción real.
+
 **Acción del usuario:** crear el proyecto en Vercel. Recomiendo desplegar al
 cerrar esta fase: fija `SITE_URL`, activa las previews por PR y permite revisar
 desde el móvil en vez de en mi pantalla.
+
+**Pendiente en esta fase:** los enlaces de redes del footer son placeholder
+hasta la fase 10 (Q36), y las páginas están vacías a propósito — las rellenan
+las fases 4 a 7.
 
 ---
 

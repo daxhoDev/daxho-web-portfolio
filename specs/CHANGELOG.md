@@ -3,6 +3,28 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Fase 2 — esqueleto del sitio
+
+Implementación de la fase 2. Dos correcciones a las specs salidas de construirla:
+
+- **`i18n/routes.ts` no existe y no va a existir.** `03-architecture.md` y
+  `06-components.md` lo describían como el mapa de rutas equivalentes entre
+  idiomas que usaría `LanguageSwitcher`. Ese mapa solo es necesario si los
+  segmentos se traducen (`/es/proyectos`), y ADR-0010 decidió mantenerlos en
+  inglés **precisamente para no tener que mantenerlo**. Con rutas sin traducir,
+  la página equivalente se obtiene quitando o poniendo el prefijo: es
+  `canonicalPath` + `localizePath` en `i18n/utils.ts`. Era un resto del borrador
+  anterior a ADR-0010.
+- **`LanguageSwitcher` no reimplementa el enrutado en cliente.** El destino de
+  cada idioma se calcula en el servidor y llega como prop.
+
+Se documenta además en `13-roadmap.md` el hallazgo de implementación que más
+tiempo costó: `NavDropdown` y `MobileNav` escribían las dos `data-open` sobre el
+mismo `#site-nav`, y con `client:idle` el orden de hidratación no está
+garantizado, de modo que la isla que hidrataba después pisaba el estado de la
+otra. El sidebar se abría y se cerraba solo. La regla que queda: **ninguna isla
+escribe su estado inicial al montar** sobre DOM que no le pertenece.
+
 ## [2026-09-14] Aprobadas las specs de la fase 2
 
 Desbloqueo del prerrequisito de la fase 2. `06-components.md` y `05-pages/404.md`

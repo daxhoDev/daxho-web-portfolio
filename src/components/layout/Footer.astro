@@ -1,0 +1,51 @@
+---
+/**
+ * Footer — 06-components.md.
+ *
+ * Los enlaces a redes son PLACEHOLDER hasta la fase 10 (Q36 resuelta): el
+ * usuario aporta las URLs reales entonces. Se marcan visiblemente para que no
+ * se cuelen en producción por olvido.
+ */
+import Container from '@/components/ui/Container.astro';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+
+// TODO(fase 10): sustituir por las URLs reales que aporte el usuario (Q36).
+const SOCIAL = [
+  { name: 'GitHub', href: '#' },
+  { name: 'LinkedIn', href: '#' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-subtle mt-24 border-t py-10">
+  <Container class="flex flex-wrap items-center justify-between gap-4">
+    <p class="text-fg-muted font-mono text-xs">
+      © {year} <a class="hover:text-accent-text" href={localizePath('/', lang)}>daxho</a> ·
+      {t('footer.rights')}
+    </p>
+
+    <ul class="flex items-center gap-4" aria-label={t('footer.social')}>
+      {
+        SOCIAL.map((item) => (
+          <li>
+            <a
+              class="text-fg-secondary hover:text-accent-text font-mono text-xs transition-colors"
+              href={item.href}
+              data-placeholder="fase-10"
+            >
+              {item.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</footer>

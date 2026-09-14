@@ -1,0 +1,19 @@
+---
+/**
+ * Marca `<html data-nav-js>` — 06-components.md.
+ *
+ * Va en <head> y es SÍNCRONO por la misma razón que ThemeScript y
+ * TypingObserver: hasta que existe este atributo, el CSS no aplica ninguna
+ * regla de colapso de la navegación. Si se marcara desde el <body>, en móvil se
+ * vería un fogonazo con los 5 enlaces apilados antes de que el sidebar se
+ * cerrara.
+ *
+ * Y si el script no llega a ejecutarse, el atributo no aparece: la navegación
+ * queda como una lista normal, visible y tabulable. Es el requisito de la spec
+ * de que la navegación vuelva al DOM normal si el JS falla.
+ */
+---
+
+<script is:inline>
+  document.documentElement.setAttribute('data-nav-js', '');
+</script>

@@ -75,8 +75,8 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   └── experience/
 │   ├── i18n/
 │   │   ├── ui.ts             (diccionarios)
-│   │   ├── utils.ts          (localizePath, getLangFromUrl, t)
-│   │   └── routes.ts         (mapa de rutas equivalentes entre idiomas)
+│   │   └── utils.ts          (localizePath, getLangFromUrl, canonicalPath,
+│   │                          alternatePath, alternates, useTranslations)
 │   ├── layouts/
 │   │   ├── BaseLayout.astro
 │   │   └── ProjectLayout.astro

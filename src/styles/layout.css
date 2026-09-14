@@ -1,0 +1,212 @@
+/* =============================================================================
+   LAYOUT — cromo del sitio: boot sequence, header y navegación
+   Implementa ADR-0019 y la navegación de tres modos de 06-components.md
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+   BOOT SEQUENCE (ADR-0019)
+   REQUISITO 1, INNEGOCIABLE: el overlay se retira por esta animación de
+   duración fija. No depende de ningún evento de carga ni de que hidrate nada.
+   Si el JavaScript falla, el overlay desaparece igual y el sitio se usa.
+
+   Requisito 8: por debajo de 900 ms de principio a fin.
+   -------------------------------------------------------------------------- */
+#boot {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  background-color: var(--bg-base);
+  color: var(--fg-secondary);
+  animation: boot-out 1ms linear 820ms forwards;
+}
+
+@keyframes boot-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.boot-lines p {
+  margin: 0 0 0.35rem;
+  opacity: 0;
+  /* Cada línea entra escalonada: 0 ms, 180 ms, 360 ms. */
+  animation: boot-line-in 1ms linear forwards;
+  animation-delay: calc(var(--boot-line, 0) * 180ms);
+}
+
+.boot-lines p:last-child {
+  color: var(--accent-text);
+}
+
+@keyframes boot-line-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.boot-hint {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  opacity: 0;
+  animation: boot-line-in 1ms linear 560ms forwards;
+}
+
+/* Requisito 5: no se muestra con reduced-motion. El script ya lo retira, pero
+   el CSS lo garantiza aunque el script no llegue a correr. */
+@media (prefers-reduced-motion: reduce) {
+  #boot {
+    display: none;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   HEADER OCULTABLE (Q28)
+   Se esconde al bajar y reaparece al subir. Debe reaparecer SIEMPRE al llegar
+   arriba y al recibir foco por teclado: si no, un usuario de teclado podría
+   tabular hasta un header invisible.
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg-base);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: transform 220ms ease;
+}
+
+.site-header[data-hidden='true'] {
+  transform: translateY(-100%);
+}
+
+/* El foco gana siempre a la ocultación. */
+.site-header:focus-within {
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: none;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   NAVEGACIÓN — TRES MODOS (06-components.md)
+
+   MEJORA PROGRESIVA, misma técnica que el typing: los 5 enlaces están SIEMPRE
+   en el HTML, en un único <ul>. Sin `data-nav-js` en <html> —JavaScript
+   desactivado o caído— no se aplica ninguna regla de colapso y la navegación
+   queda como una lista normal, visible y tabulable. Es el requisito de
+   06-components.md: "se desactivan y devuelven la navegación al DOM normal si
+   el JS falla".
+
+   Los disparadores (NavDropdown y MobileNav) viven en islas React y solo
+   escriben `data-open` sobre este mismo <ul>. No inyectan enlaces.
+   -------------------------------------------------------------------------- */
+.site-nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--fg-secondary);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.site-nav-link:hover,
+.site-nav-link[aria-current='page'] {
+  color: var(--accent-text);
+}
+
+.site-nav-link[aria-current='page'] {
+  font-weight: 700;
+}
+
+/* Los disparadores no existen sin JavaScript. */
+.nav-trigger {
+  display: none;
+}
+
+/* --- Modo COMPLETO: >= lg. Los 5 enlaces en línea, sin disparador. --------- */
+
+/* --- Modo DROPDOWN: md - lg ------------------------------------------------ */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  [data-nav-js] .nav-trigger--dropdown {
+    display: inline-flex;
+  }
+
+  [data-nav-js] .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 12rem;
+    padding: 1rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  [data-nav-js] .site-nav[data-open='false'] {
+    display: none;
+  }
+
+  [data-nav-js] .site-nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+/* --- Modo SIDEBAR: < md ---------------------------------------------------- */
+@media (max-width: 767.98px) {
+  [data-nav-js] .nav-trigger--mobile {
+    display: inline-flex;
+  }
+
+  [data-nav-js] .site-nav {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(20rem, 85vw);
+    padding: 5rem 1.5rem 1.5rem;
+    background-color: var(--bg-surface);
+    border-left: 1px solid var(--border-subtle);
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 220ms ease;
+  }
+
+  [data-nav-js] .site-nav[data-open='true'] {
+    transform: translateX(0);
+  }
+
+  [data-nav-js] .site-nav[data-open='false'] {
+    visibility: hidden;
+  }
+
+  [data-nav-js] .site-nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-nav-js] .site-nav {
+      transition: none;
+    }
+  }
+}

@@ -68,7 +68,7 @@ tabla de `layout/` contiene únicamente `.astro`.
 | Componente | Directiva | Motivo |
 |---|---|---|
 | `ThemeToggle` | `client:load` | tres estados (claro/oscuro/sistema); lee el estado real del DOM al hidratarse, nunca asume un valor por defecto |
-| `LanguageSwitcher` | `client:load` | escribe `localStorage.lang`; navega a la **página equivalente** usando `i18n/routes.ts`, nunca al home |
+| `LanguageSwitcher` | `client:load` | escribe `localStorage.lang`; navega a la **página equivalente**, nunca al home. El destino lo calcula Astro en el servidor con `i18n/utils.ts`; la isla no reimplementa el enrutado en cliente |
 | `NavDropdown` | `client:idle` | modo intermedio del header |
 | `MobileNav` | `client:idle` | sidebar; atrapa el foco mientras está abierto, cierra con `Esc`, devuelve el foco al botón |
 | `ContactForm` | `client:visible` | |
