@@ -3,6 +3,18 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Páginas `es/` como cáscaras mínimas: `src/views/`
+
+Corrección de un incumplimiento de la fase 2, detectado por el agente al preparar
+la fase 4. `03-architecture.md` exige que cada página de `es/` sea una cáscara que
+reutilice el componente de página de su equivalente en inglés, y declara error de
+implementación duplicar el marcado. Las 10 páginas del esqueleto eran copias
+completas.
+
+- Los componentes de página viven en **`src/views/`** (decisión del usuario).
+- Las páginas vacías comparten `views/PlaceholderView.astro`; cada una la
+  abandona cuando su fase la construye.
+
 ## [2026-09-14] Sidebar móvil y toggle de tema en móvil
 
 Peticiones del usuario tras revisar la fase 2:

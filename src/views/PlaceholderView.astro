@@ -1,0 +1,32 @@
+---
+/**
+ * Cuerpo de una página todavía vacía — esqueleto de la FASE 2 (13-roadmap.md).
+ *
+ * Compartido por `/ruta` y `/es/ruta`: por 03-architecture.md, cada página es
+ * una cáscara mínima que reutiliza su vista pasándole el idioma, y duplicar
+ * marcado entre las dos es un error de implementación.
+ *
+ * Cada página deja de usar esta vista cuando su fase la construye de verdad.
+ */
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { useTranslations, type Lang, type TranslationKey } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  lang: Lang;
+  titleKey: TranslationKey;
+  /** Fase que la rellena. Se muestra visible: si llega a producción, se ve. */
+  phase: string;
+}
+
+const { lang, titleKey, phase }: Props = Astro.props;
+const title = useTranslations(lang)(titleKey);
+---
+
+<BaseLayout title={`${title} — Daxho`}>
+  <Container class="py-16">
+    <SectionHeading text={title} as="h1" class="mb-6" />
+    <p class="text-fg-secondary font-mono text-sm">[{phase}]</p>
+  </Container>
+</BaseLayout>

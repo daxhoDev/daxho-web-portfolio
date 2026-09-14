@@ -1,26 +1,7 @@
 ---
-/**
- * Resume — esqueleto de la FASE 2 (13-roadmap.md).
- *
- * La página está VACÍA a propósito: el entregable de esta fase es el sitio
- * navegable en dos idiomas, no su contenido. Lo rellena la fase 6.
- */
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Container from '@/components/ui/Container.astro';
-import SectionHeading from '@/components/ui/SectionHeading.astro';
-import { getLangFromUrl, useTranslations } from '@/i18n/utils';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const title = t('nav.resume');
+// Cáscara mínima: el cuerpo vive en la vista, compartida por ambos idiomas
+// (03-architecture.md).
+import PlaceholderView from '@/views/PlaceholderView.astro';
 ---
 
-<BaseLayout title={`${title} — Daxho`}>
-  <Container class="py-16">
-    <SectionHeading text={title} as="h1" class="mb-6" />
-    <p class="text-fg-secondary font-mono text-sm">
-      {/* Marcador visible: si esto llega a producción, se ve. */}
-      [la fase 6]
-    </p>
-  </Container>
-</BaseLayout>
+<PlaceholderView lang="en" titleKey="nav.resume" phase="la fase 6" />

@@ -77,6 +77,7 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   ├── ui.ts             (diccionarios)
 │   │   └── utils.ts          (localizePath, getLangFromUrl, canonicalPath,
 │   │                          alternatePath, alternates, useTranslations)
+│   ├── views/                (cuerpo de cada página, compartido entre / y /es)
 │   ├── layouts/
 │   │   ├── BaseLayout.astro
 │   │   └── ProjectLayout.astro
@@ -107,6 +108,10 @@ i18n de forma nativa. Para evitar duplicar lógica, cada página `es/` debe ser 
 cáscara mínima que reutilice el mismo componente de página que su equivalente en
 inglés, pasándole el locale. Duplicar markup entre `index.astro` y
 `es/index.astro` es un error de implementación.
+
+Esos componentes de página viven en **`src/views/`** (decisión del usuario,
+2026-09-14): `views/ProjectsView.astro` sirve `/projects` y `/es/projects`. Las
+rutas dinámicas delegan igual en su layout (`ProjectLayout`).
 
 ## Variables de entorno
 
