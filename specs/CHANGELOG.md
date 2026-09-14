@@ -3,6 +3,30 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Aprobadas las specs de la fase 2
+
+Desbloqueo del prerrequisito de la fase 2. `06-components.md` y `05-pages/404.md`
+pasan de BORRADOR a APROBADA. Al auditarlas contra lo que la fase necesita
+aparecieron tres huecos, resueltos con el usuario antes de aprobar:
+
+- **`BootSequence` no estaba en el inventario.** ADR-0019 está APROBADA y la fase
+  2 debe construir el overlay de arranque, pero la regla 5 de `06-components.md`
+  prohíbe crear un componente que no figure en la lista. Entra en `layout/` como
+  `.astro` **sin isla**, que es lo que ya exigía el requisito 1 de ADR-0019: el
+  overlay se retira por animación CSS de duración fija y el JS solo gestiona el
+  "saltar" y el `sessionStorage`. Una isla React ataría la retirada a que React
+  hidrate, que es el fallo catastrófico que la propia ADR descarta.
+- **`NavDropdown` y `MobileNav` estaban listados dos veces**, en `layout/` y en
+  `islands/`. Se quedan solo en `islands/`, y se añade la regla explícita de que
+  todo componente React vive ahí y solo ahí, para que no se vuelva a duplicar.
+- **`Footer` citaba Q36 como pendiente** cuando está resuelta desde el 2026-09-09
+  (placeholder hasta la fase 10). Por la Regla 2 ese adjetivo detendría a un
+  agente sin motivo.
+
+También se corrige la estructura de carpetas de `03-architecture.md`, que iba por
+detrás del código aprobado en la fase 1: situaba `Container` en `layout/` y
+mencionaba un `Tag` que nunca existió (es `Chip`).
+
 ## [2026-09-14] El typing sustituye al glitch
 
 Decisión del usuario: *"eliminaremos el efecto de glitch, lo sustituiremos por el

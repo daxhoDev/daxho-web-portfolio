@@ -60,8 +60,10 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   ├── projects/
 │   │   └── profile/
 │   ├── components/
-│   │   ├── ui/               (primitivos: Button, Card, Chip, Tag)
-│   │   ├── layout/           (Header, Footer, Nav, Container)
+│   │   ├── ui/               (primitivos: Button, Card, Chip, Container,
+│   │   │                      SectionHeading, TypingText, Icon)
+│   │   ├── layout/           (Header, Brand, Nav, Footer, SkipLink,
+│   │   │                      BootSequence — solo .astro)
 │   │   ├── sections/         (Hero, TechCarousel, FeaturedProjects, CtaBand)
 │   │   ├── project/          (ProjectCard, ProjectGallery, StackRow)
 │   │   └── islands/          (componentes React)

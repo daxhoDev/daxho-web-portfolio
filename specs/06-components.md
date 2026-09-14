@@ -1,6 +1,6 @@
 # 06 — Inventario de componentes
 
-**Estado:** BORRADOR · 2026-09-09
+**Estado:** APROBADA · 2026-09-14 · prerrequisito de la fase 2, cumplido
 
 ## Reglas generales
 
@@ -35,10 +35,9 @@
 | `Header` | astro | **ocultable al bajar** (Q28): se esconde al hacer scroll hacia abajo, reaparece al subir. Debe reaparecer siempre al llegar arriba y al recibir foco por teclado |
 | `Brand` | astro | marca denominativa, enlaza al home del idioma activo (ver `12-brand.md`) |
 | `Nav` | astro | Home · About · Projects · Resume · Contact — **tres modos**, ver abajo |
-| `NavDropdown` | react `client:idle` | modo intermedio |
-| `MobileNav` | react `client:idle` | sidebar; atrapa el foco mientras está abierto, cierra con `Esc`, devuelve el foco al botón |
-| `Footer` | astro | enlaces a redes sociales (pendiente Q36) |
+| `Footer` | astro | enlaces a redes sociales; **placeholder hasta la fase 10** (Q36 resuelta) |
 | `SkipLink` | astro | "Skip to content", primer elemento tabulable de la página |
+| `BootSequence` | astro | overlay de arranque de ADR-0019. **Sin isla**: se retira por animación CSS de duración fija, y el script inline solo gestiona el "saltar" y el `sessionStorage`. Si el JS falla, el overlay desaparece igual |
 
 ## `sections/`
 
@@ -63,12 +62,15 @@
 
 ## `islands/` — React
 
+**Todo componente React vive aquí y solo aquí**, incluidos los de navegación. La
+tabla de `layout/` contiene únicamente `.astro`.
+
 | Componente | Directiva | Motivo |
 |---|---|---|
 | `ThemeToggle` | `client:load` | tres estados (claro/oscuro/sistema); lee el estado real del DOM al hidratarse, nunca asume un valor por defecto |
 | `LanguageSwitcher` | `client:load` | escribe `localStorage.lang`; navega a la **página equivalente** usando `i18n/routes.ts`, nunca al home |
 | `NavDropdown` | `client:idle` | modo intermedio del header |
-| `MobileNav` | `client:idle` | sidebar |
+| `MobileNav` | `client:idle` | sidebar; atrapa el foco mientras está abierto, cierra con `Esc`, devuelve el foco al botón |
 | `ContactForm` | `client:visible` | |
 
 ---

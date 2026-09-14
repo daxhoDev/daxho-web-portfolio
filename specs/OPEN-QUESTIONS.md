@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-14 (el typing sustituye al glitch)
+Última actualización: 2026-09-14 (aprobadas las specs de la fase 2)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -84,13 +84,15 @@ pierde, el visitante reescribe.
 ## Specs en BORRADOR pendientes de aprobar
 
 No son preguntas abiertas, pero por la Regla 1 una spec en BORRADOR no es
-vinculante. Se aprueban antes de la fase que las consume:
+vinculante. Se aprueban antes de la fase que las consume.
+
+**Las dos de la fase 2 (`06-components.md` y `05-pages/404.md`) se aprobaron el
+2026-09-14**, junto con la entrada de `BootSequence` en el inventario y el
+traslado de `NavDropdown` y `MobileNav` a `islands/`. Quedan:
 
 | Spec | La consume | Estado |
 |---|---|---|
-| `06-components.md` | Fase 2 — **inminente** | BORRADOR |
 | `05-pages/home.md` | Fase 5 | BORRADOR |
-| `05-pages/404.md` | Fase 2 | BORRADOR |
 | `04-content-model.md` | Fase 4 | BORRADOR |
 | `05-pages/projects.md`, `project-detail.md` | Fase 4 | BORRADOR |
 | `05-pages/about.md`, `resume.md` | Fase 6 | BORRADOR |

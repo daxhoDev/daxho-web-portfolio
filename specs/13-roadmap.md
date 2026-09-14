@@ -45,11 +45,15 @@ pasaron de 23 a 26.
 
 ---
 
-## Fase 2 — Esqueleto del sitio · **L** · ⬅️ SIGUIENTE
+## Fase 2 — Esqueleto del sitio · **L** · ⬅️ EN CURSO
 Rama: `feat/site-skeleton`
 
-**Prerrequisito:** aprobar `06-components.md`, hoy en BORRADOR. Contiene el
-contrato de la navegación en tres modos (Q-N), que es el grueso de esta fase.
+**Prerrequisito cumplido (2026-09-14):** `06-components.md` y `05-pages/404.md`
+pasan a APROBADA. Al aprobarlas se cerraron tres huecos: `BootSequence` no
+figuraba en el inventario pese a que ADR-0019 está aprobada y la regla 5 prohíbe
+crear un componente que no esté listado; `NavDropdown` y `MobileNav` aparecían
+duplicados en `layout/` y en `islands/`; y `Footer` seguía citando Q36 como
+pendiente cuando estaba resuelta.
 
 `BaseLayout` · marca y favicon (`12-brand.md`) · header ocultable con los **tres
 modos** de navegación · footer · **i18n completo** (rutas `/` y `/es`, diccionarios,
