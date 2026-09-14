@@ -14,6 +14,17 @@ async function hydrated(page: Page, selector: string) {
   }, selector);
 }
 
+async function openMobile(page: Page) {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('lang', 'en');
+    window.sessionStorage.setItem('booted', '1');
+  });
+  await page.setViewportSize({ width: 390, height: 800 });
+  await page.goto('/');
+  await expect(page.locator('.nav-trigger--mobile')).toBeVisible();
+  await hydrated(page, '.nav-trigger--mobile');
+}
+
 async function addHeight(page: Page) {
   await page.evaluate(() => {
     const spacer = document.createElement('div');
@@ -131,28 +142,145 @@ test.describe('navegación', () => {
   });
 
   test('en móvil el sidebar abre, atrapa el foco y cierra con Esc', async ({ page }) => {
-    await page.addInitScript(() => window.sessionStorage.setItem('booted', '1'));
-    await page.setViewportSize({ width: 390, height: 800 });
-    await page.goto('/');
-
+    await openMobile(page);
     const trigger = page.locator('.nav-trigger--mobile');
-    await expect(trigger).toBeVisible();
-    await hydrated(page, '.nav-trigger--mobile');
-    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    await expect(trigger).toHaveAttribute('aria-controls', 'site-nav');
 
     await trigger.click();
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(page.locator('#site-nav')).toHaveAttribute('data-open', 'true');
-
-    // El resto de la página queda inerte mientras está abierto.
     await expect(page.locator('main')).toHaveAttribute('inert', '');
 
     await page.keyboard.press('Escape');
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    // El foco vuelve al disparador.
     await expect(trigger).toBeFocused();
     await expect(page.locator('main')).not.toHaveAttribute('inert', '');
+  });
+});
+
+test.describe('sidebar móvil', () => {
+  test('el disparador es solo un icono, con nombre accesible', async ({ page }) => {
+    await openMobile(page);
+    const trigger = page.locator('.nav-trigger--mobile');
+
+    await expect(trigger).toHaveText('');
+    await expect(trigger.locator('svg')).toBeVisible();
+    await expect(trigger).toHaveAttribute('aria-label', 'Open menu');
+  });
+
+  test('el botón X está arriba a la derecha del panel y lo cierra', async ({ page }) => {
+    await openMobile(page);
+    const trigger = page.locator('.nav-trigger--mobile');
+    await trigger.click();
+
+    const close = page.getByRole('button', { name: 'Close menu' });
+    await expect(close).toBeVisible();
+    // Vive dentro del panel: queda dentro de la trampa de foco.
+    await expect(page.locator('#site-nav').getByRole('button', { name: 'Close menu' })).toHaveCount(1);
+    // Es lo primero que recibe foco al abrir.
+    await expect(close).toBeFocused();
+
+    // El panel entra deslizándose (220 ms). Medir durante la transición daría
+    // dos cajas tomadas en instantes distintos: se espera a que se asiente.
+    await expect
+      .poll(() => page.locator('#site-nav').evaluate((el) => getComputedStyle(el).transform))
+      .toMatch(/^(none|matrix\(1, 0, 0, 1, 0, 0\))$/);
+
+    const panel = await page.locator('#site-nav').boundingBox();
+    const box = await close.boundingBox();
+    expect(panel && box).toBeTruthy();
+    // Esquina superior derecha: a menos de 32 px del borde superior y derecho.
+    expect(box!.y - panel!.y).toBeLessThan(32);
+    expect(panel!.x + panel!.width - (box!.x + box!.width)).toBeLessThan(32);
+
+    await close.click();
+    await expect(page.locator('#site-nav')).toHaveAttribute('data-open', 'false');
+    await expect(trigger).toBeFocused();
+  });
+
+  test('el backdrop difumina el fondo y tocarlo cierra', async ({ page }) => {
+    await openMobile(page);
+    await page.locator('.nav-trigger--mobile').click();
+
+    const backdrop = page.locator('[data-nav-backdrop]');
+    await expect(backdrop).toBeVisible();
+    const filter = await backdrop.evaluate((el) => getComputedStyle(el).backdropFilter);
+    expect(filter).toContain('blur');
+
+    // Se toca la franja izquierda, que el panel (anclado a la derecha) no cubre.
+    await page.mouse.click(12, 400);
+    await expect(page.locator('#site-nav')).toHaveAttribute('data-open', 'false');
+    await expect(backdrop).toBeHidden();
+  });
+
+  /**
+   * Regresión: al cerrar, el panel pasaba a `visibility: hidden` en el mismo
+   * instante y el backdrop se desmontaba, así que la salida no se veía.
+   *
+   * Se captura el estado JUSTO cuando cambia `data-open`, con un
+   * MutationObserver, en vez de leerlo desde Playwright: un viaje de ida y
+   * vuelta al navegador puede superar los 220 ms de la transición y el test
+   * pasaría por casualidad.
+   */
+  test('al cerrar, panel y backdrop siguen visibles mientras salen', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await openMobile(page);
+    await page.locator('.nav-trigger--mobile').click();
+    await expect(page.locator('#site-nav')).toHaveAttribute('data-open', 'true');
+
+    const atClose = page.evaluate(
+      () =>
+        new Promise<{ panel: string; backdrop: string | null }>((resolve) => {
+          const nav = document.getElementById('site-nav')!;
+          new MutationObserver(() => {
+            if (nav.getAttribute('data-open') !== 'false') return;
+            const backdrop = document.querySelector<HTMLElement>('[data-nav-backdrop]');
+            resolve({
+              panel: getComputedStyle(nav).visibility,
+              backdrop: backdrop ? getComputedStyle(backdrop).visibility : null,
+            });
+          }).observe(nav, { attributes: true, attributeFilter: ['data-open'] });
+        }),
+    );
+
+    await page.getByRole('button', { name: 'Close menu' }).click();
+    expect(await atClose).toEqual({ panel: 'visible', backdrop: 'visible' });
+
+    // Y al terminar la transición, ambos quedan ocultos.
+    await expect
+      .poll(() => page.locator('#site-nav').evaluate((el) => getComputedStyle(el).visibility))
+      .toBe('hidden');
+    await expect(page.locator('[data-nav-backdrop]')).toBeHidden();
+  });
+
+  test('con el panel abierto el fondo no hace scroll', async ({ page }) => {
+    await openMobile(page);
+    await addHeight(page);
+    await page.locator('.nav-trigger--mobile').click();
+
+    await expect(page.locator('html')).toHaveAttribute('data-nav-open', '');
+    const overflow = await page.evaluate(() => getComputedStyle(document.documentElement).overflow);
+    expect(overflow).toBe('hidden');
+
+    const before = await page.evaluate(() => window.scrollY);
+    await page.mouse.move(12, 400);
+    await page.mouse.wheel(0, 800);
+    await page.waitForTimeout(200);
+    expect(await page.evaluate(() => window.scrollY)).toBe(before);
+
+    // Al cerrar se libera.
+    await page.keyboard.press('Escape');
+    await expect(page.locator('html')).not.toHaveAttribute('data-nav-open', '');
+  });
+
+  test('el toggle de tema muestra solo el icono en móvil y el texto en escritorio', async ({
+    page,
+  }) => {
+    await openMobile(page);
+    const label = page.locator('[data-theme-preference] span');
+    await expect(label).toBeHidden();
+
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await expect(label).toBeVisible();
   });
 });
 

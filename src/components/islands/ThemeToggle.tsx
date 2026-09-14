@@ -80,8 +80,12 @@ export default function ThemeToggle() {
       >
         <path d={ICONS[active]} />
       </svg>
-      {/* aria-hidden porque el estado ya lo anuncia el aria-label del botón */}
-      <span aria-hidden="true">{LABELS[active]}</span>
+      {/* aria-hidden porque el estado ya lo anuncia el aria-label del botón.
+          En móvil solo se ve el icono: el header no tiene sitio para el texto
+          junto a la marca, el selector de idioma y la hamburguesa. */}
+      <span className="hidden md:inline" aria-hidden="true">
+        {LABELS[active]}
+      </span>
     </button>
   );
 }

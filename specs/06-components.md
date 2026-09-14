@@ -67,10 +67,10 @@ tabla de `layout/` contiene únicamente `.astro`.
 
 | Componente | Directiva | Motivo |
 |---|---|---|
-| `ThemeToggle` | `client:load` | tres estados (claro/oscuro/sistema); lee el estado real del DOM al hidratarse, nunca asume un valor por defecto |
+| `ThemeToggle` | `client:load` | tres estados (claro/oscuro/sistema); lee el estado real del DOM al hidratarse, nunca asume un valor por defecto. **En móvil (< md) solo muestra el icono**; el texto aparece desde `md` |
 | `LanguageSwitcher` | `client:load` | escribe `localStorage.lang`; navega a la **página equivalente**, nunca al home. El destino lo calcula Astro en el servidor con `i18n/utils.ts`; la isla no reimplementa el enrutado en cliente |
 | `NavDropdown` | `client:idle` | modo intermedio del header |
-| `MobileNav` | `client:idle` | sidebar; atrapa el foco mientras está abierto, cierra con `Esc`, devuelve el foco al botón |
+| `MobileNav` | `client:idle` | sidebar. Disparador **solo con icono de hamburguesa** (nombre accesible en `aria-label`). Con el panel abierto: **backdrop con blur** detrás que cierra al tocarlo, **botón X arriba a la derecha** del panel, **el fondo no hace scroll**. Atrapa el foco, cierra con `Esc` y devuelve el foco al botón |
 | `ContactForm` | `client:visible` | |
 
 ---
@@ -97,6 +97,11 @@ concreto. Se valida en el incremento 1.
 - El foco vuelve al botón disparador al cerrar.
 - **Sidebar**: foco atrapado mientras está abierto, y resto de la página con
   `inert` o `aria-hidden`.
+- **Sidebar**: el botón X vive **dentro** del panel, para quedar dentro de la
+  trampa de foco, y es lo primero que recibe foco al abrir.
+- **Sidebar**: el backdrop va dentro del header, en su mismo contexto de
+  apilamiento. Fuera de él quedaría por encima del header entero, sidebar
+  incluido, y el blur taparía el menú.
 - **Dropdown**: no atrapa el foco, pero tabular fuera de él lo cierra.
 - Ambos se desactivan y devuelven la navegación al DOM normal si el JS falla: los
   enlaces deben existir en el HTML, no inyectarse.

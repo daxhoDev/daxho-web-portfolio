@@ -3,6 +3,30 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Sidebar móvil y toggle de tema en móvil
+
+Peticiones del usuario tras revisar la fase 2:
+
+- *"El botón de abrir el sidebar no debe tener texto, sino un ícono de
+  hamburger"* — el nombre accesible pasa a `aria-label`.
+- *"El contenido detrás debería tener blur y al tocarlo cerrarse, además de un
+  botón X en la esquina para cerrarlo"*, *"el botón de cerrar el sidebar va
+  arriba a la derecha"*.
+- *"Asegúrate de que con el sidebar abierto no se scrollee el fondo"* — con
+  compensación del ancho de la barra de scroll para que el contenido no salte.
+- *"Theme toggle en mobile solo mostrará el ícono, no texto"*.
+
+- *"Al cerrar el sidebar no se ve la transición"* — dos causas. El panel pasaba a
+  `visibility: hidden` en el mismo instante en que empezaba a salir, y el
+  backdrop se desmontaba de golpe. Ahora `visibility` cambia con un retardo igual
+  al deslizamiento (220 ms), y backdrop y botón X quedan siempre montados y se
+  funden por CSS. Con test de regresión que falla sin el arreglo.
+
+No derogan ninguna regla escrita: `06-components.md` no especificaba la forma del
+disparador ni el backdrop. Se añaden como detalle a las filas de `MobileNav` y
+`ThemeToggle` y a los requisitos de accesibilidad del sidebar, sin entrada en
+`DEVIATIONS.md`.
+
 ## [2026-09-14] Fase 2 — esqueleto del sitio
 
 Implementación de la fase 2. Dos correcciones a las specs salidas de construirla:

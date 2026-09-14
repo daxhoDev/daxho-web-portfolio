@@ -30,6 +30,11 @@ const here = canonicalPath(Astro.url.pathname);
 ---
 
 <nav id="site-nav" class="site-nav" data-open="false" aria-label={t('nav.menu.label')}>
+  {/* Destino del portal del botón de cerrar (MobileNav). Va PRIMERO para que la
+      X sea lo primero que se tabula al abrir el sidebar, y para que quede
+      dentro de la trampa de foco. Vacío si no hay JavaScript. */}
+  <div id="site-nav-close" class="site-nav-close"></div>
+
   <ul class="site-nav-list">
     {
       LINKS.map(({ path, key }) => (
