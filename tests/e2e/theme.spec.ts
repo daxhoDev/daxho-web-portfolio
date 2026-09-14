@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { hydrated } from './helpers';
+
 /**
  * Cobertura de ADR-0011. El tema es de los comportamientos más frágiles del
  * sitio y solo se puede verificar de verdad en un navegador real.
@@ -90,5 +92,38 @@ test.describe('tema', () => {
     // No debe romper la página: cae al media query del sistema.
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  });
+});
+
+test.describe('tema — idioma', () => {
+  test('en español el toggle dice "Sistema", no "System"', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('lang', 'es');
+      window.sessionStorage.setItem('booted', '1');
+    });
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto('/es');
+
+    const toggle = page.getByRole('button', { name: /^Tema:/ });
+    await expect(toggle).toHaveAccessibleName('Tema: Sistema. Pulsa para cambiar.');
+    await expect(toggle.locator('span')).toHaveText('Sistema');
+
+    await hydrated(page, '[data-theme-preference]');
+    await toggle.click(); // system -> light
+    await expect(toggle.locator('span')).toHaveText('Claro');
+    await toggle.click(); // light -> dark
+    await expect(toggle.locator('span')).toHaveText('Oscuro');
+  });
+
+  test('en inglés sigue diciendo "System"', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('lang', 'en');
+      window.sessionStorage.setItem('booted', '1');
+    });
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto('/');
+    await expect(page.getByRole('button', { name: /^Theme:/ }).locator('span')).toHaveText(
+      'System',
+    );
   });
 });

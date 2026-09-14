@@ -43,7 +43,15 @@ const options = alternates(Astro.url.pathname).map((entry) => ({
         label={t('a11y.language')}
         options={options}
       />
-      <ThemeToggle client:load />
+      <ThemeToggle
+        client:load
+        labels={{
+          light: t('theme.light'),
+          dark: t('theme.dark'),
+          system: t('theme.system'),
+        }}
+        ariaTemplate={t('theme.label')}
+      />
       <NavDropdown
         client:idle
         labelOpen={t('nav.menu.open')}

@@ -3,6 +3,19 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Toggle de tema traducido
+
+Petición del usuario: *"El botón de tema en español debe decir sistema"*. Era un
+hueco del i18n de la fase 2: `ThemeToggle` venía de la fase 1 con los textos en
+inglés escritos en el componente.
+
+- Los tres estados y el nombre accesible salen de los diccionarios y el header se
+  los pasa como props. En español: "Sistema", "Claro", "Oscuro" y "Tema: … Pulsa
+  para cambiar.". La isla no importa los diccionarios, para no cargar todas las
+  traducciones en el JS del cliente.
+- La styleguide, que no forma parte del sitio, conserva los textos por defecto en
+  inglés.
+
 ## [2026-09-14] Páginas `es/` como cáscaras mínimas: `src/views/`
 
 Corrección de un incumplimiento de la fase 2, detectado por el agente al preparar

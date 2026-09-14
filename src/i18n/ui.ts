@@ -32,6 +32,12 @@ const en = {
   'a11y.skipToContent': 'Skip to content',
   'a11y.language': 'Language',
 
+  'theme.light': 'Light',
+  'theme.dark': 'Dark',
+  'theme.system': 'System',
+  // {state} se sustituye por el estado activo.
+  'theme.label': 'Theme: {state}. Click to change.',
+
   'footer.rights': 'All rights reserved.',
   'footer.builtWith': 'Built with Astro.',
   'footer.social': 'Social links',
@@ -60,6 +66,11 @@ const es: Translations = {
 
   'a11y.skipToContent': 'Saltar al contenido',
   'a11y.language': 'Idioma',
+
+  'theme.light': 'Claro',
+  'theme.dark': 'Oscuro',
+  'theme.system': 'Sistema',
+  'theme.label': 'Tema: {state}. Pulsa para cambiar.',
 
   'footer.rights': 'Todos los derechos reservados.',
   'footer.builtWith': 'Hecho con Astro.',

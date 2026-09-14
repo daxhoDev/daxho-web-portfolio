@@ -67,7 +67,7 @@ tabla de `layout/` contiene únicamente `.astro`.
 
 | Componente | Directiva | Motivo |
 |---|---|---|
-| `ThemeToggle` | `client:load` | tres estados (claro/oscuro/sistema); lee el estado real del DOM al hidratarse, nunca asume un valor por defecto. **En móvil (< md) solo muestra el icono**; el texto aparece desde `md` |
+| `ThemeToggle` | `client:load` | tres estados (claro/oscuro/sistema); lee el estado real del DOM al hidratarse, nunca asume un valor por defecto. **En móvil (< md) solo muestra el icono**; el texto aparece desde `md`. Textos y nombre accesible traducidos: el header se los pasa como props ("Sistema", "Claro", "Oscuro" en español) |
 | `LanguageSwitcher` | `client:load` | escribe `localStorage.lang`; navega a la **página equivalente**, nunca al home. El destino lo calcula Astro en el servidor con `i18n/utils.ts`; la isla no reimplementa el enrutado en cliente |
 | `NavDropdown` | `client:idle` | modo intermedio del header |
 | `MobileNav` | `client:idle` | sidebar. Disparador **solo con icono de hamburguesa** (nombre accesible en `aria-label`). Con el panel abierto: **backdrop con blur** detrás que cierra al tocarlo, **botón X arriba a la derecha** del panel, **el fondo no hace scroll**. Atrapa el foco, cierra con `Esc` y devuelve el foco al botón |
