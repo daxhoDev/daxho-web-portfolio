@@ -19,35 +19,57 @@
  * vuelve difícil. Aceptable porque el texto es corto y no está pensado para
  * copiarse.
  */
-import Card from '@/components/ui/Card.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+import StackRow from '@/components/project/StackRow.astro';
 import Button from '@/components/ui/Button.astro';
-import Chip from '@/components/ui/Chip.astro';
-import TechIcon from '@/components/icons/tech/TechIcon.astro';
-import { getTechByKey } from '@/content/tech';
+import Card from '@/components/ui/Card.astro';
+import { useTranslations, type Lang } from '@/i18n/utils';
 
 interface Props {
   title: string;
   summary: string;
-  stack: string[];
+  stack: readonly string[];
   detailHref: string;
-  liveUrl?: string;
-  /** Fase 1: sin capturas reales. Ver 04-content-model.md. */
-  placeholder?: boolean;
+  liveUrl?: string | undefined;
+  /** Captura principal, 16:9. Sin ella se pinta el bloque PLACEHOLDER (styleguide). */
+  cover?: ImageMetadata | undefined;
+  coverAlt?: string | undefined;
+  lang?: Lang;
+  /** `h2` en /projects, donde la card cuelga del <h1>; `h3` bajo una sección. */
+  headingLevel?: 'h2' | 'h3';
 }
 
-const { title, summary, stack, detailHref, liveUrl, placeholder = true } = Astro.props;
+const {
+  title,
+  summary,
+  stack,
+  detailHref,
+  liveUrl,
+  cover,
+  coverAlt,
+  lang = 'en',
+  headingLevel: Heading = 'h3',
+} = Astro.props;
 
-const stackEntries = stack
-  .map((key) => getTechByKey(key))
-  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+const t = useTranslations(lang);
 ---
 
 <Card as="article" interactive class="group flex flex-col">
   {/* 1. Captura: ocupa el mayor espacio posible. aspect-ratio fijo para que
       no haya CLS cuando lleguen las imágenes reales. */}
-  <div class="bg-inset border-subtle relative aspect-video w-full border-b">
+  <div class="bg-inset border-subtle relative aspect-video w-full overflow-hidden border-b">
     {
-      placeholder && (
+      cover ? (
+        <Image
+          src={cover}
+          alt={coverAlt ?? ''}
+          widths={[480, 720, 960]}
+          sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+          class="h-full w-full object-cover"
+        />
+      ) : (
         <div class="text-fg-muted absolute inset-0 flex items-center justify-center font-mono text-xs tracking-widest">
           PLACEHOLDER
         </div>
@@ -57,37 +79,29 @@ const stackEntries = stack
 
   <div class="flex flex-1 flex-col gap-3 p-4">
     {/* 2. Nombre: es el enlace principal. Su ::after cubre toda la tarjeta. */}
-    <h3 class="text-xl">
+    <Heading class="text-xl">
       <a
         href={detailHref}
         class="text-fg-primary group-hover:text-accent-text transition-colors after:absolute after:inset-0 after:content-['']"
       >
         {title}
       </a>
-    </h3>
+    </Heading>
 
     <p class="text-fg-secondary flex-1 text-sm">{summary}</p>
 
     {/* 3. Fila de iconos de tecnologías */}
-    <ul class="flex flex-wrap gap-2" aria-label="Tech stack">
-      {stackEntries.map((tech) => (
-        <li>
-          <Chip label={tech.label}>
-            <TechIcon slot="icon" tech={tech.key} size={14} />
-          </Chip>
-        </li>
-      ))}
-    </ul>
+    <StackRow stack={stack} label={t('project.stack')} />
 
     {/* 4. Dos botones. relative + z-10 los eleva por encima del área extendida
         del enlace principal; sin esto, el clic en un botón dispararía el
         enlace de la tarjeta. */}
     <div class="relative z-10 flex flex-wrap gap-2 pt-1">
-      <Button href={detailHref} variant="secondary" size="sm">View details</Button>
+      <Button href={detailHref} variant="secondary" size="sm">{t('project.viewDetails')}</Button>
       {
         liveUrl && (
           <Button href={liveUrl} variant="primary" size="sm" target="_blank" rel="noopener noreferrer">
-            Open project
+            {t('project.openProject')}
             <svg
               width="14"
               height="14"

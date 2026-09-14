@@ -1,0 +1,125 @@
+---
+/**
+ * Detalle de proyecto — 05-pages/project-detail.md (APROBADA).
+ *
+ * Secciones en el orden de la spec: cabecera, captura principal, stack,
+ * descripción (MDX), galería y navegación.
+ *
+ * SEO de la fase 4: <title>, description y hreflang (este último lo emite
+ * BaseLayout; el slug es idéntico en ambos idiomas). La OG dinámica y el
+ * JSON-LD llegan en la fase 8.
+ */
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+
+import ProjectGallery from '@/components/project/ProjectGallery.astro';
+import ProjectNav from '@/components/project/ProjectNav.astro';
+import StackRow from '@/components/project/StackRow.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Prose from '@/components/ui/Prose.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import type { Project } from '@/content/queries';
+import { useTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  project: Project;
+  prev?: Project | undefined;
+  next?: Project | undefined;
+}
+
+const { project, prev, next }: Props = Astro.props;
+const { data, lang } = project;
+const t = useTranslations(lang);
+const { Content } = await render(project);
+
+const meta = [
+  { label: t('project.year'), value: String(data.year) },
+  data.role ? { label: t('project.role'), value: data.role } : undefined,
+  { label: t('project.status'), value: t(`project.status.${data.status}`) },
+].filter((item): item is { label: string; value: string } => Boolean(item));
+---
+
+<BaseLayout title={`${data.title} — Daxho`} description={data.summary}>
+  <Container class="py-16">
+    <article>
+      {/* 1. Cabecera */}
+      <header class="mb-10 flex flex-col gap-6">
+        <SectionHeading text={data.title} as="h1" class="text-4xl" />
+
+        <dl class="flex flex-wrap gap-x-8 gap-y-2 font-mono text-sm">
+          {
+            meta.map((item) => (
+              <div class="flex gap-2">
+                <dt class="text-fg-muted">{item.label}</dt>
+                <dd class="text-fg-primary">{item.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        {/* Cada botón solo si existe su URL. */}
+        {
+          (data.liveUrl || data.repoUrl) && (
+            <div class="flex flex-wrap gap-3">
+              {data.liveUrl && (
+                <Button href={data.liveUrl} target="_blank" rel="noopener noreferrer">
+                  {t('project.openProject')}
+                </Button>
+              )}
+              {data.repoUrl && (
+                <Button
+                  href={data.repoUrl}
+                  variant="secondary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('project.viewRepo')}
+                </Button>
+              )}
+            </div>
+          )
+        }
+      </header>
+
+      {/* 2. Captura principal, a ancho completo del contenedor. Es la imagen
+          LCP de la página: se carga con prioridad. */}
+      <div class="border-subtle mb-12 overflow-hidden rounded-md border">
+        <Image
+          src={data.cover}
+          alt={data.coverAlt}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 1280px) 1200px, 100vw"
+          class="aspect-video h-auto w-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+
+      {/* 3. Stack */}
+      <section class="mb-12" aria-labelledby="project-stack">
+        <SectionHeading text={t('project.stack')} as="h2" class="mb-4 text-2xl" />
+        <StackRow stack={data.stack} label={t('project.stack')} iconSize={16} />
+      </section>
+
+      {/* 4. Descripción: cuerpo MDX, con encabezados desde <h2>. */}
+      <Prose class="mb-12">
+        <Content />
+      </Prose>
+
+      {/* 5. Galería, solo si hay capturas. */}
+      {
+        data.gallery.length > 0 && (
+          <section class="mb-4">
+            <SectionHeading text={t('project.gallery')} as="h2" class="mb-6 text-2xl" />
+            <ProjectGallery items={data.gallery} />
+          </section>
+        )
+      }
+    </article>
+
+    {/* 6. Navegación, sin vuelta circular. */}
+    <ProjectNav lang={lang} prev={prev} next={next} />
+  </Container>
+</BaseLayout>

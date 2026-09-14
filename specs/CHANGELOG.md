@@ -3,6 +3,19 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Fase 4 — contenido y proyectos
+
+Implementación de la fase 4. Correcciones a las specs salidas de construirla:
+
+- **`03-architecture.md`:** añade `sharp` (lo exige `<Image>` para AVIF/WebP),
+  `content/queries.ts`, `lib/projects.ts` y `scripts/check-drafts.mjs` al árbol.
+- **`06-components.md`:** documenta las props de `ProjectCard` (`cover`, `lang`,
+  `headingLevel`) y el comportamiento de `ProjectNav` y `ProjectGallery`.
+- **`13-roadmap.md`:** cierre real de la fase, con tres hallazgos. El más serio:
+  la validación de "exactamente 3 destacados" se saltaba un idioma sin
+  proyectos, y un despliegue a producción con todo en draft habría publicado
+  una galería vacía. Corregido con test de regresión.
+
 ## [2026-09-14] Aprobadas las specs de la fase 4
 
 `04-content-model.md`, `05-pages/projects.md` y `05-pages/project-detail.md` pasan

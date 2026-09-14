@@ -47,6 +47,25 @@ const en = {
   '404.title': 'Page not found',
   '404.message': "This path leads nowhere. The links below do.",
   '404.back': 'Back to home',
+
+  // TODO(fase 10): entradilla real. Relleno marcado (04-content-model.md).
+  'projects.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+
+  'project.viewDetails': 'View details',
+  'project.openProject': 'Open project',
+  'project.viewRepo': 'View repository',
+  'project.stack': 'Tech stack',
+  'project.gallery': 'Gallery',
+  'project.year': 'Year',
+  'project.role': 'Role',
+  'project.status': 'Status',
+  'project.status.live': 'Live',
+  'project.status.archived': 'Archived',
+  'project.status.wip': 'In progress',
+  'project.prev': 'Previous project',
+  'project.next': 'Next project',
+  'project.back': 'Back to projects',
+  'project.nav': 'Project navigation',
 } as const;
 
 /** Toda traducción debe cubrir exactamente las claves de `en`. */
@@ -81,6 +100,25 @@ const es: Translations = {
   '404.title': 'Página no encontrada',
   '404.message': 'Este camino no lleva a ninguna parte. Los enlaces de abajo sí.',
   '404.back': 'Volver al inicio',
+
+  // TODO(fase 10): entradilla real. Relleno marcado (04-content-model.md).
+  'projects.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+
+  'project.viewDetails': 'Ver detalles',
+  'project.openProject': 'Abrir proyecto',
+  'project.viewRepo': 'Ver repositorio',
+  'project.stack': 'Tecnologías',
+  'project.gallery': 'Galería',
+  'project.year': 'Año',
+  'project.role': 'Rol',
+  'project.status': 'Estado',
+  'project.status.live': 'En producción',
+  'project.status.archived': 'Archivado',
+  'project.status.wip': 'En desarrollo',
+  'project.prev': 'Proyecto anterior',
+  'project.next': 'Proyecto siguiente',
+  'project.back': 'Volver a proyectos',
+  'project.nav': 'Navegación entre proyectos',
 };
 
 export const UI: Record<Lang, Translations> = { en, es };

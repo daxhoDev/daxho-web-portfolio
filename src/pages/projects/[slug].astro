@@ -1,0 +1,21 @@
+---
+/**
+ * Detalle de proyecto (en) — 05-pages/project-detail.md.
+ *
+ * El idioma va fijo en getStaticPaths porque ahí todavía no existe Astro.url.
+ * Todo lo demás vive en ProjectLayout, compartido por ambos idiomas.
+ *
+ * Un slug inexistente no genera ruta: lo sirve la 404 del sitio, no un error
+ * de build (criterio de aceptación de la spec).
+ */
+import { getProjectPaths } from '@/content/queries';
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+
+export async function getStaticPaths() {
+  return getProjectPaths('en');
+}
+
+const { project, prev, next } = Astro.props;
+---
+
+<ProjectLayout project={project} prev={prev} next={next} />

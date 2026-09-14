@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
@@ -24,7 +25,8 @@ export default defineConfig({
     },
   },
   adapter: vercel(),
-  integrations: [react()],
+  // ADR-0005: MDX para el cuerpo largo del detalle de proyecto.
+  integrations: [react(), mdx()],
   vite: {
     plugins: [tailwindcss()],
   },

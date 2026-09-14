@@ -49,3 +49,19 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
+
+  # Ningún draft llega a master — 04-content-model.md y DEVIATIONS.md
+  # (2026-09-14). Solo en PRs y pushes hacia master: en development y en las
+  # previews el contenido de relleno es lo esperado.
+  no-drafts:
+    if: github.base_ref == 'master' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: No draft content
+        run: node scripts/check-drafts.mjs src/content

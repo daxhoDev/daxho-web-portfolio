@@ -26,7 +26,7 @@
 | `SectionHeading` | astro | `<h2>` que se **teclea** al entrar en pantalla, una sola vez (ADR-0014) |
 | `TypingText` | astro | **CSS puro, sin JS.** Efecto de tecleo. `trigger`: `load` (hero) o `viewport` (encabezados); `caret`: `persistent` (hero, es la marca), `transient` (encabezados) o `none` |
 | `Icon` | astro | envoltorio de SVG, aplica la especificación de `02-design-system.md` §6 |
-| `Prose` | astro | estilos tipográficos para el cuerpo MDX |
+| `Prose` | astro | estilos tipográficos para el cuerpo MDX; todo con tokens semánticos, sin plugin de tipografía |
 
 ## `layout/`
 
@@ -55,10 +55,10 @@
 
 | Componente | Tipo | Notas |
 |---|---|---|
-| `ProjectCard` | astro | ver anatomía abajo |
+| `ProjectCard` | astro | ver anatomía abajo. Props: `cover`/`coverAlt` (sin `cover` pinta el bloque PLACEHOLDER), `lang`, y `headingLevel` (`h2` en `/projects`, donde cuelga del `<h1>`; `h3` bajo una sección) |
 | `StackRow` | astro | fila de iconos de tecnologías |
-| `ProjectGallery` | astro | capturas del detalle |
-| `ProjectNav` | astro | anterior / siguiente |
+| `ProjectGallery` | astro | capturas del detalle, en línea y enlazadas a la imagen completa; sin lightbox (Q-E) |
+| `ProjectNav` | astro | anterior / siguiente, **sin vuelta circular**: oculta el lado que no existe |
 
 ## `islands/` — React
 

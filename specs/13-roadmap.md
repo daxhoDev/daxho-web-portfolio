@@ -118,6 +118,28 @@ galería en línea · `ProjectNav`.
 
 **Entregable:** galería y detalle navegables en ambos idiomas.
 
+**Cierre real (2026-09-14), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **81 tests unitarios** (57 + 24 de proyectos y de la guarda
+de drafts) · **67 tests E2E** (52 + 15 de galería y detalle) · **63,2 KB gzip** de
+los 75 KB · 24 rutas generadas.
+
+Comprobado que el build **falla** con contenido roto: un proyecto sin su versión
+en español, una clave de stack que no está en el catálogo, y un despliegue a
+producción con todo en draft.
+
+Hallazgos de la implementación, propagados a las specs:
+
+1. **La validación de "exactamente 3 destacados" se saltaba un idioma vacío.**
+   Un despliegue a producción con todo en draft habría publicado una galería
+   vacía en vez de romper el build. Corregido, con test de regresión que falla
+   sin el arreglo.
+2. **La guarda de CI no puede ser un `grep draft: true`.** El esquema pone
+   `draft` a `true` por defecto, así que un archivo sin el campo también es
+   draft. `scripts/check-drafts.mjs` trata el campo ausente como draft.
+3. **Hace falta `sharp`.** Es el servicio de imágenes que usa `<Image>` para
+   generar AVIF/WebP, como exige este documento. Ya estaba autorizado en
+   `pnpm-workspace.yaml` desde la fase 1.
+
 **Nota:** el layout se valida aquí con contenido falso. Al llegar el contenido
 real habrá que revisarlo — un Lorem Ipsum no revela si un título largo rompe la
 card.

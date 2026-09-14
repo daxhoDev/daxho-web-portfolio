@@ -1,0 +1,53 @@
+---
+/**
+ * Galería de proyectos — 05-pages/projects.md (APROBADA).
+ *
+ * Los 6 proyectos, incluidos los 3 destacados del home. Sin filtros (Q-C).
+ * Rejilla de 1 columna en móvil, 2 en md y 3 en xl, en el orden del campo
+ * `order`.
+ *
+ * Sirve /projects y /es/projects: cada página es una cáscara que pasa el idioma
+ * (03-architecture.md).
+ */
+import ProjectCard from '@/components/project/ProjectCard.astro';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { getProjects } from '@/content/queries';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+const projects = await getProjects(lang);
+---
+
+<BaseLayout title={`${t('nav.projects')} — Daxho`} description={t('projects.intro')}>
+  <Container class="py-16">
+    <SectionHeading text={t('nav.projects')} as="h1" class="mb-4 text-4xl" />
+    <p class="text-fg-secondary mb-12 max-w-(--container-reading)">{t('projects.intro')}</p>
+
+    <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {
+        projects.map((project) => (
+          <li class="flex">
+            <ProjectCard
+              lang={lang}
+              headingLevel="h2"
+              title={project.data.title}
+              summary={project.data.summary}
+              stack={project.data.stack}
+              cover={project.data.cover}
+              coverAlt={project.data.coverAlt}
+              liveUrl={project.data.liveUrl}
+              detailHref={localizePath(`/projects/${project.slug}`, lang)}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</BaseLayout>
