@@ -3,6 +3,32 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] El typing sustituye al glitch
+
+Decisión del usuario: *"eliminaremos el efecto de glitch, lo sustituiremos por el
+de typing"*. Registrada en `DEVIATIONS.md` por partida doble.
+
+- **ADR-0014 §5 reescrita.** "Glitch en encabezados" pasa a "Typing en los
+  encabezados": disparado al entrar en viewport, una sola vez, sin repetición con
+  hover ni foco, con cursor efímero. Actualizados también el contexto de la ADR y
+  la regla transversal de `prefers-reduced-motion`, que citaban el glitch.
+- **Propagación por concepto, no solo por nombre de archivo.** El glitch estaba
+  citado en 12 specs que no siempre nombraban ADR-0014: `00-vision.md`
+  (principios), `02-design-system.md` (reglas duras de movimiento),
+  `03-architecture.md` (islas y CSS puro), `06-components.md` (`SectionHeading`),
+  `07-conventions.md` (cuándo se escribe CSS propio), `11-styleguide.md` (las
+  tres veces), `13-roadmap.md` (alcance de la fase 1), `05-pages/404.md`,
+  `05-pages/about.md`, ADR-0013, ADR-0019 y ADR-0021.
+- **Contradicción anterior corregida:** `03-architecture.md` y `06-components.md`
+  listaban `TypingHero` como isla React `client:load`, cuando el typing se
+  implementó en la fase 1 en CSS puro, sin isla. Se elimina la fila de ambas
+  tablas y se documenta `TypingText` como primitivo `ui/` con sus props
+  (`trigger`, `caret`).
+- **`OPEN-QUESTIONS.md`:** la resolución "Glitch con PowerGlitch" se marca
+  derogada y se añade la nueva, sin duplicar la pregunta entre secciones.
+- **Efecto medido:** fuera la dependencia `powerglitch`; el presupuesto de JS baja
+  de 62,6 KB a 59,2 KB gzip de los 75 KB. Los tests E2E pasan de 23 a 26.
+
 ## [2026-09-10] Consistencia de specs tras la fase 1
 
 Auditoría de referencias cruzadas al mergear `feat/design-system` a `development`

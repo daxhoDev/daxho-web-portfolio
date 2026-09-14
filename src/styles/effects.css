@@ -9,82 +9,6 @@
    ========================================================================== */
 
 /* -----------------------------------------------------------------------------
-   GLITCH — mecanismo: PowerGlitch (ver DEVIATIONS.md)
-   La librería genera las rebanadas y el temblor por Web Animations API. Aquí
-   se aporta lo que ella no hace:
-     1. Teñir cada capa con un rojo distinto de la rampa Blood. Sin esto todas
-        las capas salen del color del texto, y con `hueRotate` saldrían verdes
-        y azules, que no pintan nada en esta paleta.
-     2. Deformar las letras (cizalla y estiramiento), que PowerGlitch no cubre:
-        solo desplaza rebanadas.
-
-   `.glitch-container` y `.is-warping` los pone el script tras inicializar.
-   -------------------------------------------------------------------------- */
-.glitch {
-  display: inline-block;
-}
-
-.glitch-container {
-  display: inline-block;
-  position: relative;
-}
-
-/* Estructura que crea PowerGlitch:
-   .glitch-container > [layer container, display grid] > [original, clon, clon...]
-   El primer hijo es el texto real y se deja intacto. */
-.glitch-container > * > *:nth-child(2) {
-  color: var(--color-blood-500);
-}
-
-.glitch-container > * > *:nth-child(3) {
-  color: var(--color-blood-300);
-}
-
-.glitch-container > * > *:nth-child(4) {
-  color: var(--color-blood-700);
-}
-
-.glitch-container > * > *:nth-child(5) {
-  color: var(--color-blood-400);
-}
-
-.glitch-container > * > *:nth-child(6) {
-  color: var(--color-blood-600);
-}
-
-.glitch-container > * > *:nth-child(7) {
-  color: var(--color-blood-800);
-}
-
-/* Deformación de las letras, sincronizada con la duración del glitch.
-   Solo transform: no altera el layout, así que CLS = 0. */
-.glitch-container.is-warping > * {
-  animation: glitch-warp 520ms steps(5, end) 1;
-}
-
-@keyframes glitch-warp {
-  0%,
-  100% {
-    transform: none;
-  }
-  15% {
-    transform: skewX(-16deg) scaleY(1.1);
-  }
-  32% {
-    transform: skewX(10deg) scaleY(0.92) scaleX(1.04);
-  }
-  48% {
-    transform: skewX(-6deg) scaleY(1.06);
-  }
-  66% {
-    transform: skewX(14deg) scaleX(0.97);
-  }
-  84% {
-    transform: skewX(-4deg) scaleY(1.02);
-  }
-}
-
-/* -----------------------------------------------------------------------------
    GRAIN
    Overlay estático (no animado): coste despreciable.
 
@@ -181,6 +105,51 @@
 }
 
 /* -----------------------------------------------------------------------------
+   TYPING — DISPARO POR VIEWPORT (encabezados)
+   MEJORA PROGRESIVA, y el orden de estas dos reglas importa.
+
+   `data-typing-js` lo pone TypingObserver de forma síncrona en <head>, antes
+   del primer pintado. Sin JavaScript el atributo no existe, estas reglas no
+   aplican y la animación arranca con la carga: el texto se ve igual. Nunca
+   queda invisible por falta de JS (regla 10 de 07-conventions.md).
+
+   `animation-play-state: paused` congela también el animation-delay, así que
+   al reanudar el tecleo empieza por el principio y no a medias.
+   -------------------------------------------------------------------------- */
+[data-typing-js] .typing[data-typing-trigger='viewport'] .typing-char,
+[data-typing-js] .typing[data-typing-trigger='viewport'] .caret {
+  animation-play-state: paused;
+}
+
+/* Misma especificidad que la regla anterior: gana por ir después. */
+.typing[data-typing-trigger='viewport'].is-typing .typing-char,
+.typing[data-typing-trigger='viewport'].is-typing .caret {
+  animation-play-state: running;
+}
+
+/* -----------------------------------------------------------------------------
+   CURSOR EFÍMERO (encabezados)
+   Acompaña al tecleo y se apaga con la última letra. El cursor permanente se
+   reserva al hero, que es la marca (12-brand.md): uno por encabezado dejaría
+   varios elementos parpadeando a la vez en la misma pantalla.
+
+   Dos animaciones sobre la misma propiedad: la última de la lista gana. Como
+   caret-off no tiene relleno hacia atrás, no pinta nada hasta que vence su
+   retardo; hasta entonces manda el parpadeo.
+   -------------------------------------------------------------------------- */
+.caret--transient {
+  animation:
+    caret-blink 1.05s step-end var(--caret-delay, 0ms) infinite,
+    caret-off 1ms linear var(--caret-off-delay, 0ms) forwards;
+}
+
+@keyframes caret-off {
+  to {
+    opacity: 0;
+  }
+}
+
+/* -----------------------------------------------------------------------------
    CARRUSEL INFINITO
    CSS puro, sin JavaScript y sin isla (03-architecture.md).
 
@@ -232,11 +201,6 @@
    El grain estático permanece: no implica movimiento.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .glitch-container.is-warping > * {
-    animation: none !important;
-    transform: none !important;
-  }
-
   .typing-char {
     opacity: 1 !important;
     animation: none !important;
@@ -245,6 +209,12 @@
   .caret {
     opacity: 1 !important;
     animation: none !important;
+  }
+
+  /* Sin tecleo no hay nada a lo que acompañar: el cursor efímero desaparece
+     en lugar de quedarse fijo en cada encabezado. */
+  .caret--transient {
+    opacity: 0 !important;
   }
 
   .carousel-track {
@@ -262,11 +232,6 @@
 
 /* Simulador para /styleguide: permite comprobar la desactivación sin tocar los
    ajustes del sistema operativo. Replica exactamente el bloque anterior. */
-[data-reduce-motion='true'] .glitch-container.is-warping > * {
-  animation: none !important;
-  transform: none !important;
-}
-
 [data-reduce-motion='true'] .typing-char {
   opacity: 1 !important;
   animation: none !important;
@@ -275,6 +240,10 @@
 [data-reduce-motion='true'] .caret {
   opacity: 1 !important;
   animation: none !important;
+}
+
+[data-reduce-motion='true'] .caret--transient {
+  opacity: 0 !important;
 }
 
 [data-reduce-motion='true'] .carousel-track {

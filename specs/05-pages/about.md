@@ -10,7 +10,7 @@ una cara.
 ## Secciones, en orden
 
 ### 1. Encabezado
-- `<h1>` de la página con efecto glitch (disparado, ver ADR-0014).
+- `<h1>` de la página con efecto de tecleo (disparado, ver ADR-0014).
 - Entradilla de una o dos frases.
 
 ### 2. Biografía + fotografía

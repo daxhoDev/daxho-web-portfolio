@@ -63,7 +63,7 @@ utilizable hasta que todo llegaba. Aquí el orden es el inverso.
 ### Lo que sí encaja
 
 Una **secuencia de arranque de terminal** es de las cosas más coherentes que puede
-tener este sitio: encaja con el monoespaciado, con el glitch y con la identidad de
+tener este sitio: encaja con el monoespaciado, con el tecleo y con la identidad de
 consola. El problema nunca fue la idea, sino atarla al tiempo de carga.
 
 La solución es desacoplarla: la secuencia dura **lo que decide el diseño**, no lo
@@ -73,7 +73,8 @@ que tarde la red.
 
 - **(a)** Sin pantalla de carga. Coste 0.
 - **(b)** Sin overlay; las secciones entran escalonadas al aparecer en viewport
-  (fade + glitch corto). Coste ~0, ya está previsto en ADR-0014.
+  (fade). Coste ~0, ya está previsto en ADR-0014. El hero responde tecleando su
+  frase: esa es la continuidad narrativa entre las dos piezas.
 - **(c)** **Boot sequence acotada**: overlay estilo terminal con duración fija
   (~600-900 ms), que **no espera a ningún evento de carga**, se muestra **solo en
   la primera visita de la sesión** (`sessionStorage`), se puede saltar con clic o

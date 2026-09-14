@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-10 (cierre de la fase 1)
+Última actualización: 2026-09-14 (el typing sustituye al glitch)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -70,7 +70,8 @@ pierde, el visitante reescribe.
 | Q37 | Formulario: nombre, correo, mensaje | `05-pages/contact.md` |
 | Q39 | Autorespuesta **fuera de alcance** sin dominio propio | ADR-0020 |
 | Q40 | Destinatario `developer.daxho@gmail.com` | `05-pages/contact.md` |
-| — | Glitch con PowerGlitch | `DEVIATIONS.md`, ADR-0014 |
+| — | Glitch con PowerGlitch — **derogada**, ver la fila siguiente | `DEVIATIONS.md` |
+| — | El glitch se elimina; lo sustituye el typing en todos los encabezados | `DEVIATIONS.md`, ADR-0014 §5 |
 | — | Iconos: Simple Icons sólidos | `DEVIATIONS.md`, ADR-0018 |
 | — | Presupuesto de JS a 75 KB | `DEVIATIONS.md` |
 | ADR-0006 | ESLint + Prettier | ADR-0006 |

@@ -2,8 +2,15 @@
 /**
  * Texto con efecto de tecleo — ADR-0014, 05-pages/home.md.
  *
- * CERO JAVASCRIPT: cada carácter se emite con su propio animation-delay en
- * línea. No hay isla, no hay hidratación, no hay coste de runtime.
+ * Desde 2026-09-14 es el ÚNICO efecto de texto del sitio: sustituye al glitch
+ * en todos los encabezados (ver DEVIATIONS.md).
+ *
+ * CERO JAVASCRIPT en el caso base: cada carácter se emite con su propio
+ * animation-delay en línea. El disparo por viewport SÍ necesita un
+ * IntersectionObserver, pero es una MEJORA PROGRESIVA: si el script no corre,
+ * el atributo `data-typing-js` no existe, la animación arranca con la carga y
+ * el texto se ve exactamente igual. Nunca queda invisible por falta de JS
+ * (regla 10 de 07-conventions.md).
  *
  * Accesibilidad: la versión partida en caracteres va aria-hidden, y el texto
  * íntegro se expone en un nodo sr-only. Sin esto, un lector de pantalla podría
@@ -16,28 +23,59 @@ interface Props {
   /** Retardo antes de empezar. En el home encadenará con la boot sequence. */
   delay?: number;
   class?: string;
-  showCaret?: boolean;
+  /**
+   * `load` — arranca con la carga de la página. Para lo que está sobre el
+   * pliegue y encadena con la boot sequence: el hero.
+   * `viewport` — arranca al entrar en pantalla. Para los encabezados, que de
+   * otro modo terminarían de teclearse sin que nadie los viera.
+   */
+  trigger?: 'load' | 'viewport';
+  /**
+   * `persistent` — el cursor queda parpadeando al terminar. Es la marca del
+   * hero (`>daxho▮`, 12-brand.md).
+   * `transient` — acompaña al tecleo y se apaga tras la última letra. Es lo que
+   * llevan los encabezados: varios cursores parpadeando a la vez en la misma
+   * pantalla serían ruido permanente.
+   * `none` — sin cursor.
+   */
+  caret?: 'persistent' | 'transient' | 'none';
 }
 
-const { text, speed = 45, delay = 0, class: className, showCaret = true } = Astro.props;
+const {
+  text,
+  speed = 45,
+  delay = 0,
+  class: className,
+  trigger = 'load',
+  caret = 'persistent',
+} = Astro.props;
 
 const characters = [...text];
 const totalDuration = delay + characters.length * speed;
+
+const caretStyle =
+  caret === 'transient'
+    ? `--caret-delay: ${delay}ms; --caret-off-delay: ${totalDuration}ms`
+    : `--caret-delay: ${totalDuration}ms`;
 ---
 
-<span class:list={['inline', className]}>
+<span class:list={['typing', 'inline', className]} data-typing-trigger={trigger}>
   <span class="sr-only">{text}</span>
   <span aria-hidden="true">
     {
       characters.map((char, index) => (
-        <span
-          class="typing-char"
-          style={`--char-delay: ${delay + index * speed}ms`}
-        >
-          {char === ' ' ? ' ' : char}
+        <span class="typing-char" style={`--char-delay: ${delay + index * speed}ms`}>
+          {char === ' ' ? ' ' : char}
         </span>
       ))
     }
-    {showCaret && <span class="caret" style={`--caret-delay: ${totalDuration}ms`} />}
+    {
+      caret !== 'none' && (
+        <span
+          class:list={['caret', caret === 'transient' && 'caret--transient']}
+          style={caretStyle}
+        />
+      )
+    }
   </span>
 </span>

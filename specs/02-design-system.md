@@ -247,11 +247,11 @@ Ver ADR-0014 (APROBADA).
 
 ### Reglas duras
 1. **`prefers-reduced-motion: reduce` desactiva todo el movimiento no esencial.**
-   Sin glitch, sin typing (el texto aparece completo), sin parallax, sin cursor
+   Sin typing (el texto aparece completo de inmediato), sin parallax, sin cursor
    personalizado.
-2. **CLS = 0.** Ninguna animación puede alterar el layout. El glitch usa
-   `transform` y pseudo-elementos; el typing reserva su altura final desde el
-   primer render.
+2. **CLS = 0.** Ninguna animación puede alterar el layout. El typing reserva su
+   altura final desde el primer render: cada carácter ocupa su espacio desde el
+   principio, aunque todavía sea invisible.
 3. Solo se animan `transform` y `opacity`. Cualquier otra propiedad requiere
    justificación por escrito.
 4. El texto animado debe existir completo en el HTML: la animación revela, no

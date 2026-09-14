@@ -20,7 +20,9 @@ español neutro pierde, y encaja con el registro underground del sitio.
 
 El registro underground lo aporta la **forma**, no el texto:
 - Todo en minúsculas, en JetBrains Mono.
-- Prefijo de prompt `>` y cursor de bloque `▮` al final.
+- Prefijo de prompt `>` y cursor de bloque `▮` al final. Es el **único cursor
+  permanente del sitio**: el de los encabezados se apaga al terminar de teclear
+  (ADR-0014 §5). Aquí se queda porque es la marca (`12-brand.md`).
 - La frase se **teclea** (typing) al terminar la boot sequence de ADR-0019, de modo
   que las dos piezas encadenan: la pantalla de arranque termina y el hero responde.
   Es la única continuidad narrativa del sitio; no romperla.

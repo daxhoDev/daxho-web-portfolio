@@ -64,7 +64,7 @@ const RADII = [
     <header class="border-subtle mb-16 flex flex-wrap items-center justify-between gap-4 border-b pb-6">
       <div>
         <h1 class="text-4xl">
-          <span class="glitch" data-text="Styleguide">Styleguide</span>
+          <TypingText text="Styleguide" trigger="viewport" caret="transient" />
         </h1>
         <p class="text-fg-secondary mt-2 font-mono text-sm">
           Fase 1 · sistema de diseño · no forma parte del sitio público
@@ -340,14 +340,23 @@ const RADII = [
           y comprobar que todo se detiene.
         </p>
 
-        <h3 class="mb-4 text-xl">Glitch (disparado, no en bucle)</h3>
+        <h3 class="mb-4 text-xl">Typing en encabezados (disparado por viewport)</h3>
+        <p class="text-fg-secondary mb-4 max-w-(--container-reading)">
+          Cada <code class="font-mono">SectionHeading</code> de esta página se teclea al
+          entrar en pantalla, una sola vez. No se repite con hover ni con foco. El cursor
+          acompaña al tecleo y se apaga con la última letra: el cursor permanente se reserva
+          al hero, que es la marca.
+        </p>
         <p class="mb-8">
-          <span class="glitch font-mono text-2xl" data-text="pasa el ratón por encima"
-            >pasa el ratón por encima</span
-          >
+          <TypingText
+            text="baja la página y míralos escribirse"
+            trigger="viewport"
+            caret="transient"
+            class="font-mono text-2xl"
+          />
         </p>
 
-        <h3 class="mb-4 text-xl">Typing</h3>
+        <h3 class="mb-4 text-xl">Typing en el hero (disparado por carga)</h3>
         <div class="bg-surface border-subtle mb-8 rounded-md border p-6">
           <p class="font-mono text-xl lowercase">
             <span class="text-accent-text">&gt;</span>
@@ -362,8 +371,10 @@ const RADII = [
             />
           </p>
           <p class="text-fg-muted mt-4 font-mono text-xs">
-            Cero JavaScript. El texto completo está en el DOM desde el primer render y cada
-            carácter ocupa su espacio aunque sea invisible: CLS = 0.
+            El texto completo está en el DOM desde el primer render y cada carácter ocupa su
+            espacio aunque sea invisible: CLS = 0. El hero no gasta ni un byte de JavaScript;
+            el disparo por viewport de los encabezados cuesta unos cientos de bytes en línea
+            y, sin JavaScript, el tecleo arranca con la carga en vez de quedarse invisible.
           </p>
         </div>
 

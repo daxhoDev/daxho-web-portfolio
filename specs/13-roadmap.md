@@ -16,9 +16,9 @@ Alcance detallado en `11-styleguide.md`
 
 Proyecto Astro (pnpm, TS strict, alias, Tailwind v4, ESLint + Prettier, adapter de
 Vercel) · fuentes autoalojadas · tokens de `02-design-system.md` en `@theme` ·
-script inline del tema y `ThemeToggle` de 3 estados · primitivos `ui/` · glitch,
-typing y grain · carrusel en CSS puro · `ProjectCard` con datos de relleno · la
-página `/styleguide`.
+script inline del tema y `ThemeToggle` de 3 estados · primitivos `ui/` · typing y
+grain · carrusel en CSS puro · `ProjectCard` con datos de relleno · la página
+`/styleguide`.
 
 **Incluye la hoja de calibración de iconos** (`vercel`, `react`, `postgresql`) y
 la elección del detalle de acento de la marca (`12-brand.md`).
@@ -34,6 +34,12 @@ con la rampa doble.
 23 tests E2E · 62,6 KB gzip de los 75 KB de presupuesto. Dos hallazgos
 propagados a las specs: el token `--border-interactive` (contraste de bordes) y
 la subida del presupuesto de JS a 75 KB (`DEVIATIONS.md`).
+
+**Cambio posterior (2026-09-14):** el glitch que se construyó en esta fase quedó
+**derogado** y sustituido por el typing, que pasa a ser el único efecto de texto
+del sitio (`DEVIATIONS.md`, rama `feat/typing-effect`). Al retirar PowerGlitch el
+presupuesto de JS bajó de 62,6 KB a **59,2 KB** de los 75 KB, y los tests E2E
+pasaron de 23 a 26.
 
 **Siguiente:** Fase 2.
 

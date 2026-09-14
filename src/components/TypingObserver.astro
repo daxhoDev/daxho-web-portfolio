@@ -1,0 +1,72 @@
+---
+/**
+ * Disparo del tecleo al entrar en pantalla — ADR-0014.
+ *
+ * Sustituye a GlitchObserver, que cargaba PowerGlitch (2,5 KB gzip) para el
+ * efecto derogado. Esto son unos cientos de bytes de JavaScript en línea, sin
+ * dependencias y sin empaquetar.
+ *
+ * MEJORA PROGRESIVA, y el orden importa
+ * -------------------------------------
+ * El CSS deja el tecleo en pausa SOLO si <html> lleva `data-typing-js`. Lo pone
+ * este script, que es SÍNCRONO y va en <head>: para cuando se pinta el primer
+ * píxel el atributo ya está, así que ningún encabezado empieza a teclearse
+ * antes de tiempo.
+ *
+ * Si el script no llega a ejecutarse (JS desactivado, error de red), el
+ * atributo no existe, la animación arranca con la carga y el texto se ve igual
+ * que siempre. Nunca queda invisible.
+ *
+ * `is:inline` es OBLIGATORIO por lo mismo que en ThemeScript: sin esa directiva
+ * Astro lo empaqueta y lo difiere, y se pierde la propiedad síncrona.
+ *
+ * Bajo prefers-reduced-motion ni se marca el atributo: el CSS ya deja el texto
+ * completo y estático, y no hay nada que pausar.
+ */
+---
+
+<script is:inline>
+  (function () {
+    const root = document.documentElement;
+
+    // Regla transversal de ADR-0014. Si no hay movimiento, no hay nada que
+    // disparar: se sale antes de marcar el atributo, para que el CSS no pause
+    // una animación que de todos modos está anulada.
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+    if (!('IntersectionObserver' in window)) return;
+
+    root.setAttribute('data-typing-js', '');
+
+    function init() {
+      const targets = document.querySelectorAll(
+        '.typing[data-typing-trigger="viewport"]:not(.is-typing)',
+      );
+      if (targets.length === 0) return;
+
+      const observer = new IntersectionObserver(
+        function (entries) {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add('is-typing');
+            // Una sola vez: no se vuelve a teclear al salir y volver a entrar.
+            observer.unobserve(entry.target);
+          }
+        },
+        { threshold: 0.35 },
+      );
+
+      targets.forEach(function (target) {
+        observer.observe(target);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+    document.addEventListener('astro:page-load', init);
+  })();
+</script>
