@@ -10,7 +10,7 @@
 ## Razones
 - JetBrains Mono está diseñada para leerse en tamaños grandes de pantalla, con
   altura de x generosa; es la monoespaciada más legible del grupo evaluado, lo cual
-  importa porque encima llevará el efecto glitch.
+  importa porque encima llevará el efecto de tecleo.
 - Inter es la referencia para texto de interfaz: excelente legibilidad en tamaños
   pequeños y en ambos temas.
 - Self-hosting: elimina una conexión a un tercero (mejor LCP, sin coste de

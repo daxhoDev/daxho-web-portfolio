@@ -19,7 +19,7 @@
 ## CSS
 
 - Tailwind primero. CSS propio solo para lo que Tailwind no cubre: animaciones
-  complejas, glitch, carrusel.
+  complejas, typing, carrusel.
 - El CSS propio vive junto a su componente o en `src/styles/`, nunca disperso.
 - **Prohibido escribir un color literal en un componente.** Siempre token
   semántico.

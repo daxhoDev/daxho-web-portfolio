@@ -10,7 +10,7 @@ una cara.
 ## Secciones, en orden
 
 ### 1. Encabezado
-- `<h1>` de la página con efecto glitch (disparado, ver ADR-0014).
+- `<h1>` de la página con efecto de tecleo (disparado, ver ADR-0014).
 - Entradilla de una o dos frases.
 
 ### 2. Biografía + fotografía
@@ -21,7 +21,7 @@ una cara.
 ### 3. Skills
 - Agrupadas por categoría, usando el catálogo de tecnologías
   (`04-content-model.md`).
-- Iconos lineart + etiqueta.
+- Icono de tecnología (silueta sólida, ver `02-design-system.md` §6) + etiqueta.
 - **Sin nivel de dominio** (Q-D decidida): solo agrupación por categoría. Los
   niveles autoasignados no son verificables y un entrevistador técnico los lee con
   escepticismo. La prueba del nivel son los proyectos.

@@ -5,7 +5,64 @@ cambiar o romper. Obligatorio por la Regla 3 de `../AGENTS.md`.
 
 ---
 
+## [2026-09-14] El glitch se elimina; lo sustituye el typing
+
+- **Regla anterior:** ADR-0014 §5 — *"Glitch en encabezados, respetando la
+  petición de tenerlo en todos, pero disparado, no en bucle"*, implementado con
+  PowerGlitch (entrada del 2026-09-09, arriba).
+- **Regla nueva:** **no hay glitch en ninguna parte del sitio.** Todos los
+  encabezados llevan el efecto de **tecleo**, disparado al entrar en pantalla y
+  una sola vez. El typing pasa a ser el único efecto de texto del sitio.
+- **Motivo (palabras del usuario):** *"eliminaremos el efecto de glitch, lo
+  sustituiremos por el de typing"*.
+- **Decisiones que la sustitución no resolvía por sí sola, aprobadas por el
+  usuario en la misma conversación:**
+  1. **Alcance:** sustitución 1:1 — donde había glitch, hay typing. No se pierde
+     el efecto en ningún encabezado.
+  2. **Disparo:** al entrar en viewport, no al cargar la página. Un encabezado
+     bajo el pliegue terminaría de teclearse sin que nadie lo viera.
+  3. **Hover y foco:** no repiten el efecto. Se teclea una sola vez.
+  4. **Cursor:** efímero en los encabezados (acompaña al tecleo y se apaga);
+     permanente solo en el hero, donde es la marca.
+- **Consecuencias asumidas:**
+  - **Se retira la dependencia `powerglitch`.** El presupuesto de JS baja de
+    62,6 KB a **59,2 KB** gzip de los 75 KB.
+  - El disparo por viewport necesita un `IntersectionObserver` de unos cientos
+    de bytes, en un `<script is:inline>` (no una isla). Es **mejora progresiva**:
+    marca `<html>` de forma síncrona antes del primer pintado para que el CSS
+    pueda pausar el tecleo, y si no llega a ejecutarse el tecleo arranca con la
+    carga. **El texto nunca queda invisible por falta de JavaScript**, así que no
+    se rompe la regla 10 de `07-conventions.md`.
+  - El typing ya no es "cero JavaScript" sin matices: el del hero sí lo sigue
+    siendo; el de los encabezados paga ese observador. Se corrige el texto de
+    `03-architecture.md`, que lo afirmaba sin excepciones.
+  - Desaparece la reorganización del DOM que hacía PowerGlitch (envolturas y
+    clones `aria-hidden`), y con ella su superficie de accesibilidad.
+  - **Se corrige de paso una contradicción anterior:** `03-architecture.md` y
+    `06-components.md` listaban `TypingHero` como isla React `client:load`,
+    cuando el typing se implementó en la fase 1 sin isla y sin JavaScript. La
+    fila se elimina de ambas tablas y se documenta `TypingText` como primitivo
+    `ui/`. No es una decisión nueva: es la spec poniéndose al día con lo que ya
+    se construyó y aprobó.
+- **Aprobada por:** usuario.
+- **Archivos actualizados:** ADR-0014 (§5 reescrita, contexto y regla
+  transversal), ADR-0013, ADR-0019, ADR-0021, `00-vision.md`,
+  `02-design-system.md`, `03-architecture.md`, `06-components.md`,
+  `07-conventions.md`, `11-styleguide.md`, `13-roadmap.md`, `05-pages/404.md`,
+  `05-pages/about.md`, `05-pages/home.md`, `OPEN-QUESTIONS.md`, `CHANGELOG.md`.
+- **Código:** eliminado `src/components/GlitchObserver.astro` y el bloque glitch
+  de `src/styles/effects.css`; creado `src/components/TypingObserver.astro`;
+  `TypingText.astro` gana `trigger` y `caret`; `SectionHeading.astro` pasa a
+  teclear; `powerglitch` fuera de `package.json`; los 2 tests E2E de PowerGlitch
+  se sustituyen por 5 del typing (23 → 26 E2E).
+
+---
+
 ## [2026-09-09] El glitch se implementa con PowerGlitch, no con CSS puro
+
+> **SUPERSEDED por la entrada del 2026-09-14.** El glitch ya no existe: no
+> queda ni el efecto ni la dependencia. Se conserva el registro porque explica
+> por qué PowerGlitch estuvo en `package.json` durante la fase 1.
 
 - **Regla anterior:** `03-architecture.md` — *"El carrusel de tecnologías, el
   efecto glitch y el grain se resuelven con CSS puro, sin isla y sin

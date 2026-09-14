@@ -1,7 +1,7 @@
 # 10 — Catálogo de tecnologías
 
-**Estado:** Catálogo CERRADO (25 entradas) · Selección del carrusel PENDIENTE
-2026-09-09
+**Estado:** CERRADO · 2026-09-10 · 25 entradas, las 25 en el carrusel (Q-K).
+Iconos implementados en la fase 1.
 Ver ADR-0018 para la especificación de los iconos.
 
 Fuente **única** para: el carrusel del home, la fila de stack de cada
@@ -11,8 +11,9 @@ Fuente **única** para: el carrusel del home, la fila de stack de cada
 
 ## Catálogo completo — 25 tecnologías
 
-Columna "Icono": dificultad estimada de dibujarlo a mano en lineart de 1.5px sobre
-un lienzo de 24×24 (ADR-0018).
+Columna "Icono": dificultad estimada que tuvo el icono cuando el plan era
+dibujarlo a mano. Se conserva como registro histórico; hoy 24 de los 25 salen de
+Simple Icons como siluetas sólidas (ADR-0018, `DEVIATIONS.md`).
 
 ### Lenguajes
 
@@ -120,11 +121,9 @@ futuro se quiere volver a filtrar, pero hoy no filtra nada.
 Resuelto entero dentro de la fase 1: 24 desde la librería y Playwright a mano.
 La fase 3 del roadmap se queda sin contenido.
 
-Antes de dibujar ninguno se define **una hoja de calibración**: dos o tres iconos
-de complejidad distinta (por ejemplo `vercel`, `react` y `postgresql`) puestos uno
-al lado del otro, para fijar el peso visual del conjunto. El resto se dibuja
-contra esa referencia. Dibujarlos por separado y juntarlos al final garantiza una
-fila descompensada.
+La hoja de calibración prevista (`vercel`, `react`, `postgresql` uno al lado del
+otro para fijar el peso visual) se construyó en `/styleguide` y sirvió para elegir
+entre lineart y silueta sólida. Ganó la silueta sólida.
 
 ---
 

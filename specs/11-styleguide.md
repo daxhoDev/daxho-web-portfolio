@@ -10,7 +10,7 @@ todas las páginas.
 
 Que el usuario pueda **ver y aprobar el sistema de diseño en el navegador**, en
 ambos temas y con las animaciones funcionando, antes de que se construya ninguna
-página. Lo que un mockup no puede mostrar —glitch, typing, carrusel, cambio de
+página. Lo que un mockup no puede mostrar —typing, carrusel, cambio de
 tema, responsive real— aquí se ve tal cual será.
 
 Beneficio secundario: se convierte en el objetivo natural de los tests visuales de
@@ -27,7 +27,8 @@ Playwright y en documentación viva del sistema.
 4. Script inline del tema (ADR-0011) y `ThemeToggle` de tres estados.
 5. Primitivos de `06-components.md` §`ui/`: `Button`, `Chip`, `Card`,
    `SectionHeading`, `Icon`, `Container`.
-6. Efectos de ADR-0014: glitch disparado, typing, grain estático.
+6. Efectos de ADR-0014: typing disparado por viewport en los encabezados, typing
+   del hero disparado por carga, grain estático.
 7. Carrusel de tecnologías en CSS puro, con la hoja de calibración de iconos
    (3 iconos: `vercel`, `react`, `postgresql`).
 8. `ProjectCard` con datos de relleno, incluido el patrón de enlace con área
@@ -47,7 +48,7 @@ OG, sitemap, los 25 iconos completos, analytics.
 3. **Espaciado y radios** — muestra de la escala.
 4. **Primitivos** — cada componente en todos sus estados: reposo, hover, foco,
    activo, deshabilitado.
-5. **Movimiento** — glitch, typing, grain y carrusel, con un botón que simule
+5. **Movimiento** — typing, grain y carrusel, con un botón que simule
    `prefers-reduced-motion` para comprobar la desactivación.
 6. **ProjectCard** — con datos de relleno.
 

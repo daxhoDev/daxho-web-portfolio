@@ -20,7 +20,9 @@ español neutro pierde, y encaja con el registro underground del sitio.
 
 El registro underground lo aporta la **forma**, no el texto:
 - Todo en minúsculas, en JetBrains Mono.
-- Prefijo de prompt `>` y cursor de bloque `▮` al final.
+- Prefijo de prompt `>` y cursor de bloque `▮` al final. Es el **único cursor
+  permanente del sitio**: el de los encabezados se apaga al terminar de teclear
+  (ADR-0014 §5). Aquí se queda porque es la marca (`12-brand.md`).
 - La frase se **teclea** (typing) al terminar la boot sequence de ADR-0019, de modo
   que las dos piezas encadenan: la pantalla de arranque termina y el hero responde.
   Es la única continuidad narrativa del sitio; no romperla.
@@ -49,7 +51,8 @@ animación; el significado se mantiene intacto.
 - Carrusel **infinito**, desplazamiento continuo horizontal.
 - Muestra **las 25 tecnologías** del catálogo (`10-tech-catalog.md`). Su función es
   decorativa: textura visual, no inventario legible. Ver `DEVIATIONS.md`.
-- Iconos **monocromáticos, lineart**, en el color de acento.
+- Iconos **monocromáticos** en el color de acento, como **siluetas sólidas**
+  (Simple Icons). Ver `02-design-system.md` §6 y `DEVIATIONS.md`.
 - Implementación en **CSS puro** (duplicado del track + `animation`), sin
   JavaScript y sin isla.
 - Se detiene con `prefers-reduced-motion` (queda estático y con scroll manual).

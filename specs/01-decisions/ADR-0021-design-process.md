@@ -22,7 +22,7 @@ espaciado, densidad y una vista rápida de varias alternativas de layout antes d
 comprometerse.
 
 Lo que **no** puede mostrar, y que es precisamente lo que define a este sitio:
-- el glitch en los encabezados,
+- el tecleo de los encabezados,
 - el typing del hero,
 - el desplazamiento del carrusel infinito,
 - el header que se oculta al bajar,

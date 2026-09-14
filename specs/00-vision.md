@@ -26,7 +26,7 @@ El sitio cumple su función si un visitante, en menos de 30 segundos, entiende:
 ## Principios de producto
 
 1. **La legibilidad gana a la estética.** El sitio es visualmente agresivo por
-   diseño (glitch, typing, acento rojo sangre), pero ningún efecto puede impedir
+   diseño (typing, acento rojo sangre, grain), pero ningún efecto puede impedir
    leer un nombre, un título o una descripción.
 2. **El rendimiento es una funcionalidad.** Ver `09-testing.md`: Lighthouse ≥95 es
    criterio de aceptación, no un objetivo aspiracional.

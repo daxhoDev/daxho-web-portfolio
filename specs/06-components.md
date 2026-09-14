@@ -23,7 +23,8 @@
 | `Chip` | astro | etiqueta de tecnología: icono + texto |
 | `Card` | astro | contenedor con borde y superficie |
 | `Container` | astro | ancho máximo y padding lateral |
-| `SectionHeading` | astro | `<h2>` con glitch disparado |
+| `SectionHeading` | astro | `<h2>` que se **teclea** al entrar en pantalla, una sola vez (ADR-0014) |
+| `TypingText` | astro | **CSS puro, sin JS.** Efecto de tecleo. `trigger`: `load` (hero) o `viewport` (encabezados); `caret`: `persistent` (hero, es la marca), `transient` (encabezados) o `none` |
 | `Icon` | astro | envoltorio de SVG, aplica la especificación de `02-design-system.md` §6 |
 | `Prose` | astro | estilos tipográficos para el cuerpo MDX |
 
@@ -43,7 +44,7 @@
 
 | Componente | Tipo | Notas |
 |---|---|---|
-| `Hero` | astro + isla | contiene `TypingHero` |
+| `Hero` | astro | usa `TypingText` con `trigger="load"` y cursor permanente; encadena con la boot sequence de ADR-0019 |
 | `AboutTeaser` | astro | bloque about breve del home |
 | `TechCarousel` | astro | **CSS puro, sin JS** |
 | `FeaturedProjects` | astro | los 3 destacados |
@@ -69,7 +70,6 @@
 | `NavDropdown` | `client:idle` | modo intermedio del header |
 | `MobileNav` | `client:idle` | sidebar |
 | `ContactForm` | `client:visible` | |
-| `TypingHero` | `client:load` | |
 
 ---
 

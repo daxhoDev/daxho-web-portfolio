@@ -3,6 +3,67 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] El typing sustituye al glitch
+
+Decisión del usuario: *"eliminaremos el efecto de glitch, lo sustituiremos por el
+de typing"*. Registrada en `DEVIATIONS.md` por partida doble.
+
+- **ADR-0014 §5 reescrita.** "Glitch en encabezados" pasa a "Typing en los
+  encabezados": disparado al entrar en viewport, una sola vez, sin repetición con
+  hover ni foco, con cursor efímero. Actualizados también el contexto de la ADR y
+  la regla transversal de `prefers-reduced-motion`, que citaban el glitch.
+- **Propagación por concepto, no solo por nombre de archivo.** El glitch estaba
+  citado en 12 specs que no siempre nombraban ADR-0014: `00-vision.md`
+  (principios), `02-design-system.md` (reglas duras de movimiento),
+  `03-architecture.md` (islas y CSS puro), `06-components.md` (`SectionHeading`),
+  `07-conventions.md` (cuándo se escribe CSS propio), `11-styleguide.md` (las
+  tres veces), `13-roadmap.md` (alcance de la fase 1), `05-pages/404.md`,
+  `05-pages/about.md`, ADR-0013, ADR-0019 y ADR-0021.
+- **Contradicción anterior corregida:** `03-architecture.md` y `06-components.md`
+  listaban `TypingHero` como isla React `client:load`, cuando el typing se
+  implementó en la fase 1 en CSS puro, sin isla. Se elimina la fila de ambas
+  tablas y se documenta `TypingText` como primitivo `ui/` con sus props
+  (`trigger`, `caret`).
+- **`OPEN-QUESTIONS.md`:** la resolución "Glitch con PowerGlitch" se marca
+  derogada y se añade la nueva, sin duplicar la pregunta entre secciones.
+- **Efecto medido:** fuera la dependencia `powerglitch`; el presupuesto de JS baja
+  de 62,6 KB a 59,2 KB gzip de los 75 KB. Los tests E2E pasan de 23 a 26.
+
+## [2026-09-10] Consistencia de specs tras la fase 1
+
+Auditoría de referencias cruzadas al mergear `feat/design-system` a `development`
+(PR #1, `7a48f63`). Se corrigen los desfases acumulados en las rondas 5-7 y en la
+implementación de la fase 1:
+
+- **`OPEN-QUESTIONS.md` reescrito.** Se contradecía a sí mismo: Q-M, Q-N y Q-O
+  aparecían a la vez en "Abiertas" y en "Resueltas"; Q37 y Q40 en "Resueltas" y
+  en "Aplazado"; seguía vivo el bloqueo `⛔ no tires código aún` de antes de la
+  fase 1; y **Q38 y Q41, los dos únicos bloqueos reales, no figuraban como
+  abiertas**. Ahora cada pregunta vive en una sola sección, con recomendación
+  razonada para las dos abiertas. Añadida una tabla de specs en BORRADOR con la
+  fase que consume cada una.
+- **Tres citas llamaban "pendiente" a ADRs ya aprobadas**, lo que por la Regla 2
+  detendría a un agente sin motivo: `02-design-system.md` §7 (ADR-0014),
+  `05-pages/README.md` (ADR-0010) y `08-integrations.md` (ADR-0015).
+- **La desviación de iconografía no se había propagado.** El cambio de lineart a
+  siluetas sólidas estaba en `DEVIATIONS.md` y ADR-0018, pero seguían diciendo
+  "lineart" `05-pages/home.md` (carrusel), `05-pages/about.md` (skills),
+  `04-content-model.md` (campo `icon`) y `10-tech-catalog.md` (columna "Icono").
+  Reescrita la §6 de `02-design-system.md`, que abría declarando lineart como
+  regla general y repetía dos veces la línea de Lucide.
+- **Estados de cabecera actualizados:** `13-roadmap.md` PROPUESTA → APROBADA
+  (se ejecutó la fase 1 contra un plan formalmente no aprobado),
+  `02-design-system.md` BORRADOR v0 → APROBADA (paleta y temas aprobados en
+  `/styleguide`), `10-tech-catalog.md` deja de decir "selección del carrusel
+  PENDIENTE" (la cerró Q-K).
+- **Fase 1 marcada como completada** en el roadmap, con su cierre real medido, y
+  fase 2 marcada como siguiente con el prerrequisito de aprobar
+  `06-components.md`.
+- **Nueva skill `.claude/skills/spec-sync/`**: obliga a inventariar y propagar
+  todas las referencias a una spec al editarla. Nace de esta auditoría — el
+  desfase de iconografía sobrevivió porque se buscó por nombre de archivo y no
+  por concepto.
+
 ## [2026-09-09] Especificación inicial
 
 - Creado `AGENTS.md` con las tres reglas duras (specs como fuente de verdad, nunca

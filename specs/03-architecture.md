@@ -35,13 +35,15 @@ Islas previstas (y solo estas, salvo aprobación):
 | `LanguageSwitcher` | `client:load` | ídem |
 | `MobileNav` | `client:idle` | no se usa hasta que se toca |
 | `ContactForm` | `client:visible` | está al final de su página |
-| `TypingHero` | `client:load` | es lo primero que se ve |
 
-El carrusel de tecnologías y el grain se resuelven con **CSS puro**, sin isla y
-sin JavaScript.
+El carrusel de tecnologías, el grain y el **typing** se resuelven con **CSS
+puro**, sin isla y sin JavaScript.
 
-El **glitch** usa la librería PowerGlitch (~2,5 KB gzip) desde un `<script>`
-normal, no una isla React. Ver `DEVIATIONS.md`.
+La única excepción es el **disparo del typing al entrar en pantalla**, que usa un
+`IntersectionObserver` de unos cientos de bytes en un `<script is:inline>`, no
+una isla React. Es una **mejora progresiva**: sin JavaScript el tecleo arranca
+con la carga de la página y el texto se ve igual, nunca invisible. Ver
+`DEVIATIONS.md`.
 
 ## Estructura de carpetas
 
