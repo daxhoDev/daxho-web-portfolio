@@ -3,6 +3,32 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Aprobadas las specs de la fase 4
+
+`04-content-model.md`, `05-pages/projects.md` y `05-pages/project-detail.md` pasan
+de BORRADOR a APROBADA. Tres decisiones del usuario:
+
+- **Drafts:** se filtran solo en el despliegue a producción (`VERCEL_ENV`), con
+  una guarda de CI sobre los PR a `master`. Deroga la regla anterior →
+  `DEVIATIONS.md`.
+- **Traducción:** todo proyecto existe en ambos idiomas o el build falla; fuera
+  la escapatoria de "no traducido". Deroga la regla anterior → `DEVIATIONS.md`.
+- **`ProjectNav`:** sin vuelta circular; el primero y el último ocultan el lado
+  que no existe.
+
+Desfases corregidos en la misma pasada:
+- `04-content-model.md` seguía diciendo que los iconos se dibujan a mano (derogado
+  en favor de Simple Icons) y describía `icon` como "componente SVG", cuando en
+  `tech.ts` es el slug de la librería.
+- `04-content-model.md` daba Q-D por pendiente; está resuelta desde el 2026-09-09.
+- `03-architecture.md` situaba los esquemas en `src/content/config.ts`; en Astro
+  7 viven en `src/content.config.ts`.
+- `project-detail.md` exigía la OG dinámica y el JSON-LD, que el roadmap asigna a
+  la fase 8. Quedan marcados como tales.
+
+**Nuevo conflicto registrado: Q-P.** La fase 9 mergea a `master` antes de que la
+10 traiga el contenido real, y la regla de drafts impide ese merge. Bloquea la
+fase 9, no la 4.
 ## [2026-09-14] Toggle de tema traducido
 
 Petición del usuario: *"El botón de tema en español debe decir sistema"*. Era un

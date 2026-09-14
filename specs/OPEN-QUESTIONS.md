@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-14 (aprobadas las specs de la fase 2)
+Última actualización: 2026-09-14 (aprobadas las specs de la fase 4)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -41,6 +41,25 @@ esperado y gasta presupuesto de JS en la única página donde ya hay una isla.
 portafolio añade una pieza de infraestructura, un coste y una superficie de datos
 personales que hay que justificar en un aviso de privacidad. Si un correo se
 pierde, el visitante reescribe.
+
+### Q-P · Merge a `master` con contenido de relleno
+**Bloquea la fase 9** (`13-roadmap.md`). Detectada al aprobar las specs de la
+fase 4.
+
+El roadmap mergea `development` → `master` en la fase 9 y trae el contenido real
+en la fase 10, **después**. Pero `04-content-model.md` impide que un
+`draft: true` llegue a producción, y la guarda de CI hace fallar cualquier PR a
+`master` con drafts. Tal como está escrito, el merge de la fase 9 no puede
+ocurrir.
+
+- **(a)** Adelantar la fase 10: el contenido real entra antes del merge de la 9.
+- **(b)** Mergear a `master` sin desplegar a producción hasta la fase 10. La
+  guarda de CI pasaría a vigilar el despliegue, no el merge.
+- **(c)** Mantener el orden y relajar la regla para ese único merge.
+
+**Recomendación: (a).** Además de resolver el bloqueo, las auditorías de la fase 9
+(Lighthouse, LCP, CLS) medidas sobre capturas de relleno no dicen nada del sitio
+real: una imagen placeholder no pesa lo que pesa una captura de verdad.
 
 ---
 
@@ -88,13 +107,15 @@ vinculante. Se aprueban antes de la fase que las consume.
 
 **Las dos de la fase 2 (`06-components.md` y `05-pages/404.md`) se aprobaron el
 2026-09-14**, junto con la entrada de `BootSequence` en el inventario y el
-traslado de `NavDropdown` y `MobileNav` a `islands/`. Quedan:
+traslado de `NavDropdown` y `MobileNav` a `islands/`.
+
+**Las tres de la fase 4 (`04-content-model.md`, `05-pages/projects.md` y
+`05-pages/project-detail.md`) se aprobaron el mismo día**, con tres decisiones:
+filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta. Quedan:
 
 | Spec | La consume | Estado |
 |---|---|---|
 | `05-pages/home.md` | Fase 5 | BORRADOR |
-| `04-content-model.md` | Fase 4 | BORRADOR |
-| `05-pages/projects.md`, `project-detail.md` | Fase 4 | BORRADOR |
 | `05-pages/about.md`, `resume.md` | Fase 6 | BORRADOR |
 | `05-pages/contact.md` | Fase 7 | BORRADOR + Q38/Q41 |
 | `08-integrations.md` | Fases 7 y 8 | BORRADOR |

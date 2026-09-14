@@ -1,8 +1,10 @@
 # 04 — Modelo de contenido
 
-**Estado:** BORRADOR · 2026-09-09
-Los datos reales (sección F del cuestionario) están pendientes; hasta entonces se
-usa contenido de relleno **marcado explícitamente como tal**.
+**Estado:** APROBADA · 2026-09-14 · la consumen las fases 4 (projects) y 6
+(experience, skills)
+
+El contenido real llega en la fase 10 (Q32-Q36). Hasta entonces se usa contenido
+de relleno **marcado explícitamente como tal**.
 
 ---
 
@@ -16,8 +18,19 @@ Todo texto o imagen de relleno debe ser inequívocamente identificable:
   texto "PLACEHOLDER".
 - Cada archivo de contenido de relleno lleva `draft: true` en su frontmatter.
 
-**Regla dura: no se hace merge a `master` con `draft: true` en producción.** El
-esquema debe filtrarlos del build de producción.
+**Regla dura: ningún `draft: true` llega a producción.** Se garantiza en dos
+capas (decisión del usuario, 2026-09-14, ver `DEVIATIONS.md`):
+
+1. **Filtro en el despliegue de producción.** Los drafts se excluyen solo cuando
+   `VERCEL_ENV=production`. En local y en las previews de Vercel **sí se ven**:
+   son donde se revisan las fases 4 a 9, que trabajan con contenido de relleno.
+   Filtrarlos en todo `astro build` dejaría cada preview con la galería vacía.
+2. **Guarda en CI.** Un job hace fallar cualquier PR hacia `master` que contenga
+   `draft: true`. Es lo que de verdad hace cumplir la regla; el filtro es la red
+   de seguridad.
+
+Las validaciones que cuentan elementos (p. ej. "exactamente 3 destacados") se
+evalúan sobre las entradas **que se publican** en ese entorno.
 
 ---
 
@@ -51,8 +64,12 @@ El **cuerpo MDX** contiene la descripción larga del detalle.
 
 ### Validaciones exigidas en el build
 - Debe haber **exactamente 3** proyectos con `featured: true`.
-- Todo `slug` en inglés debe tener su equivalente en español (o declararse
-  explícitamente como no traducido).
+- **Todo `slug` existe en ambos idiomas, o el build falla.** No hay escapatoria
+  de "no traducido" (decisión del usuario, 2026-09-14, ver `DEVIATIONS.md`): sin
+  versión en español, el selector de idioma llevaría a una 404 y rompería la
+  regla de ADR-0008 de ir siempre a la página equivalente. Lo que el usuario no
+  entregue traducido lo traduce el agente (Q15), marcado con
+  `translatedByAgent: true`.
 - Toda clave de `stack` debe existir en el catálogo de tecnologías.
 - Total previsto: **6 proyectos**, los 3 destacados incluidos.
 
@@ -67,12 +84,13 @@ cada card y la sección de skills.
 |---|---|---|
 | `key` | string | identificador estable, ej. `react` |
 | `label` | string | nombre visible, ej. `React` |
-| `icon` | componente SVG | silueta sólida, ver `02-design-system.md` §6 |
+| `icon` | string \| null | slug de Simple Icons; `null` si el icono es propio (Playwright). Silueta sólida, ver `02-design-system.md` §6 |
 | `category` | enum | `language` · `framework` · `tool` · `platform` |
-| `inCarousel` | boolean | si aparece en el carrusel del home |
+| `inCarousel` | boolean | hoy `true` en las 25 (Q-K: el carrusel muestra todas); se conserva por si se vuelve a filtrar |
 
 Lista concreta de tecnologías: ver `10-tech-catalog.md`.
-Iconos: dibujados a mano, ver ADR-0018.
+Iconos: trazados oficiales de Simple Icons, dibujados a mano solo los que falten
+(ADR-0018 y `DEVIATIONS.md`).
 
 ---
 
@@ -100,8 +118,8 @@ Cuerpo: descripción opcional en MDX.
 `src/content/skills.ts`, agrupadas por categoría, referenciando claves del
 catálogo de tecnologías.
 
-Decisión pendiente: si se muestra nivel de dominio (barras/porcentajes) o solo
-agrupación. Ver `OPEN-QUESTIONS.md` (Q-D).
+**Solo agrupación, sin nivel de dominio** (Q-D resuelta, ver
+`05-pages/about.md`).
 
 ---
 

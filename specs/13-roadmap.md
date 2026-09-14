@@ -45,7 +45,7 @@ pasaron de 23 a 26.
 
 ---
 
-## Fase 2 — Esqueleto del sitio · **L** · ⬅️ EN CURSO
+## Fase 2 — Esqueleto del sitio · **L** · 🔍 EN REVISIÓN (PR #3)
 Rama: `feat/site-skeleton`
 
 **Prerrequisito cumplido (2026-09-14):** `06-components.md` y `05-pages/404.md`
@@ -105,8 +105,12 @@ deja de depender de esta.
 
 ---
 
-## Fase 4 — Contenido y proyectos · **L**
+## Fase 4 — Contenido y proyectos · **L** · ⬅️ EN CURSO
 Rama: `feat/projects`
+
+**Prerrequisito cumplido (2026-09-14):** `04-content-model.md`,
+`05-pages/projects.md` y `05-pages/project-detail.md` pasan a APROBADA. La OG
+dinámica y el JSON-LD del detalle quedan en la fase 8, como ya fijaba este plan.
 
 Content Collections con esquemas Zod (`04-content-model.md`) · 6 proyectos con
 Lorem Ipsum y capturas placeholder marcadas · `/projects` · `/projects/[slug]` con
@@ -169,8 +173,12 @@ Va al final porque necesita que todas las páginas existan.
 
 ---
 
-## Fase 9 — Auditoría y producción · **M**
+## Fase 9 — Auditoría y producción · **M** · ⚠️ **Bloqueada por Q-P**
 Rama: `feat/audit`
+
+**Conflicto abierto:** esta fase mergea a `master` antes de que la fase 10 traiga
+el contenido real, y la regla de drafts de `04-content-model.md` impide ese
+merge. Ver Q-P en `OPEN-QUESTIONS.md`.
 
 Auditorías completas de `09-testing.md`: Lighthouse en las 4 categorías, contraste
 AA en ambos temas, navegación por teclado, `prefers-reduced-motion`, sin JS,

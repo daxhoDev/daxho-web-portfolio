@@ -5,6 +5,50 @@ cambiar o romper. Obligatorio por la Regla 3 de `../AGENTS.md`.
 
 ---
 
+## [2026-09-14] Los drafts se filtran solo en el despliegue a producción
+
+- **Regla anterior:** `04-content-model.md` — *"no se hace merge a `master` con
+  `draft: true` en producción. El esquema debe filtrarlos del build de
+  producción."*
+- **Regla nueva:** los drafts se excluyen **solo cuando `VERCEL_ENV=production`**,
+  y un job de CI hace fallar cualquier PR hacia `master` que contenga
+  `draft: true`.
+- **Motivo:** las previews de Vercel también son builds de producción
+  (`import.meta.env.PROD`). Filtrando en todo `astro build`, la galería de las
+  fases 4 a 9 —que trabajan con contenido de relleno— saldría vacía en cada
+  preview, y la validación de "exactamente 3 destacados" fallaría con 0
+  proyectos. El usuario eligió la opción recomendada: *"Solo en el despliegue a
+  producción + guarda en CI"*.
+- **Consecuencias asumidas:**
+  - La garantía real pasa a ser la guarda de CI, no un flag del build.
+  - Las validaciones que cuentan elementos se evalúan sobre lo que se publica en
+    cada entorno.
+  - Destapa un conflicto del roadmap: la fase 9 mergea a `master` antes de que
+    la 10 traiga el contenido real. Registrado como **Q-P**, bloquea la fase 9.
+- **Aprobada por:** usuario.
+- **Archivos actualizados:** `04-content-model.md`, `13-roadmap.md`,
+  `OPEN-QUESTIONS.md`, `CHANGELOG.md`.
+
+---
+
+## [2026-09-14] Todo proyecto existe en ambos idiomas, sin excepción
+
+- **Regla anterior:** `04-content-model.md` — *"Todo `slug` en inglés debe tener
+  su equivalente en español (o declararse explícitamente como no traducido)."*
+- **Regla nueva:** todo `slug` existe en ambos idiomas **o el build falla**. Se
+  elimina la escapatoria de "no traducido".
+- **Motivo:** el usuario eligió la opción recomendada, *"No: ambos idiomas
+  siempre, o falla el build"*. Sin versión en español, el selector de idioma de
+  `/projects/x` llevaría a una 404, rompiendo la regla de ADR-0008 de ir siempre
+  a la página equivalente.
+- **Consecuencias asumidas:** la escapatoria nunca hacía falta. Por Q15, lo que
+  el usuario no entregue traducido lo traduce el agente, marcado con
+  `translatedByAgent: true` para su revisión.
+- **Aprobada por:** usuario.
+- **Archivos actualizados:** `04-content-model.md`, `CHANGELOG.md`.
+
+---
+
 ## [2026-09-14] El glitch se elimina; lo sustituye el typing
 
 - **Regla anterior:** ADR-0014 §5 — *"Glitch en encabezados, respetando la

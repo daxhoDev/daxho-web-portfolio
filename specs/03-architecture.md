@@ -67,8 +67,10 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   ├── sections/         (Hero, TechCarousel, FeaturedProjects, CtaBand)
 │   │   ├── project/          (ProjectCard, ProjectGallery, StackRow)
 │   │   └── islands/          (componentes React)
+│   ├── content.config.ts     (esquemas Zod; en Astro 7 vive en src/, no en
+│   │                          src/content/)
 │   ├── content/
-│   │   ├── config.ts         (esquemas Zod)
+│   │   ├── tech.ts           (catálogo de tecnologías)
 │   │   ├── projects/
 │   │   │   ├── en/
 │   │   │   └── es/
