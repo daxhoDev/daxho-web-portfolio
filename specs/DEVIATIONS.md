@@ -5,6 +5,37 @@ cambiar o romper. Obligatorio por la Regla 3 de `../AGENTS.md`.
 
 ---
 
+## [2026-09-14] El plan termina en `development`; `master` lo gestiona el usuario
+
+- **Reglas anteriores:**
+  - `13-roadmap.md`, fase 9 — *"Merge `development` → `master`"*, con la fase 10
+    (contenido real) **después**.
+  - `AGENTS.md` y ADR-0017 — *"`development` mergea a `master`"*, sin decir
+    quién.
+  - `09-testing.md` y ADR-0016 — auditorías y verificaciones *"antes de cada
+    merge a `master`"*.
+- **Reglas nuevas:**
+  - La fase 10 va **antes** de la 9. Se conserva la numeración.
+  - Ninguna fase mergea a `master`. Todo el trabajo del agente termina en
+    `development`; el agente no abre PRs ni mergea hacia `master`.
+  - Las auditorías se hacen en la fase 9, sobre el contenido real y contra
+    `development`. Repetirlas antes de un release es decisión del usuario.
+- **Motivo (palabras del usuario):** *"Adelantamos la fase de contenido real, el
+  merge a master queda fuera del plan, todo a development, de master me encargo
+  yo cuando lo crea conveniente."* Resuelve Q-P con la opción (a).
+- **Consecuencias asumidas:**
+  - Desaparece el bloqueo de la fase 9.
+  - Las auditorías de rendimiento se miden sobre capturas reales, que es lo único
+    que dice algo del sitio.
+  - La guarda de CI sobre `master` (`scripts/check-drafts.mjs`) se mantiene: ahora
+    protege los merges que haga el usuario.
+- **Aprobada por:** usuario.
+- **Archivos actualizados:** `13-roadmap.md`, `OPEN-QUESTIONS.md`, `AGENTS.md`,
+  ADR-0017, `07-conventions.md`, `09-testing.md`, ADR-0016,
+  `04-content-model.md`, `CHANGELOG.md`.
+
+---
+
 ## [2026-09-14] Los drafts se filtran solo en el despliegue a producción
 
 - **Regla anterior:** `04-content-model.md` — *"no se hace merge a `master` con
@@ -25,6 +56,7 @@ cambiar o romper. Obligatorio por la Regla 3 de `../AGENTS.md`.
     cada entorno.
   - Destapa un conflicto del roadmap: la fase 9 mergea a `master` antes de que
     la 10 traiga el contenido real. Registrado como **Q-P**, bloquea la fase 9.
+    *Resuelta el mismo día: ver la entrada "El plan termina en `development`".*
 - **Aprobada por:** usuario.
 - **Archivos actualizados:** `04-content-model.md`, `13-roadmap.md`,
   `OPEN-QUESTIONS.md`, `CHANGELOG.md`.

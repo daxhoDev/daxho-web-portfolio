@@ -3,7 +3,8 @@
 **Estado:** APROBADA · 2026-09-14 · la consumen las fases 4 (projects) y 6
 (experience, skills)
 
-El contenido real llega en la fase 10 (Q32-Q36). Hasta entonces se usa contenido
+El contenido real llega en la fase 10 (Q32-Q36), que va antes de la auditoría de
+la fase 9. Hasta entonces se usa contenido
 de relleno **marcado explícitamente como tal**.
 
 ---
@@ -23,10 +24,11 @@ capas (decisión del usuario, 2026-09-14, ver `DEVIATIONS.md`):
 
 1. **Filtro en el despliegue de producción.** Los drafts se excluyen solo cuando
    `VERCEL_ENV=production`. En local y en las previews de Vercel **sí se ven**:
-   son donde se revisan las fases 4 a 9, que trabajan con contenido de relleno.
+   son donde se revisan las fases 4 a 8, que trabajan con contenido de relleno.
    Filtrarlos en todo `astro build` dejaría cada preview con la galería vacía.
-2. **Guarda en CI.** Un job hace fallar cualquier PR hacia `master` que contenga
-   `draft: true`. Es lo que de verdad hace cumplir la regla; el filtro es la red
+2. **Guarda en CI.** Un job hace fallar cualquier PR o push hacia `master` que
+   contenga contenido en draft. El merge a `master` lo hace el usuario, y la
+   guarda lo protege igual. Es lo que de verdad hace cumplir la regla; el filtro es la red
    de seguridad.
 
 Las validaciones que cuentan elementos (p. ej. "exactamente 3 destacados") se

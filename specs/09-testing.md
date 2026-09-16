@@ -39,7 +39,7 @@ feature y fix importante"*.
 - envío del formulario con la API simulada: éxito y error
 - `prefers-reduced-motion` desactiva el movimiento
 
-## Auditorías por cada release a `master`
+## Auditorías (fase 9, sobre `development`)
 
 | Auditoría | Umbral | Herramienta |
 |---|---|---|
@@ -54,8 +54,9 @@ feature y fix importante"*.
 | Navegación por teclado | completa | verificación manual |
 | `hreflang` y JSON-LD | correctos | verificación manual |
 
-Las verificaciones manuales se ejecutan antes de cada merge a `master` y su
-resultado se anota en el PR.
+Se ejecutan en la fase 9, sobre el contenido real y contra `development` (la
+preview de Vercel), y su resultado se anota en el PR de esa fase. El merge a
+`master` lo hace el usuario; repetirlas antes de cada release es decisión suya.
 
 ## Definición de "hecho"
 

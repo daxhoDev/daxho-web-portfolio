@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-14 (aprobadas las specs de la fase 4)
+Última actualización: 2026-09-14 (Q-P resuelta)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -42,27 +42,6 @@ portafolio añade una pieza de infraestructura, un coste y una superficie de dat
 personales que hay que justificar en un aviso de privacidad. Si un correo se
 pierde, el visitante reescribe.
 
-### Q-P · Merge a `master` con contenido de relleno
-**Bloquea la fase 9** (`13-roadmap.md`). Detectada al aprobar las specs de la
-fase 4.
-
-El roadmap mergea `development` → `master` en la fase 9 y trae el contenido real
-en la fase 10, **después**. Pero `04-content-model.md` impide que un
-`draft: true` llegue a producción, y la guarda de CI hace fallar cualquier PR a
-`master` con drafts. Tal como está escrito, el merge de la fase 9 no puede
-ocurrir.
-
-- **(a)** Adelantar la fase 10: el contenido real entra antes del merge de la 9.
-- **(b)** Mergear a `master` sin desplegar a producción hasta la fase 10. La
-  guarda de CI pasaría a vigilar el despliegue, no el merge.
-- **(c)** Mantener el orden y relajar la regla para ese único merge.
-
-**Recomendación: (a).** Además de resolver el bloqueo, las auditorías de la fase 9
-(Lighthouse, LCP, CLS) medidas sobre capturas de relleno no dicen nada del sitio
-real: una imagen placeholder no pesa lo que pesa una captura de verdad.
-
----
-
 ## Resueltas
 
 | Ref | Resolución | Documentado en |
@@ -89,6 +68,7 @@ real: una imagen placeholder no pesa lo que pesa una captura de verdad.
 | Q37 | Formulario: nombre, correo, mensaje | `05-pages/contact.md` |
 | Q39 | Autorespuesta **fuera de alcance** sin dominio propio | ADR-0020 |
 | Q40 | Destinatario `developer.daxho@gmail.com` | `05-pages/contact.md` |
+| Q-P | La fase 10 (contenido real) va antes de la 9; el plan termina en `development` y el merge a `master` lo hace el usuario | `13-roadmap.md`, ADR-0017, `DEVIATIONS.md` |
 | — | Glitch con PowerGlitch — **derogada**, ver la fila siguiente | `DEVIATIONS.md` |
 | — | El glitch se elimina; lo sustituye el typing en todos los encabezados | `DEVIATIONS.md`, ADR-0014 §5 |
 | — | Iconos: Simple Icons sólidos | `DEVIATIONS.md`, ADR-0018 |
@@ -131,7 +111,7 @@ No son decisiones de diseño, sino trabajo fuera del repositorio que bloquea fas
 2. **Crear la cuenta de Resend con `developer.daxho@gmail.com`** — el dominio de
    pruebas solo envía a la dirección de registro (ADR-0020). Bloquea la fase 7.
 3. **Filtro "nunca a spam" en Gmail** antes de la primera prueba de envío.
-4. **Contenido real** (fase 10): textos, fotografía, datos y capturas de los 6
+4. **Contenido real** (fase 10, que va antes de la 9): textos, fotografía, datos y capturas de los 6
    proyectos, redes del footer, formación, idiomas y el PDF del CV por idioma.
 
 **Consecuencia a tener presente:** el contenido de relleno afecta al diseño. Un

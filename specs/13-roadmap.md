@@ -1,10 +1,17 @@
 # 13 — Plan de implementación por fases
 
-**Estado:** APROBADA · 2026-09-10 · Fase 1 completada y mergeada a `development`.
+**Estado:** APROBADA · 2026-09-10 · orden final y alcance de `master` revisados el 2026-09-14 (Q-P).
 
 Cada fase es una rama `feat/*` que mergea a `development` (ADR-0017), y termina en
 **algo que el usuario puede ver y aprobar**. Ninguna fase empieza sin que la
 anterior esté aprobada.
+
+**Este plan termina en `development`.** El merge a `master` queda fuera: lo hace
+el usuario cuando lo considere conveniente (decisión del 2026-09-14, Q-P).
+
+**Orden de las fases finales:** la fase 10 (contenido real) va **antes** de la 9
+(auditoría). Se conserva la numeración para no romper las muchas referencias a
+"la fase 10" en las specs y en el código.
 
 Tamaños relativos: **S** pequeña · **M** media · **L** grande.
 
@@ -105,7 +112,7 @@ deja de depender de esta.
 
 ---
 
-## Fase 4 — Contenido y proyectos · **L** · ⬅️ EN CURSO
+## Fase 4 — Contenido y proyectos · **L** · 🔍 EN REVISIÓN (PR #4)
 Rama: `feat/projects`
 
 **Prerrequisito cumplido (2026-09-14):** `04-content-model.md`,
@@ -195,22 +202,7 @@ Va al final porque necesita que todas las páginas existan.
 
 ---
 
-## Fase 9 — Auditoría y producción · **M** · ⚠️ **Bloqueada por Q-P**
-Rama: `feat/audit`
-
-**Conflicto abierto:** esta fase mergea a `master` antes de que la fase 10 traiga
-el contenido real, y la regla de drafts de `04-content-model.md` impide ese
-merge. Ver Q-P en `OPEN-QUESTIONS.md`.
-
-Auditorías completas de `09-testing.md`: Lighthouse en las 4 categorías, contraste
-AA en ambos temas, navegación por teclado, `prefers-reduced-motion`, sin JS,
-presupuesto de JS del home, verificación de `hreflang` y JSON-LD.
-
-Merge `development` → `master`.
-
----
-
-## Fase 10 — Contenido real · **M**
+## Fase 10 — Contenido real · **M** · va ANTES de la fase 9
 Rama: `feat/real-content`
 
 Sustitución de todos los placeholders. **Revisión de layout obligatoria**: es
@@ -218,6 +210,26 @@ cuando aparecen los desbordes que el Lorem Ipsum ocultaba.
 
 **Acción del usuario:** textos, fotografía, datos y capturas de los 6 proyectos,
 redes del footer, formación e idiomas.
+
+Al terminar, **no puede quedar ningún `draft: true`**: la guarda de CI
+(`scripts/check-drafts.mjs`) sigue protegiendo cualquier PR hacia `master`, lo
+haga quien lo haga.
+
+---
+
+## Fase 9 — Auditoría · **M** · va DESPUÉS de la fase 10
+Rama: `feat/audit`
+
+Auditorías completas de `09-testing.md`: Lighthouse en las 4 categorías, contraste
+AA en ambos temas, navegación por teclado, `prefers-reduced-motion`, sin JS,
+presupuesto de JS del home, verificación de `hreflang` y JSON-LD.
+
+Se ejecuta **sobre el contenido real**: medir Lighthouse, LCP o CLS con capturas
+de relleno no dice nada del sitio de verdad, porque una imagen placeholder no pesa
+lo que pesa una captura real.
+
+Cierra en `development`, como todas las fases. **Sin merge a `master`**: lo decide
+y lo hace el usuario (Q-P).
 
 ---
 
@@ -230,13 +242,15 @@ cumplir la definición de "hecho". Sin tests, la fase no está terminada.
 
 ```
 F1 ──> F2 ──┬─> F4 ──> F5 ──┐
-            ├─> F6 ─────────┼─> F8 ──> F9 ──> F10
+            ├─> F6 ─────────┼─> F8 ──> F10 ──> F9
             └─> F7 ─────────┘
 ```
 
 F4, F6 y F7 son independientes entre sí una vez cerrada F2: si en algún momento
 se quiere reordenar por disponibilidad de contenido, se puede.
 (F3 eliminada: resuelta dentro de F1.)
+F10 va antes que F9: la auditoría se hace sobre el contenido real (Q-P).
+El plan termina en `development`; `master` lo gestiona el usuario.
 
 ## Lo que puede desbloquearse en paralelo desde ya
 

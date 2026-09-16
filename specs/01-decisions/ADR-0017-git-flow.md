@@ -1,9 +1,11 @@
 # ADR-0017 — Git flow, commits y CI
 
-**Estado:** APROBADA · 2026-09-09
+**Estado:** APROBADA · 2026-09-09 · regla de `master` precisada el 2026-09-14 (ver `../DEVIATIONS.md`)
 
 ## Ramas
-- `master` — producción. Solo recibe merges desde `development`.
+- `master` — producción. Solo recibe merges desde `development`, y **esos merges
+  los hace el usuario** cuando lo considera conveniente. El agente no abre PRs ni
+  mergea hacia `master`: todo su trabajo termina en `development`.
 - `development` — integración. Capa previa a producción.
 - Ramas de trabajo — nacen de `development` y mergean a `development`.
 

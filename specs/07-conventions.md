@@ -52,6 +52,8 @@
 
 Ver ADR-0017. Resumen:
 - `master` ← `development` ← ramas de trabajo.
+- El merge a `master` lo hace el usuario; el agente trabaja siempre contra
+  `development`.
 - Conventional Commits, en inglés, en imperativo.
 - CI en verde es condición para mergear.
 - El agente no commitea ni hace push sin petición explícita del usuario.

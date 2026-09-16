@@ -3,6 +3,24 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Q-P resuelta: contenido real antes de la auditoría, sin `master`
+
+Decisión del usuario, registrada en `DEVIATIONS.md`: *"Adelantamos la fase de
+contenido real, el merge a master queda fuera del plan, todo a development, de
+master me encargo yo"*.
+
+- **`13-roadmap.md`:** la fase 10 pasa a ir antes de la 9, sin renumerar (hay
+  muchas referencias a "la fase 10" en specs y código). La fase 9 se queda en
+  auditoría, sin merge a `master`, y se ejecuta sobre el contenido real.
+  Actualizado el camino crítico.
+- **`AGENTS.md`, ADR-0017, `07-conventions.md`:** el agente no abre PRs ni mergea
+  hacia `master`.
+- **`09-testing.md`, ADR-0016:** las auditorías pasan de "antes de cada merge a
+  `master`" a "en la fase 9, contra `development`".
+- **`OPEN-QUESTIONS.md`:** Q-P sale de abiertas y entra en resueltas.
+- **`04-content-model.md`:** las fases con relleno son la 4 a la 8; la guarda de
+  CI sobre `master` se mantiene para los merges del usuario.
+
 ## [2026-09-14] Fase 4 — contenido y proyectos
 
 Implementación de la fase 4. Correcciones a las specs salidas de construirla:
