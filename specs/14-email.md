@@ -1,6 +1,6 @@
 # 14 — Plantillas de correo
 
-**Estado:** BORRADOR · 2026-09-16 · se aprueba antes de la fase 11; bloqueada por Q-Q
+**Estado:** BORRADOR · 2026-09-16 · Q-Q resuelta; se aprueba antes de la fase 11
 
 Implementa ADR-0022. Hasta la fase 11, el aviso sigue en texto plano (ADR-0020).
 
@@ -60,29 +60,28 @@ fríos) y **renunciar a lo que no llega**:
 | JetBrains Mono e Inter autoalojadas | Pilas de fuentes del sistema: `ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace` y `-apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif` | Gmail no carga fuentes web; se usan las mismas alternativas que ya declaran los tokens |
 | Grain, typing, parpadeo | Nada | Sin animación ni fondos por imagen en correo |
 | `rem` | `px` (`pixelBasedPreset` de React Email) | Algunos clientes no soportan `rem` |
-| Tema claro y oscuro | **Pendiente: Q-Q** | Ver abajo |
+| Tema claro y oscuro | **Base clara + variante oscura por `prefers-color-scheme`** (Q-Q) | Ver abajo |
 
 **Estilos:** componente `Tailwind` de React Email con la configuración de colores
 de `theme.ts`, o estilos en línea. Sin utilidades que dependan de selectores
 complejos (`space-*`) ni de `hover`, que los clientes no soportan.
 
-### Q-Q · Tema claro u oscuro (pendiente)
+### Tema: base clara con variante oscura (Q-Q decidida, 2026-09-16)
 
-Gmail en iOS y Android invierte los colores en modo oscuro con su propio
-algoritmo, y la documentación disponible no coincide sobre Gmail web. Hay que
-elegir:
-
-- **(a) Base clara** (`#fafbfc`, texto `#0e1013`, acento `#8a0303`) con variante
-  oscura por `@media (prefers-color-scheme: dark)` donde se soporte. Los clientes
-  que invierten, invierten un diseño claro, que es lo que su algoritmo espera.
-- **(b) Oscuro fijo** (`#08090b`, texto `#f0f2f5`, acento `#f04747`). Es la cara
-  más reconocible del sitio, pero algunas apps lo invierten a claro con
-  contrastes imprevisibles.
-- **(c) Solo claro**, sin variante oscura. Lo más predecible, lo menos fiel.
-
-**Recomendación: (a).** Es la única que ofrece la estética oscura donde el
-cliente la respeta sin arriesgar la legibilidad donde no. Pares de color ya
-verificados en AA para ambos temas (`02-design-system.md` §2.4).
+- **Base clara**, la que ve cualquier cliente: fondo `#fafbfc`, superficie
+  `#ffffff`, bloque del mensaje `#dfe3e8`, texto `#0e1013`, texto secundario
+  `#333841`, acento `#8a0303`, botón `#8a0303` con texto `#ffffff`.
+- **Variante oscura** por `@media (prefers-color-scheme: dark)`, en los clientes
+  que la respetan: fondo `#08090b`, superficie `#0e1013`, bloque del mensaje
+  `#1a1d22`, texto `#f0f2f5`, texto secundario `#949ba6`, acento `#f04747`,
+  botón `#6e0404` con texto `#f0f2f5`.
+- Son exactamente los pares de `tokens.css`, ya verificados en AA para ambos
+  temas (`02-design-system.md` §2.4), y el test de `theme.ts` lo garantiza.
+- **Los clientes que invierten colores** (Gmail en iOS y Android) aplican su
+  algoritmo sobre la base clara, que es lo que esperan. Se acepta que ahí el
+  resultado lo decide el cliente; se revisa en la verificación manual.
+- La media query no se puede poner en línea: React Email la deja en un `<style>`
+  del documento (limitación documentada de su componente `Tailwind`).
 
 ## Seguridad
 
