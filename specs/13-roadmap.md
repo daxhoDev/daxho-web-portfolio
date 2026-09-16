@@ -218,7 +218,7 @@ impresión.
 
 ---
 
-## Fase 7 — Contacto · **M** · ⬅️ EN CURSO
+## Fase 7 — Contacto · **M** · 🔍 EN REVISIÓN
 Rama: `feat/contact`
 
 **Prerrequisito cumplido (2026-09-16):** Q38 (honeypot + límite por IP con una
@@ -235,6 +235,29 @@ enlaces directos como alternativa sin JS.
 `developer.daxho@gmail.com`** — el dominio de pruebas solo envía a la dirección de
 registro (ADR-0020). Y el filtro de "nunca a spam" en Gmail antes de la primera
 prueba.
+
+**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **112 tests unitarios** (97 + 15 de validación, honeypot,
+correo y cliente de Resend) · **110 tests E2E** (95 + 15 de contacto y de la boot
+sequence) · home **63,2 KB gzip** sin cambios.
+
+**No verificado:** el envío real por Resend. Necesita tu cuenta y la clave; los
+tests simulan la API o solo ejercitan casos que no envían correo (validación,
+honeypot). Tampoco la regla del firewall, que se crea en el panel de Vercel.
+
+Hallazgos de la implementación:
+
+1. **La boot sequence se mostraba sin JavaScript desde la fase 2**, incumpliendo
+   el requisito 2 de ADR-0019. El `<noscript>` escribía la regla como expresión
+   de Astro dentro de `<style>`; Astro no la evalúa y servía CSS inválido.
+   Destapado porque tapaba el botón de enviar en el test sin JS. Corregido, con
+   test de regresión que falla sin el arreglo.
+2. **Astro rechaza con 403 los POST de formulario sin `Origin` del sitio**
+   (protección CSRF activa por defecto). Es correcto y se mantiene; los tests
+   envían la cabecera como un navegador y uno comprueba el rechazo.
+3. **`/contact` pesa 84,9 KB gzip de JS**, 22 KB de ellos del formulario, sobre
+   todo por Zod completo en el cliente. El presupuesto de 75 KB rige solo para el
+   home, así que no incumple la spec. Queda anotado por si se quiere reducir.
 
 ---
 

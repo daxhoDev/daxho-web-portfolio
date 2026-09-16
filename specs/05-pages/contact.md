@@ -82,6 +82,13 @@ remitente de Resend, antes de la primera prueba real.
 - Asunto del correo: `[Portfolio] Mensaje de {name}`. `From` = remitente de Resend;
   `Reply-To` = correo del visitante (ADR-0020).
 - Registra los fallos sin registrar el contenido del mensaje.
+- **Protección CSRF de Astro** (`security.checkOrigin`, activa por defecto): un
+  POST de formulario cuyo `Origin` no es el del sitio recibe 403. Impide que una
+  página ajena use el endpoint desde el navegador de un tercero. Se mantiene, y
+  está cubierta por un test.
+- Los secretos (`RESEND_API_KEY`) se leen en tiempo de ejecución con
+  `astro:env/server`. Sin clave configurada, el endpoint responde error: nunca
+  finge un envío.
 
 ## Páginas de resultado
 

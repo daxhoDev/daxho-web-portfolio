@@ -3,6 +3,19 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-16] Fase 7 — Contacto
+
+Implementación de la fase 7, sin cambios de decisión.
+
+- **`05-pages/contact.md`:** documenta la protección CSRF de Astro sobre el
+  endpoint y la lectura de secretos con `astro:env/server`.
+- **ADR-0019:** anota que el requisito 2 (sin JS no se muestra el overlay) estuvo
+  incumplido desde la fase 2 por un `<style>` con una expresión que Astro no
+  evalúa. Corregido con test de regresión.
+- **`13-roadmap.md`:** cierre real de la fase, lo que queda sin verificar (envío
+  real y regla del firewall, que dependen de tus cuentas) y el peso de JS de
+  `/contact`.
+
 ## [2026-09-16] Aprobadas las specs de la fase 7
 
 `05-pages/contact.md` y `08-integrations.md` pasan de BORRADOR a APROBADA.

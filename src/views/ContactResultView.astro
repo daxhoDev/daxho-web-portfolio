@@ -1,0 +1,37 @@
+---
+/**
+ * Resultado del envío sin JavaScript — 05-pages/contact.md.
+ *
+ * Solo llega aquí quien envía el formulario sin JavaScript: el endpoint
+ * redirige con un 303. `noindex` y fuera del sitemap.
+ */
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import TypingText from '@/components/ui/TypingText.astro';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  lang: Lang;
+  result: 'sent' | 'failed';
+}
+
+const { lang, result }: Props = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t(`contact.${result}.title`)} noindex>
+  <Container class="flex flex-col items-start gap-6 py-24" data-contact-result={result}>
+    <h1 class="font-mono text-3xl lowercase md:text-4xl">
+      <span class="text-accent-text" aria-hidden="true">&gt;</span>
+      <TypingText text={t(`contact.${result}.heading`)} trigger="load" caret="persistent" />
+    </h1>
+    <p class="text-fg-secondary max-w-(--container-reading)">{t(`contact.${result}.text`)}</p>
+    <div class="flex flex-wrap gap-3">
+      <Button href={localizePath('/contact', lang)} variant={result === 'sent' ? 'secondary' : 'primary'}>
+        {t('contact.backToForm')}
+      </Button>
+      <Button href={localizePath('/', lang)} variant="secondary">{t('404.back')}</Button>
+    </div>
+  </Container>
+</BaseLayout>

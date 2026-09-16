@@ -18,8 +18,10 @@ const t = useTranslations(getLangFromUrl(Astro.url));
 const LINES = ['> boot daxho.dev', '> loading modules ...', '> ready'];
 ---
 
-{/* Requisito 2: sin JS ni se muestra. */}
-<noscript><style>{'#boot { display: none !important; }'}</style></noscript>
+{/* Requisito 2: sin JS ni se muestra.
+    `is:inline` y CSS literal, NO una expresión: Astro no evalúa `{...}` dentro
+    de <style>, y servía el texto tal cual, CSS inválido que no ocultaba nada. */}
+<noscript><style is:inline>#boot { display: none !important; }</style></noscript>
 
 {/* Requisito 7: fuera del árbol de accesibilidad y sin tocar el foco. El
     contenido real ya está debajo, en el HTML (requisito 6). */}

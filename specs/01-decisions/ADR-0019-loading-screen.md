@@ -96,7 +96,9 @@ y solo una vez por sesión, y no se sacrifica ni el rendimiento ni la robustez.
    el sitio sigue siendo usable. El JS solo se encarga del "saltar" y de marcar
    `sessionStorage`.
 2. `<noscript>` con una regla que oculte el overlay: sin JS, ni siquiera se
-   muestra.
+   muestra. **Incumplido desde la fase 2 hasta el 2026-09-16**: la regla se
+   escribió como expresión de Astro dentro de `<style>`, que Astro no evalúa, y
+   se servía como CSS inválido. Corregido en la fase 7 con test de regresión.
 3. Solo primera visita de la **sesión**. Navegar entre páginas no lo repite.
 4. Se salta con clic, `Esc` o cualquier tecla.
 5. **No se muestra con `prefers-reduced-motion: reduce`.**
