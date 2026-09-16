@@ -218,14 +218,20 @@ impresión.
 
 ---
 
-## Fase 7 — Contacto · **M**
-Rama: `feat/contact` · ⚠️ **Bloqueada por Q38 y Q41**
+## Fase 7 — Contacto · **M** · ⬅️ EN CURSO
+Rama: `feat/contact`
+
+**Prerrequisito cumplido (2026-09-16):** Q38 (honeypot + límite por IP con una
+regla del firewall de Vercel) y Q41 (sin persistencia) resueltas;
+`05-pages/contact.md` y `08-integrations.md` pasan a APROBADA. El formulario
+funciona sin JavaScript y el correo no se publica.
 
 `ContactForm` (nombre, correo, mensaje) · esquema Zod compartido cliente/servidor ·
 endpoint `POST /api/contact` · integración con Resend · estados de la interfaz ·
 enlaces directos como alternativa sin JS.
 
-**Acción del usuario:** crear la cuenta de Resend **con
+**Acción del usuario:** crear la **regla del firewall** en Vercel
+(`08-integrations.md`) y la cuenta de Resend **con
 `developer.daxho@gmail.com`** — el dominio de pruebas solo envía a la dirección de
 registro (ADR-0020). Y el filtro de "nunca a spam" en Gmail antes de la primera
 prueba.
@@ -299,6 +305,5 @@ Acciones del usuario que no dependen de ninguna fase y que conviene ir haciendo:
 
 1. Crear el proyecto en Vercel.
 2. Crear la cuenta de Resend con `developer.daxho@gmail.com`.
-3. Decidir Q38 (anti-spam) y Q41 (persistencia).
-4. Reunir el contenido real: textos, foto, datos y capturas de los proyectos,
+3. Reunir el contenido real: textos, foto, datos y capturas de los proyectos,
    redes, PDF del CV.

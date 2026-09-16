@@ -71,7 +71,7 @@ tabla de `layout/` contiene únicamente `.astro`.
 | `LanguageSwitcher` | `client:load` | escribe `localStorage.lang`; navega a la **página equivalente**, nunca al home. El destino lo calcula Astro en el servidor con `i18n/utils.ts`; la isla no reimplementa el enrutado en cliente |
 | `NavDropdown` | `client:idle` | modo intermedio del header |
 | `MobileNav` | `client:idle` | sidebar. Disparador **solo con icono de hamburguesa** (nombre accesible en `aria-label`). Con el panel abierto: **backdrop con blur** detrás que cierra al tocarlo, **botón X arriba a la derecha** del panel, **el fondo no hace scroll**. Atrapa el foco, cierra con `Esc` y devuelve el foco al botón |
-| `ContactForm` | `client:visible` | |
+| `ContactForm` | `client:visible` | renderiza un `<form>` HTML real que funciona sin JavaScript; al hidratar intercepta el envío (validación en vivo, `fetch`, estados). Incluye el honeypot |
 
 ---
 

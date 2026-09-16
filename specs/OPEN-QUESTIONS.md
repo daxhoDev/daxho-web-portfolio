@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-16 (aprobadas las specs de la fase 6)
+Última actualización: 2026-09-16 (aprobadas las specs de la fase 7)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -12,40 +12,14 @@ seguir en "Abiertas" ni en "Aplazado".
 
 ## Abiertas
 
-### Q38 · Estrategia anti-spam del formulario
-**Bloquea la fase 7** (`13-roadmap.md`).
-
-El endpoint `POST /api/contact` queda expuesto en cuanto se publique. Sin ninguna
-medida, recibe spam automatizado sobre `developer.daxho@gmail.com`.
-
-- **(a)** Honeypot: campo oculto que un bot rellena y un humano no. Coste 0 KB,
-  sin servicios de terceros, sin fricción para el visitante. Para el volumen de un
-  portafolio personal, suele bastar.
-- **(b)** Honeypot + límite de tasa por IP en el endpoint.
-- **(c)** Captcha (Turnstile de Cloudflare o similar): añade un tercero, JS extra
-  y fricción.
-
-**Recomendación: (b).** El honeypot filtra los bots genéricos y el límite de tasa
-acota el daño de uno dirigido. Un captcha es desproporcionado para el volumen
-esperado y gasta presupuesto de JS en la única página donde ya hay una isla.
-
-### Q41 · Persistencia de los mensajes
-**Bloquea la fase 7** (`13-roadmap.md`).
-
-¿Se guardan los mensajes en algún sitio además de enviarlos por correo?
-
-- **(a)** No. El correo es el único registro. Cero infraestructura.
-- **(b)** Sí, en una base de datos, para no depender del buzón.
-
-**Recomendación: (a).** Una base de datos para un formulario de contacto de un
-portafolio añade una pieza de infraestructura, un coste y una superficie de datos
-personales que hay que justificar en un aviso de privacidad. Si un correo se
-pierde, el visitante reescribe.
+Ninguna. Q38 y Q41, las dos últimas, se resolvieron el 2026-09-16.
 
 ## Resueltas
 
 | Ref | Resolución | Documentado en |
 |---|---|---|
+| Q38 | Anti-spam: **honeypot + límite de envíos por IP** (b). Cómo se implementa el límite en Vercel, sin memoria compartida entre ejecuciones, se decide al aprobar `contact.md` | `05-pages/contact.md` |
+| Q41 | **Sin persistencia**: el correo es el único registro (a) | `05-pages/contact.md` |
 | Q-A | Iconos dibujados a mano, uno por archivo — **luego derogada** | ADR-0018, `DEVIATIONS.md` |
 | Q-B | Card del home **idéntica** a la de `/projects` | `05-pages/home.md`, `06-components.md` |
 | Q-C | **Sin filtros** en `/projects` | `05-pages/projects.md` |
@@ -94,12 +68,9 @@ traslado de `NavDropdown` y `MobileNav` a `islands/`.
 filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta.
 
 **La de la fase 5 (`05-pages/home.md`) se aprobó el 2026-09-16, y las dos de la
-fase 6 (`about.md`, `resume.md`) el mismo día.** `resume.md` quedó SUPERSEDED esa misma tarde: la página se eliminó. Quedan:
+fase 6 (`about.md`, `resume.md`) el mismo día, igual que las dos de la fase 7 (`contact.md`, `08-integrations.md`).** `resume.md` quedó SUPERSEDED esa misma tarde: la página se eliminó.
 
-| Spec | La consume | Estado |
-|---|---|---|
-| `05-pages/contact.md` | Fase 7 | BORRADOR + Q38/Q41 |
-| `08-integrations.md` | Fases 7 y 8 | BORRADOR |
+**No queda ninguna spec en BORRADOR.**
 
 ---
 
@@ -109,10 +80,12 @@ No son decisiones de diseño, sino trabajo fuera del repositorio que bloquea fas
 
 1. **Crear el proyecto en Vercel** — recomendado al cerrar la fase 2 (fija
    `SITE_URL` y activa las previews por PR).
-2. **Crear la cuenta de Resend con `developer.daxho@gmail.com`** — el dominio de
+2. **Crear la regla del firewall** del formulario en Vercel, con los valores de
+   `08-integrations.md`. Requiere el proyecto del punto 1.
+3. **Crear la cuenta de Resend con `developer.daxho@gmail.com`** — el dominio de
    pruebas solo envía a la dirección de registro (ADR-0020). Bloquea la fase 7.
-3. **Filtro "nunca a spam" en Gmail** antes de la primera prueba de envío.
-4. **Contenido real** (fase 10, que va antes de la 9): textos, fotografía, datos y capturas de los 6
+4. **Filtro "nunca a spam" en Gmail** antes de la primera prueba de envío.
+5. **Contenido real** (fase 10, que va antes de la 9): textos, fotografía, datos y capturas de los 6
    proyectos, redes del footer, formación, idiomas y el PDF del CV por idioma.
 
 **Consecuencia a tener presente:** el contenido de relleno afecta al diseño. Un

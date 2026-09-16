@@ -1,6 +1,6 @@
 # ADR-0020 — Servicio de envío del formulario de contacto
 
-**Estado:** APROBADA · 2026-09-09
+**Estado:** APROBADA · 2026-09-09 · restricción de Resend verificada el 2026-09-16
 Sustituye el análisis previo de `OPEN-QUESTIONS.md` Q-H.
 
 ## Contexto
@@ -30,8 +30,9 @@ que es exactamente el caso de uso: el formulario notifica a Daxho y a nadie más
 - ✅ Migrar a dominio propio más adelante = cambiar una variable de entorno.
 - ⚠️ Imposibilita la autorespuesta al visitante (Q39), porque no se puede escribir
   a terceros desde el dominio de pruebas.
-- ⚠️ La restricción exacta debe **verificarse en la documentación vigente de
-  Resend** antes de implementar. No se da por buena desde esta spec.
+- ✅ Restricción **verificada el 2026-09-16** en la documentación de Resend: el
+  dominio de pruebas solo envía a la dirección de la cuenta, y con otra devuelve
+  403. Ver `08-integrations.md`.
 
 ### (b) Nodemailer + SMTP de Gmail con App Password
 Se envía a través de la propia cuenta de Google de Daxho.
@@ -77,6 +78,7 @@ perjudica su reputación.
   ahí una dirección ajena es suplantación, y SPF/DKIM lo marcan como spam.
 - `Reply-To:` = el correo del visitante. Así, responder desde Gmail funciona
   directamente. **Este es el detalle que hace útil el formulario.**
-- El asunto identifica el origen: `[Portfolio] {asunto}`.
+- El asunto identifica el origen: `[Portfolio] Mensaje de {name}` (el formulario
+  no tiene campo de asunto, `05-pages/contact.md`).
 - El cuerpo incluye nombre, correo y mensaje en texto plano legible.
 - El contenido del mensaje **nunca** se escribe en los logs.

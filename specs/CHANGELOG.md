@@ -3,6 +3,43 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-16] Aprobadas las specs de la fase 7
+
+`05-pages/contact.md` y `08-integrations.md` pasan de BORRADOR a APROBADA.
+Verificaciones previas y decisiones del usuario:
+
+- **Resend verificado** en su documentación: el dominio de pruebas solo envía a la
+  dirección de la cuenta (403 con otra). Era la condición de ADR-0020.
+- **Límite por IP: regla del firewall de Vercel**, configurada en el panel
+  (3 peticiones por IP cada 10 minutos). Disponible en Hobby. Su definición
+  completa vive en `08-integrations.md`, porque no está en el repositorio.
+- **El formulario funciona sin JavaScript**: `<form>` HTML real mejorado por la
+  isla; sin JS, el endpoint redirige a `/contact/sent` o `/contact/error`. Con
+  eso **se elimina el correo directo** como alternativa, que contradecía el
+  anti-spam.
+- **Frase de la página en voz de terminal:** `> ready when you are. Tell me about
+  your project.`
+
+`07-conventions.md` regla 10 pierde su excepción: el sitio entero, formulario
+incluido, funciona sin JavaScript.
+
+Desfases corregidos: `08-integrations.md` hablaba de la analítica "si se aprueba"
+(ADR-0015 la aprobó); ADR-0020 pedía verificar Resend (hecho) y usaba un asunto
+`[Portfolio] {asunto}` para un formulario sin campo de asunto.
+
+## [2026-09-16] Q38 y Q41 resueltas
+
+Decisiones del usuario. No queda ninguna pregunta abierta en `OPEN-QUESTIONS.md`.
+
+- **Q38 — anti-spam: (b) honeypot + límite de envíos por IP.** `contact.md`
+  describe el honeypot (campo fuera de pantalla, inaccesible por teclado y lector
+  de pantalla, respuesta de éxito falsa al bot). Queda por concretar cómo se
+  implementa el límite en Vercel, donde las ejecuciones no comparten memoria.
+- **Q41 — persistencia: (a) no.** El correo es el único registro.
+- Propagado a `05-pages/contact.md`, ADR-0004 (decía "anti-spam pendiente") y
+  `13-roadmap.md`: la fase 7 deja de estar bloqueada por estas preguntas; le
+  falta aprobar `contact.md` y `08-integrations.md`.
+
 ## [2026-09-16] Se elimina `/resume`: el CV se descarga desde `/about`
 
 Decisión del usuario, registrada en `DEVIATIONS.md`: *"about y resume muestran lo

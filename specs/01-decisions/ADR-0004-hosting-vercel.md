@@ -30,4 +30,4 @@ dominio propio sea un cambio de configuración y no una búsqueda y reemplazo.
 - Se requiere `RESEND_API_KEY` como variable de entorno en Vercel (ver
   `08-integrations.md`).
 - El endpoint es la única superficie de ataque del sitio: necesita validación y
-  anti-spam (pendiente, ver `OPEN-QUESTIONS.md`).
+  anti-spam: honeypot + límite de envíos por IP (Q38, ver `05-pages/contact.md`).
