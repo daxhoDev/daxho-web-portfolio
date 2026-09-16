@@ -22,7 +22,6 @@ const en = {
   'nav.home': 'Home',
   'nav.about': 'About',
   'nav.projects': 'Projects',
-  'nav.resume': 'Resume',
   'nav.contact': 'Contact',
 
   'nav.menu.open': 'Open menu',
@@ -81,6 +80,39 @@ const en = {
   'home.projects.more': 'View more projects',
   'home.cta.heading': 'ready when you are',
   'home.cta.button': 'contact',
+
+  // TODO(fase 10): textos reales (Q32). Relleno marcado (04-content-model.md).
+  'about.title': 'About — Daxho',
+  'about.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+  'about.bio.1':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  'about.bio.2':
+    'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  'about.bio.3':
+    'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+  'about.skills': 'Skills',
+  'about.experience': 'Experience',
+
+  'skills.group.languages': 'Languages',
+  'skills.group.frontend': 'Frontend',
+  'skills.group.backend': 'Backend',
+  'skills.group.data': 'Data',
+  'skills.group.infrastructure': 'Infrastructure',
+  'skills.group.tools': 'Tools and quality',
+
+  'experience.present': 'Present',
+  'experience.type.full-time': 'Full-time',
+  'experience.type.contract': 'Contract',
+  'experience.type.freelance': 'Freelance',
+  'experience.highlights': 'Highlights',
+
+  'about.cv.download': 'Download PDF',
+  // {lang} y {size} se sustituyen en la página.
+  'about.cv.meta': '{lang} · {size}',
+  'about.cv.lang': 'English',
+  'about.education': 'Education',
+  'about.languages': 'Languages',
+  'about.inProgress': 'in progress',
 } as const;
 
 /** Toda traducción debe cubrir exactamente las claves de `en`. */
@@ -91,7 +123,6 @@ const es: Translations = {
   'nav.home': 'Inicio',
   'nav.about': 'Sobre mí',
   'nav.projects': 'Proyectos',
-  'nav.resume': 'Currículum',
   'nav.contact': 'Contacto',
 
   'nav.menu.open': 'Abrir menú',
@@ -149,6 +180,38 @@ const es: Translations = {
   'home.projects.more': 'Ver más proyectos',
   'home.cta.heading': 'listo cuando tú lo estés',
   'home.cta.button': 'contacto',
+
+  // TODO(fase 10): textos reales (Q32). Relleno marcado (04-content-model.md).
+  'about.title': 'Sobre mí — Daxho',
+  'about.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+  'about.bio.1':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  'about.bio.2':
+    'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  'about.bio.3':
+    'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+  'about.skills': 'Habilidades',
+  'about.experience': 'Experiencia',
+
+  'skills.group.languages': 'Lenguajes',
+  'skills.group.frontend': 'Frontend',
+  'skills.group.backend': 'Backend',
+  'skills.group.data': 'Datos',
+  'skills.group.infrastructure': 'Infraestructura',
+  'skills.group.tools': 'Herramientas y calidad',
+
+  'experience.present': 'actualidad',
+  'experience.type.full-time': 'Jornada completa',
+  'experience.type.contract': 'Contrato',
+  'experience.type.freelance': 'Freelance',
+  'experience.highlights': 'Logros',
+
+  'about.cv.download': 'Descargar PDF',
+  'about.cv.meta': '{lang} · {size}',
+  'about.cv.lang': 'español',
+  'about.education': 'Formación',
+  'about.languages': 'Idiomas',
+  'about.inProgress': 'en curso',
 };
 
 export const UI: Record<Lang, Translations> = { en, es };

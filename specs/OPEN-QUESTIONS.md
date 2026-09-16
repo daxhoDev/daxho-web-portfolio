@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-16 (aprobada la spec de la fase 5)
+Última actualización: 2026-09-16 (aprobadas las specs de la fase 6)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -52,13 +52,13 @@ pierde, el visitante reescribe.
 | Q-D | Skills **solo agrupadas**, sin nivel de dominio | `05-pages/about.md` |
 | Q-E | Galería **en línea** con enlace, sin lightbox | `05-pages/project-detail.md` |
 | Q-F | Ruta `/styleguide` en vez de mockups en Figma | ADR-0021, `11-styleguide.md` |
-| Q-G | PDF del CV **estático**, mantenido por el usuario | `05-pages/resume.md` |
+| Q-G | PDF del CV **estático**, mantenido por el usuario; se descarga desde `/about` | `05-pages/about.md` |
 | Q-I | Boot sequence acotada, primera visita de sesión | ADR-0019 |
 | Q-J | Resend con dominio de pruebas → Gmail | ADR-0020 |
 | Q-K | Carrusel con **las 25**, no una selección | `DEVIATIONS.md`, `10-tech-catalog.md` |
 | Q-L | Express **entra**, con marca circular "ex" | `DEVIATIONS.md`, `10-tech-catalog.md` |
 | Q-M | Marca `>daxho▮` — prompt + cursor de bloque | `12-brand.md` |
-| Q-N | Navegación en 3 modos, se conservan los 5 enlaces | `06-components.md` |
+| Q-N | Navegación en 3 modos, se conservan todos los enlaces (4 desde que se eliminó `/resume`) | `06-components.md`, `DEVIATIONS.md` |
 | Q-O | Texto del brief intacto; "guarida" en español | `05-pages/home.md` |
 | Q32 | Texto "about me" — Lorem Ipsum hasta la fase 10 | `13-roadmap.md` |
 | Q33 | Fotografía — placeholder hasta la fase 10 | `13-roadmap.md` |
@@ -93,11 +93,11 @@ traslado de `NavDropdown` y `MobileNav` a `islands/`.
 `05-pages/project-detail.md`) se aprobaron el mismo día**, con tres decisiones:
 filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta.
 
-**La de la fase 5 (`05-pages/home.md`) se aprobó el 2026-09-16.** Quedan:
+**La de la fase 5 (`05-pages/home.md`) se aprobó el 2026-09-16, y las dos de la
+fase 6 (`about.md`, `resume.md`) el mismo día.** `resume.md` quedó SUPERSEDED esa misma tarde: la página se eliminó. Quedan:
 
 | Spec | La consume | Estado |
 |---|---|---|
-| `05-pages/about.md`, `resume.md` | Fase 6 | BORRADOR |
 | `05-pages/contact.md` | Fase 7 | BORRADOR + Q38/Q41 |
 | `08-integrations.md` | Fases 7 y 8 | BORRADOR |
 

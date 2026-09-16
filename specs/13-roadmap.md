@@ -153,7 +153,7 @@ card.
 
 ---
 
-## Fase 5 — Home · **M** · 🔍 EN REVISIÓN
+## Fase 5 — Home · **M** · ✅ COMPLETADA (PR #5)
 Rama: `feat/home`
 
 **Prerrequisito cumplido (2026-09-16):** `05-pages/home.md` pasa a APROBADA, con
@@ -184,13 +184,37 @@ se pinta de inmediato, o acortar el tecleo. No se decide nada sin medir.
 
 ---
 
-## Fase 6 — About y Resume · **M**
+## Fase 6 — About · **M** · 🔍 EN REVISIÓN
 Rama: `feat/about-resume`
 
-Colección `experience` · `/about` (bio, foto, skills agrupadas, timeline) ·
-`/resume` con el botón de descarga del PDF arriba · hoja de estilos de impresión.
+**Prerrequisito cumplido (2026-09-16):** `05-pages/about.md` y `05-pages/resume.md`
+pasan a APROBADA. Decisiones: PDF de relleno con peso leído del archivo en el
+build; experiencia como colección MDX por idioma y formación e idiomas en
+archivos TS.
 
-**Acción del usuario:** el PDF del CV, uno por idioma (Q-G).
+**Cambio de alcance el mismo día:** se elimina `/resume`, que mostraba lo mismo
+que `/about`. El botón de descarga del CV va en `/about` tras la entradilla, y
+formación e idiomas pasan a `/about`. `resume.md` queda SUPERSEDED y la
+navegación pasa a 4 enlaces (`DEVIATIONS.md`).
+
+Colección `experience` · `/about` (bio, foto, botón del CV, skills agrupadas,
+timeline, formación, idiomas) · hoja de estilos de impresión.
+
+**Acción del usuario:** el PDF del CV, uno por idioma (Q-G). Hasta la fase 10 hay
+uno de relleno: basta con sustituir el archivo.
+
+**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **97 tests unitarios** · **95 tests E2E** · **63,2 KB gzip**
+de los 75 KB, sin JS nuevo · 22 rutas (las 2 de `/resume` ya no existen).
+
+Comprobado que el build **falla** si falta un PDF del CV o una entrada de
+experiencia en español, y revisada la versión impresa generando el PDF con el
+navegador: sin cromo, negro sobre blanco y con todos los encabezados visibles.
+
+Hallazgo: **la hoja de impresión no puede fiarse del selector universal.** `*`
+no alcanza a los pseudo-elementos, y los nodos de la línea de tiempo y las
+viñetas salían en rojo en el papel. Corregido y cubierto por el test de
+impresión.
 
 ---
 

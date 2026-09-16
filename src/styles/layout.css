@@ -299,3 +299,73 @@ html[data-nav-open] body {
     }
   }
 }
+
+/* =============================================================================
+   IMPRESIÓN — 05-pages/about.md
+   Negro sobre blanco, sin header, sin footer y sin efectos. Pensada para
+   /about, pero aplica a cualquier página: nadie quiere imprimir el cromo.
+   ========================================================================== */
+@media print {
+  .site-header,
+  body > footer,
+  #boot,
+  .skip-link,
+  .nav-backdrop,
+  .print-hidden {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .grain::before {
+    display: none !important;
+  }
+
+  * {
+    color: #000 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* LOS ENCABEZADOS TECLEADOS, VISIBLES. Los que no han entrado en pantalla
+     siguen en pausa con los caracteres a opacidad 0: sin esta regla saldrían
+     en blanco en el papel. */
+  .typing-char {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+  .caret,
+  .brand-caret {
+    display: none !important;
+  }
+
+  /* El selector universal no alcanza a los pseudo-elementos: los nodos de la
+     línea de tiempo y las viñetas de las listas seguirían en rojo. */
+  .timeline-item::before {
+    background-color: #000 !important;
+  }
+
+  li::marker {
+    color: #000 !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  /* No partir una entrada de experiencia ni un grupo de skills entre páginas. */
+  li,
+  section > h2,
+  section > h3 {
+    break-inside: avoid;
+  }
+
+  section > h2 {
+    break-after: avoid;
+  }
+}

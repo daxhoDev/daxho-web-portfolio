@@ -3,6 +3,43 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-16] Se elimina `/resume`: el CV se descarga desde `/about`
+
+Decisión del usuario, registrada en `DEVIATIONS.md`: *"about y resume muestran lo
+mismo"*. Antes de mergear la fase 6.
+
+- `about.md` absorbe el botón de descarga (tras la entradilla), las reglas del PDF,
+  formación, idiomas y la hoja de impresión. Perfil y contacto se eliminan.
+- `resume.md` pasa a SUPERSEDED, con una tabla de adónde fue cada bloque.
+- Navegación de 5 a 4 enlaces: `06-components.md`, Q-N en `OPEN-QUESTIONS.md`.
+- Propagado a `05-pages/README.md`, `03-architecture.md`, `04-content-model.md` y
+  `13-roadmap.md` (la fase 6 pasa a llamarse "About").
+
+## [2026-09-16] Aprobadas las specs de la fase 6
+
+`05-pages/about.md` y `05-pages/resume.md` pasan de BORRADOR a APROBADA.
+Decisiones del usuario:
+
+- **PDF del CV:** uno de relleno por idioma hasta la fase 10. El texto del botón
+  muestra formato, idioma y peso leído del archivo al compilar; si falta un PDF,
+  el build falla.
+- **Contacto en `/resume`:** GitHub, LinkedIn y enlace al formulario. **Sin
+  correo** publicado.
+- **Datos:** experiencia como colección MDX por idioma (misma regla de ambos
+  idiomas que `projects`); formación, idiomas y redes como archivos TS tipados.
+
+Consecuencias propagadas:
+- `04-content-model.md`: estructura por idioma y campos `draft` y
+  `translatedByAgent` en `experience`; nueva sección para formación, idiomas y
+  redes; los grupos de skills son los de `10-tech-catalog.md`.
+- `src/content/social.ts` pasa a ser la fuente única de las redes, que hasta
+  ahora vivían escritas dentro del footer.
+- La guarda de drafts de CI se extiende a los archivos TS de contenido: de lo
+  contrario el relleno de formación, idiomas y redes podría llegar a `master`
+  sin que nada lo detectara.
+- `resume.md`: la hoja de impresión fuerza visibles los encabezados tecleados.
+- `13-roadmap.md`: fase 5 completada (PR #5), fase 6 en curso.
+
 ## [2026-09-16] Fase 5 — Home
 
 Implementación de la fase 5. Sin cambios de decisión; se documenta:

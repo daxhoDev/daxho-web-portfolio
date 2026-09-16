@@ -1,0 +1,141 @@
+---
+/**
+ * About — 05-pages/about.md (APROBADA).
+ *
+ * Es también la página del CV: `/resume` se eliminó porque mostraba lo mismo
+ * (DEVIATIONS.md, 2026-09-16). El botón de descarga va tras la entradilla, y
+ * formación e idiomas tras la experiencia.
+ *
+ * Sirve /about y /es/about: cada página es una cáscara que pasa el idioma
+ * (03-architecture.md).
+ *
+ * El PDF es un archivo estático mantenido por el usuario (Q-G). Su peso se lee
+ * del archivo AL COMPILAR, y si falta el build falla: nunca se publica un enlace
+ * roto ni un peso escrito a mano que se desincronice.
+ */
+import { statSync } from 'node:fs';
+import { join } from 'node:path';
+
+import { Image } from 'astro:assets';
+
+import SkillsGrid from '@/components/sections/SkillsGrid.astro';
+import Timeline from '@/components/sections/Timeline.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { EDUCATION } from '@/content/education';
+import { LANGUAGES_SPOKEN } from '@/content/languages';
+import { getExperience } from '@/content/queries';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { formatFileSize } from '@/lib/format';
+import photo from '@/assets/profile/placeholder.svg';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+const experience = await getExperience(lang);
+const bio = [t('about.bio.1'), t('about.bio.2'), t('about.bio.3')];
+
+const cvFile = `daxho-resume-${lang}.pdf`;
+let cvSize: number;
+try {
+  cvSize = statSync(join(process.cwd(), 'public', 'resume', cvFile)).size;
+} catch {
+  throw new Error(
+    `Falta public/resume/${cvFile}: el botón de descarga del CV no puede apuntar a un archivo que no existe (05-pages/about.md).`,
+  );
+}
+const cvMeta = t('about.cv.meta')
+  .replace('{lang}', t('about.cv.lang'))
+  .replace('{size}', formatFileSize(cvSize, lang));
+---
+
+<BaseLayout title={t('about.title')}>
+  <Container class="flex flex-col gap-20 py-16">
+    {/* 1. Encabezado, con el botón del CV justo tras la entradilla. */}
+    <header class="flex flex-col items-start gap-4">
+      <SectionHeading text={t('nav.about')} as="h1" class="text-4xl" />
+      <p class="text-fg-secondary max-w-(--container-reading) text-lg">{t('about.intro')}</p>
+      <Button
+        href={`/resume/${cvFile}`}
+        download={cvFile}
+        hreflang={lang}
+        class="print-hidden mt-2"
+        data-cv-download
+      >
+        {t('about.cv.download')}
+        <span class="font-normal opacity-80">({cvMeta})</span>
+      </Button>
+    </header>
+
+    {/* 2. Biografía + fotografía. En móvil la foto va primero. */}
+    <section class="grid items-start gap-10 md:grid-cols-[minmax(0,65ch)_minmax(0,1fr)]">
+      <div class="text-fg-secondary order-2 flex max-w-[65ch] flex-col gap-5 leading-relaxed md:order-1">
+        {bio.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <div class="border-subtle order-1 overflow-hidden rounded-md border md:order-2">
+        <Image
+          src={photo}
+          alt={t('home.about.photoAlt')}
+          widths={[400, 600, 800]}
+          sizes="(min-width: 768px) 35vw, 100vw"
+          class="aspect-[4/5] h-auto w-full object-cover"
+        />
+      </div>
+    </section>
+
+    {/* 3. Skills */}
+    <section class="flex flex-col gap-8">
+      <SectionHeading text={t('about.skills')} as="h2" />
+      <SkillsGrid lang={lang} />
+    </section>
+
+    {/* 4. Experiencia */}
+    <section class="flex flex-col gap-8">
+      <SectionHeading text={t('about.experience')} as="h2" />
+      <Timeline lang={lang} entries={experience} />
+    </section>
+
+    {/* 5. Formación */}
+    <section class="flex flex-col gap-4">
+      <SectionHeading text={t('about.education')} as="h2" />
+      <ul class="flex flex-col gap-3" data-about-education>
+        {
+          EDUCATION.map((entry) => (
+            <li class="flex flex-col gap-1">
+              <span class="text-fg-primary">{entry.degree[lang]}</span>
+              <span class="text-fg-secondary font-mono text-xs">
+                {entry.institution} · {entry.startYear} –{' '}
+                {entry.endYear ?? t('about.inProgress')}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* 6. Idiomas */}
+    <section class="flex flex-col gap-4">
+      <SectionHeading text={t('about.languages')} as="h2" />
+      <dl class="grid max-w-md grid-cols-[auto_1fr] gap-x-6 gap-y-2" data-about-languages>
+        {
+          LANGUAGES_SPOKEN.map((entry) => (
+            <>
+              <dt class="text-fg-primary">{entry.name[lang]}</dt>
+              <dd class="text-fg-secondary">{entry.level[lang]}</dd>
+            </>
+          ))
+        }
+      </dl>
+    </section>
+
+    {/* 7. CTA */}
+    <div>
+      <Button href={localizePath('/contact', lang)}>{t('nav.contact')}</Button>
+    </div>
+  </Container>
+</BaseLayout>

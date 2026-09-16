@@ -12,6 +12,7 @@ import type { Lang } from '@/i18n/utils';
 import {
   featuredProjects,
   isPublished,
+  missingTranslations,
   neighbors,
   parseProjectId,
   sortProjects,
@@ -61,4 +62,35 @@ export async function getProjectPaths(lang: Lang) {
     params: { slug: project.slug },
     props: { project, ...neighbors(list, index) },
   }));
+}
+
+export type Experience = CollectionEntry<'experience'> & { lang: Lang; slug: string };
+
+let experienceCache: Promise<Experience[]> | undefined;
+
+/**
+ * Experiencia de un idioma, de más reciente a más antigua (05-pages/about.md).
+ * La lee /about.
+ */
+export async function getExperience(lang: Lang): Promise<Experience[]> {
+  experienceCache ??= (async () => {
+    const entries = await getCollection('experience', (entry) =>
+      isPublished(entry.data.draft, process.env.VERCEL_ENV),
+    );
+
+    // Ambos idiomas o el build falla, igual que projects (04-content-model.md).
+    const errors = missingTranslations(entries.map((entry) => entry.id));
+    if (errors.length > 0) {
+      throw new Error(
+        `Contenido de experience inválido (04-content-model.md):\n  - ${errors.join('\n  - ')}`,
+      );
+    }
+
+    return entries.map((entry) => ({ ...entry, ...parseProjectId(entry.id) }));
+  })();
+
+  const all = await experienceCache;
+  return all
+    .filter((entry) => entry.lang === lang)
+    .sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime());
 }
