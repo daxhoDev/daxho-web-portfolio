@@ -7,6 +7,7 @@
  * se cuelen en producción por olvido.
  */
 import Container from '@/components/ui/Container.astro';
+import { SOCIAL_LINKS } from '@/content/social';
 import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
 
 interface Props {
@@ -16,11 +17,6 @@ interface Props {
 const { lang }: Props = Astro.props;
 const t = useTranslations(lang);
 
-// TODO(fase 10): sustituir por las URLs reales que aporte el usuario (Q36).
-const SOCIAL = [
-  { name: 'GitHub', href: '#' },
-  { name: 'LinkedIn', href: '#' },
-];
 
 const year = new Date().getFullYear();
 ---
@@ -34,12 +30,12 @@ const year = new Date().getFullYear();
 
     <ul class="flex items-center gap-4" aria-label={t('footer.social')}>
       {
-        SOCIAL.map((item) => (
+        SOCIAL_LINKS.map((item) => (
           <li>
             <a
               class="text-fg-secondary hover:text-accent-text font-mono text-xs transition-colors"
               href={item.href}
-              data-placeholder="fase-10"
+              data-placeholder={item.draft ? 'fase-10' : undefined}
             >
               {item.name}
             </a>

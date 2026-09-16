@@ -184,7 +184,7 @@ se pinta de inmediato, o acortar el tecleo. No se decide nada sin medir.
 
 ---
 
-## Fase 6 — About y Resume · **M** · ⬅️ EN CURSO
+## Fase 6 — About y Resume · **M** · 🔍 EN REVISIÓN
 Rama: `feat/about-resume`
 
 **Prerrequisito cumplido (2026-09-16):** `05-pages/about.md` y `05-pages/resume.md`
@@ -197,6 +197,20 @@ Colección `experience` · `/about` (bio, foto, skills agrupadas, timeline) ·
 
 **Acción del usuario:** el PDF del CV, uno por idioma (Q-G). Hasta la fase 10 hay
 uno de relleno: basta con sustituir el archivo.
+
+**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **97 tests unitarios** (82 + 15 de formato, datos TS y guarda
+de drafts) · **94 tests E2E** (83 + 11 de about, resume e impresión) · **63,2 KB
+gzip** de los 75 KB, sin JS nuevo · 24 rutas.
+
+Comprobado que el build **falla** si falta un PDF del CV o una entrada de
+experiencia en español, y revisada la versión impresa generando el PDF con el
+navegador: sin cromo, negro sobre blanco y con todos los encabezados visibles.
+
+Hallazgo: **la hoja de impresión no puede fiarse del selector universal.** `*`
+no alcanza a los pseudo-elementos, y los nodos de la línea de tiempo y las
+viñetas salían en rojo en el papel. Corregido y cubierto por el test de
+impresión.
 
 ---
 

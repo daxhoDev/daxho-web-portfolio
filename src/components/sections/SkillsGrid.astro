@@ -1,0 +1,33 @@
+---
+/**
+ * Skills agrupadas — 05-pages/about.md, 05-pages/resume.md.
+ *
+ * Los seis grupos de 10-tech-catalog.md, con icono + etiqueta. **Sin nivel de
+ * dominio** (Q-D). Cada grupo es un <h3> con su lista, para que un lector de
+ * pantalla pueda saltar de grupo en grupo.
+ */
+import StackRow from '@/components/project/StackRow.astro';
+import { SKILL_GROUPS } from '@/content/skills';
+import { useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    SKILL_GROUPS.map((group) => {
+      const title = t(`skills.group.${group.id}`);
+      return (
+        <section class="flex flex-col gap-3">
+          <h3 class="text-fg-primary font-mono text-sm tracking-wide uppercase">{title}</h3>
+          <StackRow stack={group.keys} label={title} iconSize={16} />
+        </section>
+      );
+    })
+  }
+</div>

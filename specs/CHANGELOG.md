@@ -3,6 +3,12 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-16] Fase 6 — About y Resume
+
+Implementación de la fase 6, sin cambios de decisión. `13-roadmap.md` recoge el
+cierre real y un hallazgo: en la hoja de impresión, `*` no alcanza a los
+pseudo-elementos, y los nodos de la línea de tiempo y las viñetas salían en rojo.
+
 ## [2026-09-16] Aprobadas las specs de la fase 6
 
 `05-pages/about.md` y `05-pages/resume.md` pasan de BORRADOR a APROBADA.

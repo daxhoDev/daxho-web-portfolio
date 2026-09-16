@@ -1,0 +1,74 @@
+---
+/**
+ * About — 05-pages/about.md (APROBADA).
+ *
+ * Sirve /about y /es/about: cada página es una cáscara que pasa el idioma
+ * (03-architecture.md). Secciones en el orden de la spec.
+ */
+import { Image } from 'astro:assets';
+
+import SkillsGrid from '@/components/sections/SkillsGrid.astro';
+import Timeline from '@/components/sections/Timeline.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { getExperience } from '@/content/queries';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import photo from '@/assets/profile/placeholder.svg';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+const experience = await getExperience(lang);
+const bio = [t('about.bio.1'), t('about.bio.2'), t('about.bio.3')];
+---
+
+<BaseLayout title={t('about.title')}>
+  <Container class="flex flex-col gap-20 py-16">
+    {/* 1. Encabezado */}
+    <header class="flex flex-col gap-4">
+      <SectionHeading text={t('nav.about')} as="h1" class="text-4xl" />
+      <p class="text-fg-secondary max-w-(--container-reading) text-lg">{t('about.intro')}</p>
+    </header>
+
+    {/* 2. Biografía + fotografía. En móvil la foto va primero. */}
+    <section class="grid items-start gap-10 md:grid-cols-[minmax(0,65ch)_minmax(0,1fr)]">
+      <div class="text-fg-secondary order-2 flex max-w-[65ch] flex-col gap-5 leading-relaxed md:order-1">
+        {bio.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <div class="border-subtle order-1 overflow-hidden rounded-md border md:order-2">
+        <Image
+          src={photo}
+          alt={t('home.about.photoAlt')}
+          widths={[400, 600, 800]}
+          sizes="(min-width: 768px) 35vw, 100vw"
+          class="aspect-[4/5] h-auto w-full object-cover"
+        />
+      </div>
+    </section>
+
+    {/* 3. Skills */}
+    <section class="flex flex-col gap-8">
+      <SectionHeading text={t('about.skills')} as="h2" />
+      <SkillsGrid lang={lang} />
+    </section>
+
+    {/* 4. Experiencia */}
+    <section class="flex flex-col gap-8">
+      <SectionHeading text={t('about.experience')} as="h2" />
+      <Timeline lang={lang} entries={experience} />
+    </section>
+
+    {/* 5. CTA */}
+    <div class="flex flex-wrap gap-3">
+      <Button href={localizePath('/resume', lang)}>{t('nav.resume')}</Button>
+      <Button href={localizePath('/contact', lang)} variant="secondary">
+        {t('nav.contact')}
+      </Button>
+    </div>
+  </Container>
+</BaseLayout>

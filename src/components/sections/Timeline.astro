@@ -1,0 +1,90 @@
+---
+/**
+ * Línea de tiempo de experiencia — 05-pages/about.md, 05-pages/resume.md.
+ *
+ * Un <ol>: es una secuencia ordenada, no decoración, y así un lector de
+ * pantalla anuncia "lista, 3 elementos". De más reciente a más antigua; el
+ * orden llega ya resuelto desde `getExperience`.
+ *
+ * La línea vertical y los nodos son un borde y un pseudo-elemento: no añaden
+ * nodos al árbol de accesibilidad.
+ */
+import { render } from 'astro:content';
+
+import StackRow from '@/components/project/StackRow.astro';
+import type { Experience } from '@/content/queries';
+import { useTranslations, type Lang } from '@/i18n/utils';
+import { formatDateRange } from '@/lib/format';
+
+interface Props {
+  lang: Lang;
+  entries: readonly Experience[];
+  /** Nivel del nombre de cada puesto: depende de dónde cuelgue la línea. */
+  headingLevel?: 'h3' | 'h4';
+}
+
+const { lang, entries, headingLevel: Heading = 'h3' }: Props = Astro.props;
+const t = useTranslations(lang);
+
+const items = await Promise.all(
+  entries.map(async (entry) => ({
+    entry,
+    // El cuerpo MDX es opcional: solo se renderiza si hay texto.
+    Content: entry.body?.trim() ? (await render(entry)).Content : null,
+  })),
+);
+---
+
+<ol class="timeline border-subtle relative ml-2 flex flex-col gap-12 border-l pl-8">
+  {
+    items.map(({ entry, Content }) => {
+      const { data } = entry;
+      return (
+        <li class="timeline-item relative flex flex-col gap-3">
+          <Heading class="text-xl">
+            {data.role}{' '}
+            <span class="text-fg-muted">·</span>{' '}
+            {data.company}
+          </Heading>
+
+          <p class="text-fg-secondary flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
+            <span>
+              {formatDateRange(data.startDate, data.endDate, lang, t('experience.present'))}
+            </span>
+            <span>{t(`experience.type.${data.type}`)}</span>
+            {data.location && <span>{data.location}</span>}
+          </p>
+
+          {Content && (
+            <div class="text-fg-secondary max-w-(--container-reading) leading-relaxed">
+              <Content />
+            </div>
+          )}
+
+          <ul class="text-fg-secondary flex max-w-(--container-reading) list-[square] flex-col gap-1 pl-5 marker:text-(--accent-text)">
+            {data.highlights.map((highlight) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+
+          {data.stack.length > 0 && (
+            <StackRow stack={data.stack} label={t('project.stack')} />
+          )}
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  /* Nodo de cada entrada, centrado sobre la línea del borde izquierdo. */
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 0.55rem;
+    left: calc(-2rem - 5px);
+    width: 9px;
+    height: 9px;
+    background-color: var(--accent-text);
+  }
+</style>
