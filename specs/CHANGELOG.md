@@ -3,6 +3,63 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Q-P resuelta: contenido real antes de la auditoría, sin `master`
+
+Decisión del usuario, registrada en `DEVIATIONS.md`: *"Adelantamos la fase de
+contenido real, el merge a master queda fuera del plan, todo a development, de
+master me encargo yo"*.
+
+- **`13-roadmap.md`:** la fase 10 pasa a ir antes de la 9, sin renumerar (hay
+  muchas referencias a "la fase 10" en specs y código). La fase 9 se queda en
+  auditoría, sin merge a `master`, y se ejecuta sobre el contenido real.
+  Actualizado el camino crítico.
+- **`AGENTS.md`, ADR-0017, `07-conventions.md`:** el agente no abre PRs ni mergea
+  hacia `master`.
+- **`09-testing.md`, ADR-0016:** las auditorías pasan de "antes de cada merge a
+  `master`" a "en la fase 9, contra `development`".
+- **`OPEN-QUESTIONS.md`:** Q-P sale de abiertas y entra en resueltas.
+- **`04-content-model.md`:** las fases con relleno son la 4 a la 8; la guarda de
+  CI sobre `master` se mantiene para los merges del usuario.
+
+## [2026-09-14] Fase 4 — contenido y proyectos
+
+Implementación de la fase 4. Correcciones a las specs salidas de construirla:
+
+- **`03-architecture.md`:** añade `sharp` (lo exige `<Image>` para AVIF/WebP),
+  `content/queries.ts`, `lib/projects.ts` y `scripts/check-drafts.mjs` al árbol.
+- **`06-components.md`:** documenta las props de `ProjectCard` (`cover`, `lang`,
+  `headingLevel`) y el comportamiento de `ProjectNav` y `ProjectGallery`.
+- **`13-roadmap.md`:** cierre real de la fase, con tres hallazgos. El más serio:
+  la validación de "exactamente 3 destacados" se saltaba un idioma sin
+  proyectos, y un despliegue a producción con todo en draft habría publicado
+  una galería vacía. Corregido con test de regresión.
+
+## [2026-09-14] Aprobadas las specs de la fase 4
+
+`04-content-model.md`, `05-pages/projects.md` y `05-pages/project-detail.md` pasan
+de BORRADOR a APROBADA. Tres decisiones del usuario:
+
+- **Drafts:** se filtran solo en el despliegue a producción (`VERCEL_ENV`), con
+  una guarda de CI sobre los PR a `master`. Deroga la regla anterior →
+  `DEVIATIONS.md`.
+- **Traducción:** todo proyecto existe en ambos idiomas o el build falla; fuera
+  la escapatoria de "no traducido". Deroga la regla anterior → `DEVIATIONS.md`.
+- **`ProjectNav`:** sin vuelta circular; el primero y el último ocultan el lado
+  que no existe.
+
+Desfases corregidos en la misma pasada:
+- `04-content-model.md` seguía diciendo que los iconos se dibujan a mano (derogado
+  en favor de Simple Icons) y describía `icon` como "componente SVG", cuando en
+  `tech.ts` es el slug de la librería.
+- `04-content-model.md` daba Q-D por pendiente; está resuelta desde el 2026-09-09.
+- `03-architecture.md` situaba los esquemas en `src/content/config.ts`; en Astro
+  7 viven en `src/content.config.ts`.
+- `project-detail.md` exigía la OG dinámica y el JSON-LD, que el roadmap asigna a
+  la fase 8. Quedan marcados como tales.
+
+**Nuevo conflicto registrado: Q-P.** La fase 9 mergea a `master` antes de que la
+10 traiga el contenido real, y la regla de drafts impide ese merge. Bloquea la
+fase 9, no la 4.
 ## [2026-09-14] Toggle de tema traducido
 
 Petición del usuario: *"El botón de tema en español debe decir sistema"*. Era un

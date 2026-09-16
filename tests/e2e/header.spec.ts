@@ -1,19 +1,11 @@
 import { expect, test, type Page } from '@playwright/test';
 
+import { hydrated } from './helpers';
+
 /**
  * El esqueleto de la fase 2 son páginas vacías, demasiado cortas para hacer
  * scroll. Se añade altura para poder ejercitar la ocultación del header.
  */
-async function hydrated(page: Page, selector: string) {
-  // Las islas de navegación son `client:idle`: el botón existe en el HTML
-  // servido desde el primer momento, pero React puede no haber enganchado aún
-  // el manejador. Astro quita el atributo `ssr` de <astro-island> al hidratar.
-  await page.waitForFunction((sel) => {
-    const island = document.querySelector(sel)?.closest('astro-island');
-    return Boolean(island) && !island!.hasAttribute('ssr');
-  }, selector);
-}
-
 async function openMobile(page: Page) {
   await page.addInitScript(() => {
     window.localStorage.setItem('lang', 'en');

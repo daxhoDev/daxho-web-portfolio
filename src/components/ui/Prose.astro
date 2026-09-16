@@ -1,0 +1,85 @@
+---
+/**
+ * Estilos tipográficos para el cuerpo MDX — 06-components.md.
+ *
+ * Sin plugin de tipografía: un puñado de reglas bastan para el cuerpo de un
+ * proyecto, y todas consumen tokens semánticos (regla 2 del inventario).
+ *
+ * Los encabezados del cuerpo empiezan en <h2>: el <h1> es solo el título de la
+ * página (project-detail.md).
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className }: Props = Astro.props;
+---
+
+<div class:list={['prose max-w-(--container-reading)', className]}>
+  <slot />
+</div>
+
+<style>
+  .prose :global(h2) {
+    margin: 2.5rem 0 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    color: var(--fg-primary);
+  }
+
+  .prose :global(h3) {
+    margin: 2rem 0 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-xl);
+    color: var(--fg-primary);
+  }
+
+  .prose :global(:is(h2, h3):first-child) {
+    margin-top: 0;
+  }
+
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1.25rem;
+    color: var(--fg-secondary);
+    line-height: 1.7;
+  }
+
+  .prose :global(ul) {
+    padding-left: 1.25rem;
+    list-style: square;
+  }
+
+  .prose :global(ol) {
+    padding-left: 1.25rem;
+    list-style: decimal;
+  }
+
+  .prose :global(li + li) {
+    margin-top: 0.35rem;
+  }
+
+  .prose :global(li::marker) {
+    color: var(--accent-text);
+  }
+
+  .prose :global(a) {
+    color: var(--accent-text);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .prose :global(a:hover) {
+    color: var(--accent-text-hover);
+  }
+
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 0.1em 0.35em;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-inset);
+    color: var(--fg-primary);
+  }
+</style>

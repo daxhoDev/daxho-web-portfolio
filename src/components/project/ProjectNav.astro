@@ -1,0 +1,63 @@
+---
+/**
+ * Anterior / siguiente y vuelta a la galería — 05-pages/project-detail.md.
+ *
+ * **Sin vuelta circular** (decisión del usuario, 2026-09-14): el primer
+ * proyecto no muestra "anterior" y el último no muestra "siguiente". El lado
+ * que falta se OCULTA; no se deja un hueco deshabilitado sin explicación.
+ */
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Neighbor {
+  slug: string;
+  data: { title: string };
+}
+
+interface Props {
+  lang: Lang;
+  prev?: Neighbor | undefined;
+  next?: Neighbor | undefined;
+}
+
+const { lang, prev, next }: Props = Astro.props;
+const t = useTranslations(lang);
+const href = (slug: string) => localizePath(`/projects/${slug}`, lang);
+---
+
+<nav aria-label={t('project.nav')} class="border-subtle mt-16 border-t pt-8">
+  <ul class="grid gap-6 md:grid-cols-3 md:items-start">
+    <li class="md:justify-self-start">
+      {
+        prev && (
+          <a href={href(prev.slug)} rel="prev" class="group flex flex-col gap-1" data-project-nav="prev">
+            <span class="text-fg-muted font-mono text-xs">← {t('project.prev')}</span>
+            <span class="text-fg-primary group-hover:text-accent-text transition-colors">
+              {prev.data.title}
+            </span>
+          </a>
+        )
+      }
+    </li>
+    <li class="md:justify-self-center">
+      <a
+        href={localizePath('/projects', lang)}
+        class="text-fg-secondary hover:text-accent-text font-mono text-sm transition-colors"
+        data-project-nav="back"
+      >
+        {t('project.back')}
+      </a>
+    </li>
+    <li class="md:justify-self-end md:text-right">
+      {
+        next && (
+          <a href={href(next.slug)} rel="next" class="group flex flex-col gap-1" data-project-nav="next">
+            <span class="text-fg-muted font-mono text-xs">{t('project.next')} →</span>
+            <span class="text-fg-primary group-hover:text-accent-text transition-colors">
+              {next.data.title}
+            </span>
+          </a>
+        )
+      }
+    </li>
+  </ul>
+</nav>

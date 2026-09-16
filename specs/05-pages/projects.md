@@ -1,6 +1,6 @@
 # Página: Projects (`/projects`, `/es/projects`)
 
-**Estado:** BORRADOR · 2026-09-09
+**Estado:** APROBADA · 2026-09-14 · se construye en la fase 4
 
 ## Objetivo
 Galería completa de los **6** proyectos, incluidos los 3 destacados del home.

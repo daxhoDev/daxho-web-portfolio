@@ -67,8 +67,11 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   ├── sections/         (Hero, TechCarousel, FeaturedProjects, CtaBand)
 │   │   ├── project/          (ProjectCard, ProjectGallery, StackRow)
 │   │   └── islands/          (componentes React)
+│   ├── content.config.ts     (esquemas Zod; en Astro 7 vive en src/, no en
+│   │                          src/content/)
 │   ├── content/
-│   │   ├── config.ts         (esquemas Zod)
+│   │   ├── tech.ts           (catálogo de tecnologías)
+│   │   ├── queries.ts        (carga y validación de las colecciones en el build)
 │   │   ├── projects/
 │   │   │   ├── en/
 │   │   │   └── es/
@@ -81,7 +84,8 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   ├── layouts/
 │   │   ├── BaseLayout.astro
 │   │   └── ProjectLayout.astro
-│   ├── lib/                  (utilidades puras — objetivo de Vitest)
+│   ├── lib/                  (utilidades puras — objetivo de Vitest;
+│   │                          projects.ts: validaciones del conjunto de proyectos)
 │   ├── pages/
 │   │   ├── index.astro
 │   │   ├── about.astro
@@ -97,6 +101,8 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   └── og/               (generación de imágenes OG)
 │   └── styles/
 │       └── global.css        (@theme con los tokens de 02-design-system.md)
+├── scripts/
+│   └── check-drafts.mjs      (guarda de CI: ningún draft llega a master)
 ├── tests/
 │   ├── unit/
 │   └── e2e/
@@ -128,3 +134,4 @@ Presupuesto vinculante (ver `09-testing.md`):
 - LCP < 2.0 s, CLS = 0, INP < 200 ms.
 - Todas las imágenes por el componente `<Image>` de Astro, en AVIF/WebP, con
   dimensiones explícitas y `loading="lazy"` salvo la del primer viewport.
+  Requiere `sharp`, el servicio de imágenes por defecto de Astro.

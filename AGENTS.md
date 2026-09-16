@@ -64,6 +64,9 @@ Una desviación sin entrada en `DEVIATIONS.md` es un incumplimiento de este arch
 ### Git (ver `specs/07-conventions.md`)
 - `master` = producción. `development` = integración previa. Ramas de trabajo
   (`feat/*`, `fix/*`, ...) mergean a `development`; `development` mergea a `master`.
+- **El agente no abre PRs ni mergea hacia `master`.** Todo su trabajo termina en
+  `development`; el merge a `master` lo hace el usuario cuando lo cree
+  conveniente.
 - Conventional Commits.
 - No se commitea ni se hace push sin que el usuario lo pida.
 

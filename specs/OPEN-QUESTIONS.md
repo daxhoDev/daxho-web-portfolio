@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-14 (aprobadas las specs de la fase 2)
+Última actualización: 2026-09-14 (Q-P resuelta)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -42,8 +42,6 @@ portafolio añade una pieza de infraestructura, un coste y una superficie de dat
 personales que hay que justificar en un aviso de privacidad. Si un correo se
 pierde, el visitante reescribe.
 
----
-
 ## Resueltas
 
 | Ref | Resolución | Documentado en |
@@ -70,6 +68,7 @@ pierde, el visitante reescribe.
 | Q37 | Formulario: nombre, correo, mensaje | `05-pages/contact.md` |
 | Q39 | Autorespuesta **fuera de alcance** sin dominio propio | ADR-0020 |
 | Q40 | Destinatario `developer.daxho@gmail.com` | `05-pages/contact.md` |
+| Q-P | La fase 10 (contenido real) va antes de la 9; el plan termina en `development` y el merge a `master` lo hace el usuario | `13-roadmap.md`, ADR-0017, `DEVIATIONS.md` |
 | — | Glitch con PowerGlitch — **derogada**, ver la fila siguiente | `DEVIATIONS.md` |
 | — | El glitch se elimina; lo sustituye el typing en todos los encabezados | `DEVIATIONS.md`, ADR-0014 §5 |
 | — | Iconos: Simple Icons sólidos | `DEVIATIONS.md`, ADR-0018 |
@@ -88,13 +87,15 @@ vinculante. Se aprueban antes de la fase que las consume.
 
 **Las dos de la fase 2 (`06-components.md` y `05-pages/404.md`) se aprobaron el
 2026-09-14**, junto con la entrada de `BootSequence` en el inventario y el
-traslado de `NavDropdown` y `MobileNav` a `islands/`. Quedan:
+traslado de `NavDropdown` y `MobileNav` a `islands/`.
+
+**Las tres de la fase 4 (`04-content-model.md`, `05-pages/projects.md` y
+`05-pages/project-detail.md`) se aprobaron el mismo día**, con tres decisiones:
+filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta. Quedan:
 
 | Spec | La consume | Estado |
 |---|---|---|
 | `05-pages/home.md` | Fase 5 | BORRADOR |
-| `04-content-model.md` | Fase 4 | BORRADOR |
-| `05-pages/projects.md`, `project-detail.md` | Fase 4 | BORRADOR |
 | `05-pages/about.md`, `resume.md` | Fase 6 | BORRADOR |
 | `05-pages/contact.md` | Fase 7 | BORRADOR + Q38/Q41 |
 | `08-integrations.md` | Fases 7 y 8 | BORRADOR |
@@ -110,7 +111,7 @@ No son decisiones de diseño, sino trabajo fuera del repositorio que bloquea fas
 2. **Crear la cuenta de Resend con `developer.daxho@gmail.com`** — el dominio de
    pruebas solo envía a la dirección de registro (ADR-0020). Bloquea la fase 7.
 3. **Filtro "nunca a spam" en Gmail** antes de la primera prueba de envío.
-4. **Contenido real** (fase 10): textos, fotografía, datos y capturas de los 6
+4. **Contenido real** (fase 10, que va antes de la 9): textos, fotografía, datos y capturas de los 6
    proyectos, redes del footer, formación, idiomas y el PDF del CV por idioma.
 
 **Consecuencia a tener presente:** el contenido de relleno afecta al diseño. Un

@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { hydrated } from './helpers';
+
 /**
  * ADR-0008 (rutas prefijadas) y ADR-0009 (detección y persistencia).
  *
@@ -106,6 +108,7 @@ test.describe('LanguageSwitcher', () => {
     await page.addInitScript(() => window.localStorage.setItem('lang', 'en'));
     await page.goto('/projects');
 
+    await hydrated(page, '[data-lang="es"]');
     await page.getByRole('button', { name: /^es/i }).click();
     await expect(page).toHaveURL(/\/es\/projects$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
@@ -120,6 +123,7 @@ test.describe('LanguageSwitcher', () => {
     const page = await context.newPage();
 
     await page.goto('/es/about');
+    await hydrated(page, '[data-lang="en"]');
     await page.getByRole('button', { name: /^en/i }).click();
     await expect(page).toHaveURL(/\/about$/);
 

@@ -30,5 +30,5 @@ el trabajo hecho ahora se capitaliza el día que se migre el dominio.
 
 ## Verificación
 El SEO forma parte de los criterios de aceptación: la categoría SEO de Lighthouse
-debe estar en 100, y la auditoría manual de `hreflang` y JSON-LD se ejecuta antes
-de cada merge a `master`.
+debe estar en 100, y la auditoría manual de `hreflang` y JSON-LD se ejecuta en la
+fase 9 (`09-testing.md`).

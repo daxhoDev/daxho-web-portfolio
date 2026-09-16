@@ -1,0 +1,38 @@
+---
+/**
+ * Fila de tecnologías de un proyecto — 06-components.md.
+ *
+ * La usan la card y el detalle. Las claves ya vienen validadas contra el
+ * catálogo por el esquema de la colección; el filtro de abajo solo protege los
+ * usos con datos escritos a mano (la styleguide).
+ */
+import Chip from '@/components/ui/Chip.astro';
+import TechIcon from '@/components/icons/tech/TechIcon.astro';
+import { getTechByKey } from '@/content/tech';
+
+interface Props {
+  stack: readonly string[];
+  label: string;
+  /** Tamaño del icono: 14 en la card, 16 en el detalle. */
+  iconSize?: number;
+  class?: string;
+}
+
+const { stack, label, iconSize = 14, class: className }: Props = Astro.props;
+
+const entries = stack
+  .map((key) => getTechByKey(key))
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+---
+
+<ul class:list={['flex flex-wrap gap-2', className]} aria-label={label}>
+  {
+    entries.map((tech) => (
+      <li>
+        <Chip label={tech.label}>
+          <TechIcon slot="icon" tech={tech.key} size={iconSize} />
+        </Chip>
+      </li>
+    ))
+  }
+</ul>
