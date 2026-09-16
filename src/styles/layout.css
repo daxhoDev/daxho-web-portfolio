@@ -369,3 +369,17 @@ html[data-nav-open] body {
     break-after: avoid;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   HONEYPOT DEL FORMULARIO (Q38, 05-pages/contact.md)
+   Fuera de la pantalla, no oculto con `display: none`: sigue en el HTML, que es
+   lo único que lee un bot, y no se ve. `aria-hidden` y `tabindex="-1"` en el
+   marcado lo apartan del lector de pantalla y del teclado.
+   -------------------------------------------------------------------------- */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

@@ -39,8 +39,9 @@
 7. Todo lo operable con ratón debe serlo con teclado.
 8. `prefers-reduced-motion` respetado sin excepciones.
 9. `<html lang>` correcto en cada página.
-10. El sitio debe ser legible y navegable con JavaScript desactivado (salvo el
-    formulario, que ofrece correo directo como alternativa).
+10. El sitio debe ser legible y navegable con JavaScript desactivado, **sin
+    excepciones**: desde el 2026-09-16 también el formulario de contacto funciona
+    sin JS (`05-pages/contact.md`).
 
 ## TypeScript
 

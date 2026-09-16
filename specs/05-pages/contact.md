@@ -1,15 +1,35 @@
 # Página: Contact (`/contact`, `/es/contact`)
 
-**Estado:** BORRADOR — campos y destinatario decididos; anti-spam pendiente
-2026-09-09
+**Estado:** APROBADA · 2026-09-16 · se construye en la fase 7
 
 ## Objetivo
 Que alguien interesado pueda escribir a Daxho sin salir del sitio.
 
 ## Estructura
-1. `<h1>` + una frase invitando a escribir.
-2. Formulario de contacto (isla React, `client:visible`).
-3. Enlaces alternativos: correo directo y redes sociales.
+1. `<h1>` + una frase invitando a escribir, en **voz de terminal** (decidido
+   2026-09-16), retomando el botón del home que trae hasta aquí:
+   - **EN:** `> ready when you are. Tell me about your project.`
+   - **ES:** `> listo cuando tú lo estés. Cuéntame tu proyecto.`
+
+   El `>` es decorativo (`aria-hidden`), como en la marca y el home.
+2. Formulario de contacto (isla React, `client:visible`), que **funciona también
+   sin JavaScript** (ver "Sin JavaScript").
+3. Enlaces alternativos: **redes sociales** (`src/content/social.ts`). **El correo
+   no se publica** (decidido 2026-09-16): escrito en la página atrae el spam que
+   Q38 intenta frenar.
+
+## Sin JavaScript (decidido 2026-09-16)
+
+El formulario es un `<form method="post" action="/api/contact">` real en el HTML
+servido. **Mejora progresiva:**
+- **Con JavaScript**, la isla intercepta el envío: valida en vivo, envía por
+  `fetch` y muestra los estados sin recargar.
+- **Sin JavaScript**, el navegador valida lo básico con atributos HTML
+  (`required`, `minlength`, `maxlength`, `type="email"`), el navegador envía el
+  formulario y el endpoint **redirige** a `/contact/sent` o `/contact/error` en el
+  idioma de la página.
+
+Así no hace falta ninguna vía alternativa que exponga el correo.
 
 ## Formulario — campos (Q37 decidida)
 
@@ -18,7 +38,7 @@ Tres campos, todos obligatorios:
 | Campo | Tipo | Validación |
 |---|---|---|
 | `name` | texto | 2-80 caracteres, sin recortar acentos |
-| `email` | email | formato válido; es la dirección a la que se responde |
+| `email` | email | formato válido, máximo 254 caracteres; es la dirección a la que se responde |
 | `message` | textarea | 10-2000 caracteres |
 
 Sin campo de asunto: el asunto del correo lo genera el sistema como
@@ -46,22 +66,67 @@ remitente de Resend, antes de la primera prueba real.
 - Los errores se asocian al campo con `aria-describedby` y se anuncian en una
   región `aria-live`.
 - El botón de envío se deshabilita mientras se envía, con texto que lo explique.
-- Si JavaScript falla, debe haber una vía de contacto visible (correo directo).
+- Si JavaScript falla, el formulario sigue funcionando como HTML normal (ver "Sin
+  JavaScript"). No se publica el correo como alternativa.
 - Ningún mensaje de error del servidor filtra detalles internos.
 - La clave de Resend jamás llega al cliente (ADR-0004).
 
 ## Endpoint `POST /api/contact`
 - `export const prerender = false`.
 - Valida con el esquema compartido.
-- Devuelve un JSON con forma estable: `{ ok: boolean, error?: string }`.
+- **Petición JSON** (la isla, con JavaScript): devuelve un JSON con forma estable
+  `{ ok: boolean, error?: string, fields?: {...} }`.
+- **Petición de formulario** (sin JavaScript): responde con una redirección 303 a
+  `/contact/sent` o `/contact/error` (o sus equivalentes en `/es`).
+- Honeypot relleno: responde **éxito** en ambos formatos, sin enviar nada.
+- Asunto del correo: `[Portfolio] Mensaje de {name}`. `From` = remitente de Resend;
+  `Reply-To` = correo del visitante (ADR-0020).
 - Registra los fallos sin registrar el contenido del mensaje.
+- **Protección CSRF de Astro** (`security.checkOrigin`, activa por defecto): un
+  POST de formulario cuyo `Origin` no es el del sitio recibe 403. Impide que una
+  página ajena use el endpoint desde el navegador de un tercero. Se mantiene, y
+  está cubierta por un test.
+- Los secretos (`RESEND_API_KEY`) se leen en tiempo de ejecución con
+  `astro:env/server`. Sin clave configurada, el endpoint responde error: nunca
+  finge un envío.
 
-## Pendiente antes de implementar
-- **Q38** estrategia anti-spam
-- **Q41** persistencia de los mensajes (¿solo correo, o además guardar copia?)
+## Páginas de resultado
 
-Cerradas: Q37 (tres campos), Q39 (autorespuesta fuera de alcance sin dominio
-propio, ADR-0020), Q40 (`developer.daxho@gmail.com`).
+`/contact/sent` y `/contact/error`, en ambos idiomas. Solo las ve quien envía sin
+JavaScript. Llevan `noindex`, no van al sitemap y ofrecen volver al formulario o
+al inicio.
+
+## Anti-spam (Q38 decidida: honeypot + límite por IP)
+
+**Honeypot.** El formulario lleva un campo extra (`website`) fuera de la pantalla
+por CSS, que una persona nunca ve y un bot genérico rellena al leer el HTML.
+- `aria-hidden="true"`, `tabindex="-1"` y `autocomplete="off"`: ni un lector de
+  pantalla lo anuncia, ni se llega a él con el tabulador, ni lo autocompleta el
+  navegador. Sin esto, una persona real podría rellenarlo y perder su mensaje.
+- Si llega relleno, el endpoint **responde éxito sin enviar nada**: un error le
+  diría a quien programa el bot que hay una trampa.
+
+**Límite de envíos por IP** (decidido 2026-09-16: **regla del firewall de
+Vercel**). Acota el daño de un bot dirigido, que el honeypot no frena.
+- Regla configurada **en el panel de Vercel**, no en el código: POST a
+  `/api/contact`, ventana fija de **10 minutos**, máximo **3 peticiones por IP**,
+  acción **429**. Detalle en `08-integrations.md`.
+- Es fiable porque el contador lo lleva el firewall, no la función: las
+  ejecuciones del endpoint no comparten memoria. Disponible en el plan Hobby
+  (1 regla de límite por proyecto).
+- **Límites asumidos:** la regla vive fuera del repositorio; en local no hay
+  límite (se prueba simulando la respuesta 429); y quien envíe sin JavaScript y
+  supere el límite ve la página 429 genérica de Vercel, no una del sitio.
+
+## Persistencia (Q41 decidida: no)
+
+Los mensajes **no se guardan**: el correo es el único registro. Sin base de datos,
+sin coste y sin datos personales almacenados que justificar en un aviso de
+privacidad. El endpoint tampoco registra el contenido del mensaje en los logs.
+
+Cerradas: Q37 (tres campos), Q38 (honeypot + límite por IP), Q39 (autorespuesta
+fuera de alcance sin dominio propio, ADR-0020), Q40 (`developer.daxho@gmail.com`),
+Q41 (sin persistencia).
 
 ## Criterios de aceptación
 - [ ] El formulario es enteramente usable con teclado.

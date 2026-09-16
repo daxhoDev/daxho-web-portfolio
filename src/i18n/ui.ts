@@ -113,6 +113,33 @@ const en = {
   'about.education': 'Education',
   'about.languages': 'Languages',
   'about.inProgress': 'in progress',
+
+  'contact.title': 'Contact — Daxho',
+  'contact.intro': 'ready when you are. Tell me about your project.',
+  'contact.name': 'Name',
+  'contact.email': 'Email',
+  'contact.message': 'Message',
+  'contact.submit': 'Send message',
+  'contact.sending': 'Sending…',
+  'contact.success': 'Message sent. I will get back to you soon.',
+  'contact.error.generic': 'The message could not be sent. Please try again in a few minutes.',
+  'contact.error.rateLimited': 'Too many messages in a short time. Please try again in 10 minutes.',
+  'contact.error.fields': 'Please check the highlighted fields.',
+  'contact.field.required': 'This field is required.',
+  // {n} se sustituye por el límite.
+  'contact.field.tooShort': 'Use at least {n} characters.',
+  'contact.field.tooLong': 'Use at most {n} characters.',
+  'contact.field.invalidEmail': 'Enter a valid email address.',
+  'contact.honeypot': 'Leave this field empty',
+  'contact.elsewhere': 'Also on',
+  'contact.sent.title': 'Message sent — Daxho',
+  'contact.sent.heading': 'message sent',
+  'contact.sent.text': 'Thanks for writing. I will get back to you soon.',
+  'contact.failed.title': 'Message not sent — Daxho',
+  'contact.failed.heading': 'message not sent',
+  'contact.failed.text':
+    'Something went wrong: check the fields or try again in a few minutes.',
+  'contact.backToForm': 'Back to the form',
 } as const;
 
 /** Toda traducción debe cubrir exactamente las claves de `en`. */
@@ -212,6 +239,32 @@ const es: Translations = {
   'about.education': 'Formación',
   'about.languages': 'Idiomas',
   'about.inProgress': 'en curso',
+
+  'contact.title': 'Contacto — Daxho',
+  'contact.intro': 'listo cuando tú lo estés. Cuéntame tu proyecto.',
+  'contact.name': 'Nombre',
+  'contact.email': 'Correo',
+  'contact.message': 'Mensaje',
+  'contact.submit': 'Enviar mensaje',
+  'contact.sending': 'Enviando…',
+  'contact.success': 'Mensaje enviado. Te responderé pronto.',
+  'contact.error.generic': 'No se pudo enviar el mensaje. Inténtalo de nuevo en unos minutos.',
+  'contact.error.rateLimited': 'Demasiados mensajes en poco tiempo. Inténtalo de nuevo en 10 minutos.',
+  'contact.error.fields': 'Revisa los campos marcados.',
+  'contact.field.required': 'Este campo es obligatorio.',
+  'contact.field.tooShort': 'Usa al menos {n} caracteres.',
+  'contact.field.tooLong': 'Usa como máximo {n} caracteres.',
+  'contact.field.invalidEmail': 'Escribe un correo válido.',
+  'contact.honeypot': 'Deja este campo vacío',
+  'contact.elsewhere': 'También en',
+  'contact.sent.title': 'Mensaje enviado — Daxho',
+  'contact.sent.heading': 'mensaje enviado',
+  'contact.sent.text': 'Gracias por escribir. Te responderé pronto.',
+  'contact.failed.title': 'Mensaje no enviado — Daxho',
+  'contact.failed.heading': 'mensaje no enviado',
+  'contact.failed.text':
+    'Algo ha fallado: revisa los campos o inténtalo de nuevo en unos minutos.',
+  'contact.backToForm': 'Volver al formulario',
 };
 
 export const UI: Record<Lang, Translations> = { en, es };

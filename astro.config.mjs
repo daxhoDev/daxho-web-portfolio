@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import vercel from '@astrojs/vercel';
@@ -25,6 +25,25 @@ export default defineConfig({
     },
   },
   adapter: vercel(),
+  // 08-integrations.md: los secretos se leen EN TIEMPO DE EJECUCIÓN con
+  // `astro:env/server`, nunca incrustados en el build. La clave es opcional para
+  // que el sitio compile sin ella (en local y en CI); sin clave, el endpoint
+  // responde con error en vez de fingir un envío.
+  env: {
+    schema: {
+      RESEND_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      CONTACT_TO_EMAIL: envField.string({
+        context: 'server',
+        access: 'secret',
+        default: 'developer.daxho@gmail.com',
+      }),
+      CONTACT_FROM_EMAIL: envField.string({
+        context: 'server',
+        access: 'secret',
+        default: 'onboarding@resend.dev',
+      }),
+    },
+  },
   // ADR-0005: MDX para el cuerpo largo del detalle de proyecto.
   integrations: [react(), mdx()],
   vite: {
