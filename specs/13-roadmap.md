@@ -153,7 +153,7 @@ card.
 
 ---
 
-## Fase 5 — Home · **M** · 🔍 EN REVISIÓN
+## Fase 5 — Home · **M** · ✅ COMPLETADA (PR #5)
 Rama: `feat/home`
 
 **Prerrequisito cumplido (2026-09-16):** `05-pages/home.md` pasa a APROBADA, con
@@ -184,13 +184,19 @@ se pinta de inmediato, o acortar el tecleo. No se decide nada sin medir.
 
 ---
 
-## Fase 6 — About y Resume · **M**
+## Fase 6 — About y Resume · **M** · ⬅️ EN CURSO
 Rama: `feat/about-resume`
+
+**Prerrequisito cumplido (2026-09-16):** `05-pages/about.md` y `05-pages/resume.md`
+pasan a APROBADA. Decisiones: PDF de relleno con peso leído del archivo en el
+build; contacto en `/resume` con GitHub, LinkedIn y el formulario, sin correo;
+experiencia como colección MDX por idioma y formación e idiomas en archivos TS.
 
 Colección `experience` · `/about` (bio, foto, skills agrupadas, timeline) ·
 `/resume` con el botón de descarga del PDF arriba · hoja de estilos de impresión.
 
-**Acción del usuario:** el PDF del CV, uno por idioma (Q-G).
+**Acción del usuario:** el PDF del CV, uno por idioma (Q-G). Hasta la fase 10 hay
+uno de relleno: basta con sustituir el archivo.
 
 ---
 

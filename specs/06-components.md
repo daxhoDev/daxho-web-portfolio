@@ -35,7 +35,7 @@
 | `Header` | astro | **ocultable al bajar** (Q28): se esconde al hacer scroll hacia abajo, reaparece al subir. Debe reaparecer siempre al llegar arriba y al recibir foco por teclado |
 | `Brand` | astro | marca denominativa, enlaza al home del idioma activo (ver `12-brand.md`) |
 | `Nav` | astro | Home · About · Projects · Resume · Contact — **tres modos**, ver abajo |
-| `Footer` | astro | enlaces a redes sociales; **placeholder hasta la fase 10** (Q36 resuelta) |
+| `Footer` | astro | enlaces a redes sociales desde `src/content/social.ts`, fuente compartida con `/resume`; **placeholder hasta la fase 10** (Q36 resuelta) |
 | `SkipLink` | astro | "Skip to content", primer elemento tabulable de la página |
 | `BootSequence` | astro | overlay de arranque de ADR-0019. **Sin isla**: se retira por animación CSS de duración fija, y el script inline solo gestiona el "saltar" y el `sessionStorage`. Si el JS falla, el overlay desaparece igual |
 
@@ -48,8 +48,8 @@
 | `TechCarousel` | astro | **CSS puro, sin JS** |
 | `FeaturedProjects` | astro | los 3 destacados |
 | `CtaBand` | astro | banda de acento con CTA final |
-| `Timeline` | astro | experiencia, marcada como `<ol>` |
-| `SkillsGrid` | astro | skills agrupadas |
+| `Timeline` | astro | experiencia, marcada como `<ol>`, de más reciente a más antigua; la usan `/about` y `/resume` |
+| `SkillsGrid` | astro | skills en los seis grupos de `10-tech-catalog.md`, sin nivel de dominio; la usan `/about` y `/resume` |
 
 ## `project/`
 

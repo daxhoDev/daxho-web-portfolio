@@ -71,11 +71,17 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │                          src/content/)
 │   ├── content/
 │   │   ├── tech.ts           (catálogo de tecnologías)
+│   │   ├── skills.ts         (grupos de skills sobre el catálogo)
+│   │   ├── education.ts      (formación)
+│   │   ├── languages.ts      (idiomas)
+│   │   ├── social.ts         (redes: footer y /resume)
 │   │   ├── queries.ts        (carga y validación de las colecciones en el build)
 │   │   ├── projects/
 │   │   │   ├── en/
 │   │   │   └── es/
 │   │   └── experience/
+│   │       ├── en/
+│   │       └── es/
 │   ├── i18n/
 │   │   ├── ui.ts             (diccionarios)
 │   │   └── utils.ts          (localizePath, getLangFromUrl, canonicalPath,
