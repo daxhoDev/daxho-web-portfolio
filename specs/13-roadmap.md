@@ -303,6 +303,28 @@ y lo hace el usuario (Q-P).
 
 ---
 
+## Fase 11 — Plantillas de correo · **S** · 🕓 PARA MÁS ADELANTE
+Rama: `feat/email-templates`
+
+Añadida el 2026-09-16 a petición del usuario, **sin fecha**: se empieza cuando lo
+pida. Solo depende de la fase 7, así que puede ir en cualquier momento a partir de
+ahí, antes o después de las fases 8, 10 y 9.
+
+**Prerrequisitos:** resolver Q-Q (tema claro u oscuro del correo) y aprobar
+`14-email.md`.
+
+Aviso del formulario con React Email siguiendo la estética del sitio (ADR-0022) ·
+`EmailLayout` + `ContactNotification` · colores en literales con test contra los
+tokens · envío de `html` y `text` · si la plantilla falla, se envía el texto plano.
+
+**Entregable:** un aviso real recibido en Gmail web y en la app móvil, legible en
+claro y en oscuro.
+
+**Acción del usuario:** leer ese envío de prueba en los dos clientes y en los dos
+modos, que es la verificación que no se puede automatizar.
+
+---
+
 ## Regla transversal
 
 Cada fase incluye **sus tests** (`09-testing.md`) y no se da por cerrada sin
@@ -314,6 +336,8 @@ cumplir la definición de "hecho". Sin tests, la fase no está terminada.
 F1 ──> F2 ──┬─> F4 ──> F5 ──┐
             ├─> F6 ─────────┼─> F8 ──> F10 ──> F9
             └─> F7 ─────────┘
+                    │
+                    └─> F11 (sin fecha, cuando el usuario lo pida)
 ```
 
 F4, F6 y F7 son independientes entre sí una vez cerrada F2: si en algún momento
@@ -321,6 +345,7 @@ se quiere reordenar por disponibilidad de contenido, se puede.
 (F3 eliminada: resuelta dentro de F1.)
 F10 va antes que F9: la auditoría se hace sobre el contenido real (Q-P).
 El plan termina en `development`; `master` lo gestiona el usuario.
+F11 cuelga solo de F7 y no bloquea ni depende de las demás.
 
 ## Lo que puede desbloquearse en paralelo desde ya
 

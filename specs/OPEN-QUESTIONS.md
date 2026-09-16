@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-16 (aprobadas las specs de la fase 7)
+Última actualización: 2026-09-16 (añadida la fase 11 y Q-Q)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -12,7 +12,20 @@ seguir en "Abiertas" ni en "Aplazado".
 
 ## Abiertas
 
-Ninguna. Q38 y Q41, las dos últimas, se resolvieron el 2026-09-16.
+### Q-Q · Tema claro u oscuro de los correos
+**Bloquea la fase 11** (`13-roadmap.md`), que no tiene fecha: no hay prisa.
+
+Los correos seguirán la estética del sitio (ADR-0022), pero Gmail en iOS y
+Android invierte los colores en modo oscuro con su propio algoritmo.
+
+- **(a)** Base clara con variante oscura por `prefers-color-scheme` donde el
+  cliente la soporte.
+- **(b)** Oscuro fijo, la cara más reconocible del sitio, a riesgo de que algunas
+  apps lo inviertan con contrastes imprevisibles.
+- **(c)** Solo claro.
+
+**Recomendación: (a).** Da la estética oscura donde el cliente la respeta sin
+arriesgar la legibilidad donde no. Detalle en `14-email.md`.
 
 ## Resueltas
 
@@ -70,7 +83,9 @@ filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta.
 **La de la fase 5 (`05-pages/home.md`) se aprobó el 2026-09-16, y las dos de la
 fase 6 (`about.md`, `resume.md`) el mismo día, igual que las dos de la fase 7 (`contact.md`, `08-integrations.md`).** `resume.md` quedó SUPERSEDED esa misma tarde: la página se eliminó.
 
-**No queda ninguna spec en BORRADOR.**
+| Spec | La consume | Estado |
+|---|---|---|
+| `14-email.md` | Fase 11 (sin fecha) | BORRADOR + Q-Q |
 
 ---
 

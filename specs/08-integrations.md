@@ -30,6 +30,8 @@ Reglas:
   destinatario, la API devuelve 403.
 - Se llama a la API REST de Resend con `fetch` desde el endpoint, sin su SDK: una
   sola petición no justifica una dependencia.
+- **A partir de la fase 11**, la petición lleva `html` (React Email) además de
+  `text`. Ver ADR-0022 y `14-email.md`.
 - **Requisito operativo bloqueante:** la cuenta de Resend debe registrarse con
   `developer.daxho@gmail.com`. El dominio de pruebas solo envía a la dirección de
   registro de la cuenta; con cualquier otra, el envío falla.

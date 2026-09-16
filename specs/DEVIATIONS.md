@@ -5,6 +5,33 @@ cambiar o romper. Obligatorio por la Regla 3 de `../AGENTS.md`.
 
 ---
 
+## [2026-09-16] Los correos pasan a HTML con React Email (fase 11)
+
+- **Regla anterior:** ADR-0020 — *"El cuerpo incluye nombre, correo y mensaje en
+  texto plano legible."*
+- **Regla nueva:** a partir de la **fase 11**, el aviso se envía también en HTML
+  generado con React Email, siguiendo la estética del sitio; el texto plano se
+  conserva como alternativa (ADR-0022, `14-email.md`). **Hasta entonces sigue
+  rigiendo el texto plano**, que es lo desplegado.
+- **Motivo (palabras del usuario):** *"Crea la especificación y una etapa de
+  implementación para más adelante, los emails seguirán la estética y diseño de
+  la web."*
+- **Consecuencias asumidas:**
+  - Una dependencia nueva, solo de servidor: el presupuesto de JS del sitio no
+    cambia.
+  - La estética se traduce, no se copia: sin fuentes web, sin variables CSS y
+    sin animación, porque Gmail no los soporta.
+  - Queda abierta Q-Q (tema claro u oscuro), que bloquea la fase 11.
+  - Se advirtió al usuario de que el único destinatario es él mismo mientras no
+    haya dominio propio (Q39); aun así decidió especificarlo.
+- **Aprobada por:** usuario.
+- **Archivos actualizados:** ADR-0020, ADR-0022 (nueva), `14-email.md` (nueva),
+  `13-roadmap.md`, `OPEN-QUESTIONS.md`, `03-architecture.md`,
+  `08-integrations.md`, `05-pages/contact.md`, `README.md`,
+  `01-decisions/README.md`, `CHANGELOG.md`.
+
+---
+
 ## [2026-09-16] Se elimina `/resume`; el CV se descarga desde `/about`
 
 - **Reglas anteriores:**

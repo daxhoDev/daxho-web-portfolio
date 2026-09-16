@@ -3,6 +3,30 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-16] Plantillas de correo: ADR-0022, `14-email.md` y fase 11
+
+Petición del usuario: especificar el paso a correos HTML con React Email
+siguiendo la estética del sitio, como etapa para más adelante.
+
+- **ADR-0022 (APROBADA):** React Email frente a mantener texto plano, HTML a mano
+  o MJML. Modifica la regla de formato de ADR-0020, efectiva en la fase 11 →
+  `DEVIATIONS.md`.
+- **`14-email.md` (BORRADOR):** una plantilla (el aviso a Daxho), su contenido,
+  la traducción de la estética del sitio a lo que soportan los clientes de correo
+  (colores en literales con test contra los tokens, fuentes del sistema, sin
+  animación, píxeles), seguridad (escapado, sin `dangerouslySetInnerHTML`), envío
+  de `html` + `text` con caída a texto plano si falla el render, y verificación
+  manual en Gmail web y móvil.
+- **`13-roadmap.md`:** nueva **fase 11**, sin fecha, que solo depende de la 7.
+- **`OPEN-QUESTIONS.md`:** nueva **Q-Q** (tema claro u oscuro del correo), que
+  bloquea la fase 11.
+- Verificado antes de escribir la spec, en la documentación de React Email:
+  `render()` es asíncrono y ofrece `plainText`; su componente `Tailwind` soporta
+  v4, recomienda píxeles y no soporta selectores complejos ni `hover`. Gmail no
+  carga fuentes web.
+- Propagado a ADR-0020, `03-architecture.md`, `08-integrations.md`,
+  `05-pages/contact.md` y los dos índices.
+
 ## [2026-09-16] Fase 7 — Contacto
 
 Implementación de la fase 7, sin cambios de decisión.

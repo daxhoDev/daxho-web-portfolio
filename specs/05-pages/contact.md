@@ -80,7 +80,8 @@ remitente de Resend, antes de la primera prueba real.
   `/contact/sent` o `/contact/error` (o sus equivalentes en `/es`).
 - Honeypot relleno: responde **éxito** en ambos formatos, sin enviar nada.
 - Asunto del correo: `[Portfolio] Mensaje de {name}`. `From` = remitente de Resend;
-  `Reply-To` = correo del visitante (ADR-0020).
+  `Reply-To` = correo del visitante (ADR-0020). Cuerpo en texto plano; a partir
+  de la fase 11, también HTML con la estética del sitio (`14-email.md`).
 - Registra los fallos sin registrar el contenido del mensaje.
 - **Protección CSRF de Astro** (`security.checkOrigin`, activa por defecto): un
   POST de formulario cuyo `Origin` no es el del sitio recibe 403. Impide que una
