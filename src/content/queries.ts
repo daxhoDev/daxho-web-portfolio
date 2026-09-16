@@ -70,7 +70,7 @@ let experienceCache: Promise<Experience[]> | undefined;
 
 /**
  * Experiencia de un idioma, de más reciente a más antigua (05-pages/about.md).
- * La leen /about y /resume: misma fuente, el dato no se duplica.
+ * La lee /about.
  */
 export async function getExperience(lang: Lang): Promise<Experience[]> {
   experienceCache ??= (async () => {

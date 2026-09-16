@@ -3,11 +3,17 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
-## [2026-09-16] Fase 6 — About y Resume
+## [2026-09-16] Se elimina `/resume`: el CV se descarga desde `/about`
 
-Implementación de la fase 6, sin cambios de decisión. `13-roadmap.md` recoge el
-cierre real y un hallazgo: en la hoja de impresión, `*` no alcanza a los
-pseudo-elementos, y los nodos de la línea de tiempo y las viñetas salían en rojo.
+Decisión del usuario, registrada en `DEVIATIONS.md`: *"about y resume muestran lo
+mismo"*. Antes de mergear la fase 6.
+
+- `about.md` absorbe el botón de descarga (tras la entradilla), las reglas del PDF,
+  formación, idiomas y la hoja de impresión. Perfil y contacto se eliminan.
+- `resume.md` pasa a SUPERSEDED, con una tabla de adónde fue cada bloque.
+- Navegación de 5 a 4 enlaces: `06-components.md`, Q-N en `OPEN-QUESTIONS.md`.
+- Propagado a `05-pages/README.md`, `03-architecture.md`, `04-content-model.md` y
+  `13-roadmap.md` (la fase 6 pasa a llamarse "About").
 
 ## [2026-09-16] Aprobadas las specs de la fase 6
 

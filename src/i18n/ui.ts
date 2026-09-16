@@ -22,7 +22,6 @@ const en = {
   'nav.home': 'Home',
   'nav.about': 'About',
   'nav.projects': 'Projects',
-  'nav.resume': 'Resume',
   'nav.contact': 'Contact',
 
   'nav.menu.open': 'Open menu',
@@ -107,20 +106,13 @@ const en = {
   'experience.type.freelance': 'Freelance',
   'experience.highlights': 'Highlights',
 
-  'resume.title': 'Resume — Daxho',
+  'about.cv.download': 'Download PDF',
   // {lang} y {size} se sustituyen en la página.
-  'resume.download': 'Download PDF',
-  'resume.downloadMeta': '{lang} · {size}',
-  'resume.fileLang': 'English',
-  'resume.contact': 'Contact',
-  'resume.contactForm': 'Contact form',
-  'resume.profile': 'Profile',
-  // TODO(fase 10): perfil real.
-  'resume.profile.text':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  'resume.education': 'Education',
-  'resume.languages': 'Languages',
-  'resume.inProgress': 'in progress',
+  'about.cv.meta': '{lang} · {size}',
+  'about.cv.lang': 'English',
+  'about.education': 'Education',
+  'about.languages': 'Languages',
+  'about.inProgress': 'in progress',
 } as const;
 
 /** Toda traducción debe cubrir exactamente las claves de `en`. */
@@ -131,7 +123,6 @@ const es: Translations = {
   'nav.home': 'Inicio',
   'nav.about': 'Sobre mí',
   'nav.projects': 'Proyectos',
-  'nav.resume': 'Currículum',
   'nav.contact': 'Contacto',
 
   'nav.menu.open': 'Abrir menú',
@@ -215,19 +206,12 @@ const es: Translations = {
   'experience.type.freelance': 'Freelance',
   'experience.highlights': 'Logros',
 
-  'resume.title': 'Currículum — Daxho',
-  'resume.download': 'Descargar PDF',
-  'resume.downloadMeta': '{lang} · {size}',
-  'resume.fileLang': 'español',
-  'resume.contact': 'Contacto',
-  'resume.contactForm': 'Formulario de contacto',
-  'resume.profile': 'Perfil profesional',
-  // TODO(fase 10): perfil real.
-  'resume.profile.text':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  'resume.education': 'Formación',
-  'resume.languages': 'Idiomas',
-  'resume.inProgress': 'en curso',
+  'about.cv.download': 'Descargar PDF',
+  'about.cv.meta': '{lang} · {size}',
+  'about.cv.lang': 'español',
+  'about.education': 'Formación',
+  'about.languages': 'Idiomas',
+  'about.inProgress': 'en curso',
 };
 
 export const UI: Record<Lang, Translations> = { en, es };

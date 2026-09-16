@@ -301,9 +301,9 @@ html[data-nav-open] body {
 }
 
 /* =============================================================================
-   IMPRESIÓN — 05-pages/resume.md
+   IMPRESIÓN — 05-pages/about.md
    Negro sobre blanco, sin header, sin footer y sin efectos. Pensada para
-   /resume, pero aplica a cualquier página: nadie quiere imprimir el cromo.
+   /about, pero aplica a cualquier página: nadie quiere imprimir el cromo.
    ========================================================================== */
 @media print {
   .site-header,

@@ -1,5 +1,5 @@
 /**
- * Idiomas — 04-content-model.md, 05-pages/resume.md.
+ * Idiomas — 04-content-model.md, 05-pages/about.md.
  *
  * TODO(fase 10): idiomas y niveles reales. Relleno marcado con `draft: true`.
  */

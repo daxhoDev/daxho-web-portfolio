@@ -1,5 +1,5 @@
 /**
- * Formación — 04-content-model.md, 05-pages/resume.md.
+ * Formación — 04-content-model.md, 05-pages/about.md.
  *
  * Archivo TS tipado: son pocas líneas sin cuerpo largo. Los textos traducibles
  * van en los dos idiomas en la misma entrada.

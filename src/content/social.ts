@@ -1,5 +1,5 @@
 /**
- * Redes sociales — fuente única para el footer y /resume (04-content-model.md).
+ * Redes sociales del footer (04-content-model.md).
  *
  * TODO(fase 10): URLs reales (Q36). Mientras tanto son placeholder con
  * `draft: true`, que la guarda de CI detecta y bloquea hacia `master`.

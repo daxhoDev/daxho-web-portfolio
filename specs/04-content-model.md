@@ -98,8 +98,7 @@ Iconos: trazados oficiales de Simple Icons, dibujados a mano solo los que falten
 
 ## Colección: `experience`
 
-Para la página `/about` y la página `/resume`, que leen **la misma colección**:
-el dato no se duplica.
+Para la página `/about`.
 
 Un archivo MDX por entrada e idioma: `src/content/experience/{lang}/{slug}.mdx`,
 como `projects` y **con la misma regla: ambos idiomas o el build falla**
@@ -130,7 +129,7 @@ Datos cortos sin cuerpo largo: **archivos TypeScript tipados**, como `tech.ts`
 
 - `src/content/education.ts` — institución, título, años.
 - `src/content/languages.ts` — idioma y nivel.
-- `src/content/social.ts` — redes; **fuente única** para el footer y `/resume`.
+- `src/content/social.ts` — redes del footer.
 
 La guarda de CI (`scripts/check-drafts.mjs`) también revisa estos archivos: un
 `draft: true` en ellos bloquea igual un PR a `master`.

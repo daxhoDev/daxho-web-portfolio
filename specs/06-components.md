@@ -34,8 +34,8 @@
 |---|---|---|
 | `Header` | astro | **ocultable al bajar** (Q28): se esconde al hacer scroll hacia abajo, reaparece al subir. Debe reaparecer siempre al llegar arriba y al recibir foco por teclado |
 | `Brand` | astro | marca denominativa, enlaza al home del idioma activo (ver `12-brand.md`) |
-| `Nav` | astro | Home · About · Projects · Resume · Contact — **tres modos**, ver abajo |
-| `Footer` | astro | enlaces a redes sociales desde `src/content/social.ts`, fuente compartida con `/resume`; **placeholder hasta la fase 10** (Q36 resuelta) |
+| `Nav` | astro | Home · About · Projects · Contact — **tres modos**, ver abajo. Eran 5 enlaces hasta que se eliminó `/resume` (2026-09-16) |
+| `Footer` | astro | enlaces a redes sociales desde `src/content/social.ts`, **placeholder hasta la fase 10** (Q36 resuelta) |
 | `SkipLink` | astro | "Skip to content", primer elemento tabulable de la página |
 | `BootSequence` | astro | overlay de arranque de ADR-0019. **Sin isla**: se retira por animación CSS de duración fija, y el script inline solo gestiona el "saltar" y el `sessionStorage`. Si el JS falla, el overlay desaparece igual |
 
@@ -48,8 +48,8 @@
 | `TechCarousel` | astro | **CSS puro, sin JS** |
 | `FeaturedProjects` | astro | los 3 destacados |
 | `CtaBand` | astro | banda de acento con CTA final |
-| `Timeline` | astro | experiencia, marcada como `<ol>`, de más reciente a más antigua; la usan `/about` y `/resume` |
-| `SkillsGrid` | astro | skills en los seis grupos de `10-tech-catalog.md`, sin nivel de dominio; la usan `/about` y `/resume` |
+| `Timeline` | astro | experiencia, marcada como `<ol>`, de más reciente a más antigua; la usa `/about` |
+| `SkillsGrid` | astro | skills en los seis grupos de `10-tech-catalog.md`, sin nivel de dominio; la usa `/about` |
 
 ## `project/`
 
@@ -78,12 +78,12 @@ tabla de `layout/` contiene únicamente `.astro`.
 ## Navegación — tres modos (Q-N decidida)
 
 Decisión del usuario: en lugar de eliminar enlaces, la navegación **cambia de
-forma** antes de llegar a comprimirse. Los 5 enlaces se conservan en los tres
-modos.
+forma** antes de llegar a comprimirse. Todos los enlaces (4 desde que se eliminó
+`/resume`) se conservan en los tres modos.
 
 | Modo | Ancho | Comportamiento |
 |---|---|---|
-| **Completo** | `≥ lg` (1024px) | los 5 enlaces en línea, junto a la marca y los dos selectores |
+| **Completo** | `≥ lg` (1024px) | los 4 enlaces en línea, junto a la marca y los dos selectores |
 | **Dropdown** | `md` – `lg` | los enlaces colapsan en un desplegable; marca y selectores siguen visibles |
 | **Sidebar** | `< md` (768px) | panel lateral a pantalla completa |
 

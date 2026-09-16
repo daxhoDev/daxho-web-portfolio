@@ -53,7 +53,7 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 ├── specs/
 ├── public/
 │   ├── fonts/                (si no se usa el paquete de Fontsource)
-│   ├── resume/               (PDF del CV)
+│   ├── resume/               (PDF del CV, enlazado desde /about)
 │   └── favicon/
 ├── src/
 │   ├── assets/               (imágenes procesadas por Astro)
@@ -74,7 +74,7 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   ├── skills.ts         (grupos de skills sobre el catálogo)
 │   │   ├── education.ts      (formación)
 │   │   ├── languages.ts      (idiomas)
-│   │   ├── social.ts         (redes: footer y /resume)
+│   │   ├── social.ts         (redes del footer)
 │   │   ├── queries.ts        (carga y validación de las colecciones en el build)
 │   │   ├── projects/
 │   │   │   ├── en/
@@ -98,7 +98,6 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   ├── projects/
 │   │   │   ├── index.astro
 │   │   │   └── [slug].astro
-│   │   ├── resume.astro
 │   │   ├── contact.astro
 │   │   ├── 404.astro
 │   │   ├── es/               (espejo completo del árbol anterior)

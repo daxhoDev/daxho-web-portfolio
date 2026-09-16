@@ -95,7 +95,7 @@ test.describe('navegación', () => {
     // Se leen del HTML servido, sin ejecutar JavaScript.
     const response = await page.request.get('/');
     const html = await response.text();
-    for (const label of ['Home', 'About', 'Projects', 'Resume', 'Contact']) {
+    for (const label of ['Home', 'About', 'Projects', 'Contact']) {
       expect(html).toContain(`>${label}<`);
     }
   });

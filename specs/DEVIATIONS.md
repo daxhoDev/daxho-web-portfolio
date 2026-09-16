@@ -5,6 +5,37 @@ cambiar o romper. Obligatorio por la Regla 3 de `../AGENTS.md`.
 
 ---
 
+## [2026-09-16] Se elimina `/resume`; el CV se descarga desde `/about`
+
+- **Reglas anteriores:**
+  - `05-pages/resume.md` (APROBADA ese mismo día) — página `/resume` con botón de
+    descarga, contacto, perfil, experiencia, skills, formación e idiomas.
+  - `06-components.md` y Q-N — navegación con **5 enlaces** (Home · About ·
+    Projects · Resume · Contact).
+- **Reglas nuevas:**
+  - `/resume` no existe. `resume.md` pasa a SUPERSEDED.
+  - `/about` lleva el botón de descarga del CV tras la entradilla, y formación e
+    idiomas tras la experiencia. Perfil profesional y datos de contacto se
+    eliminan.
+  - La navegación tiene 4 enlaces.
+- **Motivo (palabras del usuario):** *"podemos eliminar la página resume y el
+  botón de descarga del CV mostrarlo en about. Se debe a que about y resume
+  muestran lo mismo"*. Colocación del botón y destino de cada bloque elegidos por
+  el usuario entre opciones: botón tras la entradilla; formación e idiomas a
+  `/about`; perfil (repetía la bio) y contacto (ya en el CTA y el footer) fuera.
+- **Consecuencias asumidas:**
+  - El sitio no está desplegado todavía: no hay URL pública de `/resume` que
+    redirigir.
+  - `social.ts` deja de compartirse, pero se mantiene como fuente de las redes del
+    footer.
+  - La hoja de impresión se conserva, ahora para `/about`.
+- **Aprobada por:** usuario.
+- **Archivos actualizados:** `05-pages/about.md`, `05-pages/resume.md`,
+  `05-pages/README.md`, `06-components.md`, `03-architecture.md`,
+  `04-content-model.md`, `13-roadmap.md`, `OPEN-QUESTIONS.md`, `CHANGELOG.md`.
+
+---
+
 ## [2026-09-14] El plan termina en `development`; `master` lo gestiona el usuario
 
 - **Reglas anteriores:**
