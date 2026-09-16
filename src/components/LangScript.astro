@@ -1,0 +1,90 @@
+---
+/**
+ * Detección y persistencia del idioma — implementa ADR-0009.
+ *
+ * Precedencia estricta:
+ *   1. localStorage.lang — si existe, MANDA SIEMPRE. Nada lo sobreescribe.
+ *   2. Idioma del navegador — solo si no hay valor guardado.
+ *   3. Inglés.
+ *
+ * SÍNCRONO y en <head>, mismo mecanismo que ThemeScript (ADR-0011): la decisión
+ * ocurre antes de pintar y no se ve un fogonazo de contenido en el idioma
+ * equivocado.
+ *
+ * Las cinco reglas de seguridad de ADR-0009 están implementadas abajo, cada una
+ * marcada con su número. Sin ellas la redirección automática es una trampa:
+ * secuestra al visitante que ya eligió, o entra en bucle.
+ */
+import { DEFAULT_LANG, LANG_CODES } from '@/i18n/utils';
+
+const config = JSON.stringify({ langs: LANG_CODES, fallback: DEFAULT_LANG });
+---
+
+<script is:inline define:vars={{ config }}>
+  (function () {
+    const { langs, fallback } = JSON.parse(config);
+    const prefixed = langs.filter((l) => l !== fallback);
+
+    function langOf(pathname) {
+      const first = pathname.split('/')[1];
+      return prefixed.indexOf(first) !== -1 ? first : fallback;
+    }
+
+    let stored;
+    try {
+      stored = localStorage.getItem('lang');
+    } catch {
+      // localStorage puede LANZAR (modo privado, cookies bloqueadas). Sin
+      // preferencia legible no se redirige: es la opción segura.
+      return;
+    }
+
+    const current = langOf(location.pathname);
+
+    // Regla 2: elegir a mano escribe localStorage y desactiva la detección
+    // para siempre. Aquí solo se lee; quien escribe es LanguageSwitcher.
+    if (stored && langs.indexOf(stored) !== -1) {
+      // Regla 1: si hay preferencia guardada, NO hay redirección. Aunque el
+      // navegador diga otra cosa. Este es el caso crítico de 09-testing.md:
+      // navegador en español + lang='en' -> se queda en inglés.
+      return;
+    }
+
+    // Regla 4: nunca se redirige a quien ya está en una URL con prefijo
+    // explícito. Entrar directo a /es/projects es una intención, no un azar.
+    if (current !== fallback) {
+      try {
+        localStorage.setItem('lang', current);
+      } catch {
+        /* no se puede persistir: se respeta la URL igualmente */
+      }
+      return;
+    }
+
+    // Regla 3: como mucho una redirección por sesión. Elimina el riesgo de
+    // bucle incluso si algo más manipula la URL.
+    try {
+      if (sessionStorage.getItem('langRedirected')) return;
+    } catch {
+      return;
+    }
+
+    const browser = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+    const detected = browser.toLowerCase().split('-')[0];
+
+    if (langs.indexOf(detected) === -1 || detected === fallback) return;
+
+    try {
+      sessionStorage.setItem('langRedirected', '1');
+      localStorage.setItem('lang', detected);
+    } catch {
+      return;
+    }
+
+    // Regla 5: la redirección ocurre en CLIENTE. Cada página declara sus
+    // hreflang, así que ambos idiomas siguen siendo indexables por separado y
+    // ningún rastreador es redirigido.
+    const path = location.pathname === '/' ? '' : location.pathname;
+    location.replace('/' + detected + path + location.search + location.hash);
+  })();
+</script>

@@ -1,0 +1,53 @@
+---
+/**
+ * Navegación principal — 06-components.md, tres modos (Q-N).
+ *
+ * UN SOLO <ul> con los 5 enlaces, siempre presente en el HTML. Los tres modos
+ * son presentación (CSS por breakpoint); los disparadores de las islas React
+ * solo escriben `data-open` sobre este elemento. **Ningún enlace se inyecta.**
+ *
+ * Sin JavaScript no hay `data-nav-js` en <html>, no aplica ninguna regla de
+ * colapso y queda una lista normal, visible y tabulable.
+ */
+import { canonicalPath, localizePath, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+
+const LINKS = [
+  { path: '/', key: 'nav.home' },
+  { path: '/about', key: 'nav.about' },
+  { path: '/projects', key: 'nav.projects' },
+  { path: '/resume', key: 'nav.resume' },
+  { path: '/contact', key: 'nav.contact' },
+] as const;
+
+const here = canonicalPath(Astro.url.pathname);
+---
+
+<nav id="site-nav" class="site-nav" data-open="false" aria-label={t('nav.menu.label')}>
+  {/* Destino del portal del botón de cerrar (MobileNav). Va PRIMERO para que la
+      X sea lo primero que se tabula al abrir el sidebar, y para que quede
+      dentro de la trampa de foco. Vacío si no hay JavaScript. */}
+  <div id="site-nav-close" class="site-nav-close"></div>
+
+  <ul class="site-nav-list">
+    {
+      LINKS.map(({ path, key }) => (
+        <li>
+          <a
+            class="site-nav-link"
+            href={localizePath(path, lang)}
+            aria-current={here === path ? 'page' : undefined}
+          >
+            {t(key)}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

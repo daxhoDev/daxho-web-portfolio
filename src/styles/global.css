@@ -1,12 +1,13 @@
 /* =============================================================================
    GLOBAL — punto de entrada de estilos
-   Orden: Tailwind -> fuentes -> tokens -> base -> efectos
+   Orden: Tailwind -> fuentes -> tokens -> efectos -> layout -> base
    ========================================================================== */
 
 @import 'tailwindcss';
 @import './fonts.css';
 @import './tokens.css';
 @import './effects.css';
+@import './layout.css';
 
 @layer base {
   *,

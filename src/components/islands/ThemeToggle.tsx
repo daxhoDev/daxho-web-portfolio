@@ -16,11 +16,22 @@ import {
   type ThemePreference,
 } from '@/lib/theme';
 
-const LABELS: Record<ThemePreference, string> = {
+/**
+ * Textos por defecto en inglés. El header pasa los del idioma activo: la isla
+ * no importa los diccionarios para no meter todas las traducciones en el JS del
+ * cliente.
+ */
+const DEFAULT_LABELS: Record<ThemePreference, string> = {
   light: 'Light',
   dark: 'Dark',
   system: 'System',
 };
+
+interface Props {
+  labels?: Record<ThemePreference, string>;
+  /** Plantilla del nombre accesible; `{state}` se sustituye por el estado activo. */
+  ariaTemplate?: string;
+}
 
 const ICONS: Record<ThemePreference, string> = {
   light: 'M12 3v2M12 19v2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M3 12h2M19 12h2M5.6 18.4l1.4-1.4M17 7l1.4-1.4',
@@ -28,7 +39,10 @@ const ICONS: Record<ThemePreference, string> = {
   system: 'M4 5h16v10H4zM9 19h6M12 15v4',
 };
 
-export default function ThemeToggle() {
+export default function ThemeToggle({
+  labels = DEFAULT_LABELS,
+  ariaTemplate = 'Theme: {state}. Click to change.',
+}: Props) {
   // `null` hasta hidratar: evita renderizar un estado inventado.
   const [preference, setPreference] = useState<ThemePreference | null>(null);
 
@@ -64,7 +78,7 @@ export default function ThemeToggle() {
       onClick={cycle}
       className="border-interactive text-fg-secondary hover:text-accent-text hover:border-accent-border inline-flex h-11 min-w-11 items-center justify-center gap-2 rounded-sm border px-3 font-mono text-xs transition-colors"
       // El área táctil mínima de 44x44 (h-11) es requisito de 07-conventions.md
-      aria-label={`Theme: ${LABELS[active]}. Click to change.`}
+      aria-label={ariaTemplate.replace('{state}', labels[active])}
       data-theme-preference={preference ?? undefined}
     >
       <svg
@@ -80,8 +94,12 @@ export default function ThemeToggle() {
       >
         <path d={ICONS[active]} />
       </svg>
-      {/* aria-hidden porque el estado ya lo anuncia el aria-label del botón */}
-      <span aria-hidden="true">{LABELS[active]}</span>
+      {/* aria-hidden porque el estado ya lo anuncia el aria-label del botón.
+          En móvil solo se ve el icono: el header no tiene sitio para el texto
+          junto a la marca, el selector de idioma y la hamburguesa. */}
+      <span className="hidden md:inline" aria-hidden="true">
+        {labels[active]}
+      </span>
     </button>
   );
 }

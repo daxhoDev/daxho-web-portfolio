@@ -1,0 +1,113 @@
+---
+/**
+ * Header ocultable con navegación de tres modos — 06-components.md (Q28, Q-N).
+ *
+ * Se esconde al bajar y reaparece al subir. Reaparece SIEMPRE al llegar arriba
+ * y al recibir foco por teclado (`:focus-within` en layout.css): si no, un
+ * usuario de teclado podría tabular hasta un header fuera de pantalla.
+ */
+import Brand from '@/components/layout/Brand.astro';
+import Nav from '@/components/layout/Nav.astro';
+import LanguageSwitcher from '@/components/islands/LanguageSwitcher.tsx';
+import MobileNav from '@/components/islands/MobileNav.tsx';
+import NavDropdown from '@/components/islands/NavDropdown.tsx';
+import ThemeToggle from '@/components/islands/ThemeToggle.tsx';
+import Container from '@/components/ui/Container.astro';
+import { LANGUAGES, alternates, localizePath, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+
+// El destino de cada idioma se calcula en el servidor: la isla no reimplementa
+// el enrutado en cliente.
+const options = alternates(Astro.url.pathname).map((entry) => ({
+  ...entry,
+  name: LANGUAGES[entry.lang],
+}));
+---
+
+<header class="site-header" data-hidden="false">
+  <Container class="relative flex items-center justify-between gap-4 py-4">
+    <Brand href={localizePath('/', lang)} size="lg" />
+
+    <Nav lang={lang} />
+
+    <div class="flex items-center gap-2">
+      <LanguageSwitcher
+        client:load
+        lang={lang}
+        label={t('a11y.language')}
+        options={options}
+      />
+      <ThemeToggle
+        client:load
+        labels={{
+          light: t('theme.light'),
+          dark: t('theme.dark'),
+          system: t('theme.system'),
+        }}
+        ariaTemplate={t('theme.label')}
+      />
+      <NavDropdown
+        client:idle
+        labelOpen={t('nav.menu.open')}
+        labelClose={t('nav.menu.close')}
+      />
+      <MobileNav
+        client:idle
+        labelOpen={t('nav.menu.open')}
+        labelClose={t('nav.menu.close')}
+      />
+    </div>
+  </Container>
+</header>
+
+<script is:inline>
+  (function () {
+    // `data-nav-js` lo marca NavScript en <head>, antes del primer pintado.
+    // Aquí solo vive la ocultación al hacer scroll (Q28).
+    function init() {
+      const header = document.querySelector('.site-header');
+      if (!header) return;
+
+      let last = window.scrollY;
+      let ticking = false;
+
+      function update() {
+        const y = window.scrollY;
+
+        // Al llegar arriba reaparece siempre.
+        if (y <= 0) {
+          header.setAttribute('data-hidden', 'false');
+        } else if (y > last && y > 80) {
+          header.setAttribute('data-hidden', 'true');
+        } else if (y < last) {
+          header.setAttribute('data-hidden', 'false');
+        }
+
+        last = y;
+        ticking = false;
+      }
+
+      window.addEventListener(
+        'scroll',
+        function () {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(update);
+        },
+        { passive: true },
+      );
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>

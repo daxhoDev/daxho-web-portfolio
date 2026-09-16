@@ -1,0 +1,289 @@
+/* =============================================================================
+   LAYOUT — cromo del sitio: boot sequence, header y navegación
+   Implementa ADR-0019 y la navegación de tres modos de 06-components.md
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+   BOOT SEQUENCE (ADR-0019)
+   REQUISITO 1, INNEGOCIABLE: el overlay se retira por esta animación de
+   duración fija. No depende de ningún evento de carga ni de que hidrate nada.
+   Si el JavaScript falla, el overlay desaparece igual y el sitio se usa.
+
+   Requisito 8: por debajo de 900 ms de principio a fin.
+   -------------------------------------------------------------------------- */
+#boot {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  background-color: var(--bg-base);
+  color: var(--fg-secondary);
+  animation: boot-out 1ms linear 820ms forwards;
+}
+
+@keyframes boot-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.boot-lines p {
+  margin: 0 0 0.35rem;
+  opacity: 0;
+  /* Cada línea entra escalonada: 0 ms, 180 ms, 360 ms. */
+  animation: boot-line-in 1ms linear forwards;
+  animation-delay: calc(var(--boot-line, 0) * 180ms);
+}
+
+.boot-lines p:last-child {
+  color: var(--accent-text);
+}
+
+@keyframes boot-line-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.boot-hint {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  opacity: 0;
+  animation: boot-line-in 1ms linear 560ms forwards;
+}
+
+/* Requisito 5: no se muestra con reduced-motion. El script ya lo retira, pero
+   el CSS lo garantiza aunque el script no llegue a correr. */
+@media (prefers-reduced-motion: reduce) {
+  #boot {
+    display: none;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   HEADER OCULTABLE (Q28)
+   Se esconde al bajar y reaparece al subir. Debe reaparecer SIEMPRE al llegar
+   arriba y al recibir foco por teclado: si no, un usuario de teclado podría
+   tabular hasta un header invisible.
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg-base);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: transform 220ms ease;
+}
+
+.site-header[data-hidden='true'] {
+  transform: translateY(-100%);
+}
+
+/* El foco gana siempre a la ocultación. */
+.site-header:focus-within {
+  transform: none !important;
+}
+
+/* Con el sidebar abierto el header no puede estar trasladado: un `transform`
+   lo convierte en bloque contenedor de sus hijos `position: fixed`, y el
+   sidebar y el backdrop se desplazarían con él. */
+[data-nav-open] .site-header {
+  transform: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   BLOQUEO DE SCROLL con el sidebar abierto
+   `--scrollbar-gap` compensa el ancho de la barra de scroll que desaparece, para
+   que el contenido no dé un salto lateral al abrir.
+   -------------------------------------------------------------------------- */
+html[data-nav-open] {
+  overflow: hidden;
+}
+
+html[data-nav-open] body {
+  padding-right: var(--scrollbar-gap, 0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: none;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   NAVEGACIÓN — TRES MODOS (06-components.md)
+
+   MEJORA PROGRESIVA, misma técnica que el typing: los 5 enlaces están SIEMPRE
+   en el HTML, en un único <ul>. Sin `data-nav-js` en <html> —JavaScript
+   desactivado o caído— no se aplica ninguna regla de colapso y la navegación
+   queda como una lista normal, visible y tabulable. Es el requisito de
+   06-components.md: "se desactivan y devuelven la navegación al DOM normal si
+   el JS falla".
+
+   Los disparadores (NavDropdown y MobileNav) viven en islas React y solo
+   escriben `data-open` sobre este mismo <ul>. No inyectan enlaces.
+   -------------------------------------------------------------------------- */
+.site-nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--fg-secondary);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.site-nav-link:hover,
+.site-nav-link[aria-current='page'] {
+  color: var(--accent-text);
+}
+
+.site-nav-link[aria-current='page'] {
+  font-weight: 700;
+}
+
+/* Los disparadores, el botón de cerrar y el backdrop no existen sin JavaScript. */
+.nav-trigger,
+.site-nav-close,
+.nav-backdrop {
+  display: none;
+}
+
+/* --- Modo COMPLETO: >= lg. Los 5 enlaces en línea, sin disparador. --------- */
+
+/* --- Modo DROPDOWN: md - lg ------------------------------------------------ */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  [data-nav-js] .nav-trigger--dropdown {
+    display: inline-flex;
+  }
+
+  [data-nav-js] .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 12rem;
+    padding: 1rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  [data-nav-js] .site-nav[data-open='false'] {
+    display: none;
+  }
+
+  [data-nav-js] .site-nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+/* --- Modo SIDEBAR: < md ---------------------------------------------------- */
+@media (max-width: 767.98px) {
+  [data-nav-js] .nav-trigger--mobile {
+    display: inline-flex;
+  }
+
+  [data-nav-js] .site-nav {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(20rem, 85vw);
+    padding: 5rem 1.5rem 1.5rem;
+    background-color: var(--bg-surface);
+    border-left: 1px solid var(--border-subtle);
+    z-index: 200;
+    overflow-y: auto;
+    /* El scroll dentro del panel no se encadena al fondo al llegar al final. */
+    overscroll-behavior: contain;
+    transform: translateX(100%);
+    /* CERRAR: `visibility` cambia a `hidden` con un retardo igual a la
+       duración del deslizamiento. Sin ese retardo el panel se oculta en el
+       mismo instante en que empieza a salir y la transición no se ve.
+       Se oculta (y no solo se desplaza) para que sus enlaces salgan del orden
+       de tabulación mientras está cerrado. */
+    visibility: hidden;
+    transition:
+      transform 220ms ease,
+      visibility 0s linear 220ms;
+  }
+
+  /* ABRIR: `visibility` pasa a visible sin retardo, antes de deslizar. */
+  [data-nav-js] .site-nav[data-open='true'] {
+    visibility: visible;
+    transform: translateX(0);
+    transition:
+      transform 220ms ease,
+      visibility 0s linear 0s;
+  }
+
+  /* Botón X: esquina superior derecha del panel. El panel es `fixed`, así que
+     el `absolute` se posiciona respecto a él. */
+  [data-nav-js] .site-nav-close {
+    display: block;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  /* Backdrop: por debajo del panel (200) y por encima del resto de la página.
+     Vive dentro del header, en su mismo contexto de apilamiento; ver
+     MobileNav.tsx. El velo tenue hace que se lea como capa aunque el navegador
+     no soporte backdrop-filter. */
+  /* Mismo patrón que el panel: se funde a la vez que este se desliza, y no
+     queda interceptando toques mientras está cerrado. */
+  [data-nav-js] .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background-color: color-mix(in srgb, var(--bg-base) 45%, transparent);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 220ms ease,
+      visibility 0s linear 220ms;
+  }
+
+  [data-nav-js] .nav-backdrop[data-open='true'] {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      opacity 220ms ease,
+      visibility 0s linear 0s;
+  }
+
+  [data-nav-js] .site-nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-nav-js] .site-nav,
+    [data-nav-js] .site-nav[data-open='true'],
+    [data-nav-js] .nav-backdrop,
+    [data-nav-js] .nav-backdrop[data-open='true'] {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,79 @@
+---
+/**
+ * 404 — implementa 05-pages/404.md (APROBADA).
+ *
+ * "Debe respetar el idioma cuando sea posible": en un sitio estático el
+ * servidor sirve UN solo 404 para cualquier ruta no encontrada, así que no se
+ * puede resolver el idioma en el build. La solución es tener los dos textos en
+ * el HTML y mostrar el que toque en cliente.
+ *
+ * El inglés es el que se sirve visible: si el script no corre, la página
+ * funciona igual, solo que en inglés. Nunca se queda en blanco.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import TypingText from '@/components/ui/TypingText.astro';
+import { LANG_CODES, localizePath, useTranslations, type Lang } from '@/i18n/utils';
+
+const NAV_KEYS = ['nav.home', 'nav.projects', 'nav.contact'] as const;
+const PATHS = ['/', '/projects', '/contact'] as const;
+
+const copy = LANG_CODES.map((lang: Lang) => {
+  const t = useTranslations(lang);
+  return {
+    lang,
+    title: t('404.title'),
+    message: t('404.message'),
+    links: PATHS.map((path, index) => ({
+      href: localizePath(path, lang),
+      label: t(NAV_KEYS[index]!),
+    })),
+  };
+});
+---
+
+<BaseLayout title="404 — Daxho" noindex>
+  <Container class="py-24 text-center">
+    {/* Es el sitio donde el efecto está más justificado: aquí el cursor sí se
+        queda parpadeando (05-pages/404.md). Dispara por carga, no por
+        viewport: está sobre el pliegue. */}
+    <h1 class="mb-8 font-mono text-7xl">
+      <TypingText text="404" speed={140} trigger="load" caret="persistent" />
+    </h1>
+
+    {
+      copy.map((entry) => (
+        <div data-404-lang={entry.lang} hidden={entry.lang !== 'en'}>
+          <p class="mb-3 text-2xl">{entry.title}</p>
+          <p class="text-fg-secondary mb-8 font-mono text-sm">{entry.message}</p>
+          <ul class="flex flex-wrap justify-center gap-6">
+            {entry.links.map((link) => (
+              <li>
+                <a class="site-nav-link" href={link.href}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </Container>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    let lang;
+    try {
+      lang = localStorage.getItem('lang');
+    } catch {
+      return; // sin preferencia legible se queda el inglés servido
+    }
+    if (lang !== 'es') return;
+
+    document.querySelectorAll('[data-404-lang]').forEach(function (block) {
+      block.hidden = block.getAttribute('data-404-lang') !== 'es';
+    });
+    document.documentElement.setAttribute('lang', 'es');
+  })();
+</script>

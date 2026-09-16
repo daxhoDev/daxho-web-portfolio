@@ -1,0 +1,75 @@
+---
+/**
+ * Secuencia de arranque — implementa ADR-0019, opción (c).
+ *
+ * LO CRÍTICO (requisito 1 de la ADR): el overlay se retira por una ANIMACIÓN
+ * CSS de duración fija, no por un `addEventListener('load')` ni por React. Si
+ * el JavaScript falla, el overlay se va igual y el sitio sigue siendo usable.
+ * Atarlo a que hidrate una isla era el fallo catastrófico que la ADR descarta.
+ *
+ * El script solo hace dos cosas: saltar y marcar `sessionStorage`.
+ *
+ * Duración total por debajo de los 900 ms que fija el requisito 8.
+ */
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+const LINES = ['> boot daxho.dev', '> loading modules ...', '> ready'];
+---
+
+{/* Requisito 2: sin JS ni se muestra. */}
+<noscript><style>{'#boot { display: none !important; }'}</style></noscript>
+
+{/* Requisito 7: fuera del árbol de accesibilidad y sin tocar el foco. El
+    contenido real ya está debajo, en el HTML (requisito 6). */}
+<div id="boot" aria-hidden="true" data-boot>
+  <div class="boot-lines font-mono">
+    {LINES.map((line, index) => <p style={`--boot-line: ${index}`}>{line}</p>)}
+  </div>
+  <p class="boot-hint font-mono">{t('boot.skip')}</p>
+</div>
+
+<script is:inline>
+  (function () {
+    const boot = document.getElementById('boot');
+    if (!boot) return;
+
+    // Requisito 5: no se muestra con prefers-reduced-motion.
+    // Requisito 3: solo la primera visita de la SESIÓN.
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem('booted') === '1';
+    } catch {
+      // Sin sessionStorage se muestra una vez por carga. Es degradación
+      // aceptable: la animación CSS lo retira igual.
+    }
+
+    const reduced =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (seen || reduced) {
+      boot.remove();
+      return;
+    }
+
+    try {
+      sessionStorage.setItem('booted', '1');
+    } catch {
+      /* se muestra igual */
+    }
+
+    // Requisito 4: se salta con clic, Esc o cualquier tecla.
+    const skip = () => {
+      boot.remove();
+      document.removeEventListener('keydown', skip);
+      document.removeEventListener('pointerdown', skip);
+    };
+    document.addEventListener('keydown', skip);
+    document.addEventListener('pointerdown', skip);
+
+    // Red de seguridad: la animación CSS ya lo oculta, pero así el nodo no se
+    // queda en el DOM interceptando nada.
+    window.setTimeout(skip, 1200);
+  })();
+</script>

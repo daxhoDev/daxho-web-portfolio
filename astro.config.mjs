@@ -11,6 +11,18 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: process.env.SITE_URL || 'http://localhost:4321',
   output: 'static',
+  // ADR-0008: enrutado i18n nativo, sin librerías. El inglés vive en `/` y el
+  // español bajo `/es`. `redirectToDefaultLocale: false` porque la detección de
+  // idioma es de cliente (ADR-0009) y una redirección de servidor rompería la
+  // regla 5: los rastreadores no deben ser redirigidos.
+  i18n: {
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
+    routing: {
+      prefixDefaultLocale: false,
+      redirectToDefaultLocale: false,
+    },
+  },
   adapter: vercel(),
   integrations: [react()],
   vite: {

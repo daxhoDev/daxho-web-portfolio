@@ -1,0 +1,11 @@
+---
+/**
+ * Primer elemento tabulable de la página (06-components.md, 09-testing.md).
+ * Invisible hasta que recibe foco; entonces se muestra sobre todo lo demás.
+ */
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<a href="#main" class="skip-link">{t('a11y.skipToContent')}</a>

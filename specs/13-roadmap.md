@@ -45,11 +45,15 @@ pasaron de 23 a 26.
 
 ---
 
-## Fase 2 — Esqueleto del sitio · **L** · ⬅️ SIGUIENTE
+## Fase 2 — Esqueleto del sitio · **L** · ⬅️ EN CURSO
 Rama: `feat/site-skeleton`
 
-**Prerrequisito:** aprobar `06-components.md`, hoy en BORRADOR. Contiene el
-contrato de la navegación en tres modos (Q-N), que es el grueso de esta fase.
+**Prerrequisito cumplido (2026-09-14):** `06-components.md` y `05-pages/404.md`
+pasan a APROBADA. Al aprobarlas se cerraron tres huecos: `BootSequence` no
+figuraba en el inventario pese a que ADR-0019 está aprobada y la regla 5 prohíbe
+crear un componente que no esté listado; `NavDropdown` y `MobileNav` aparecían
+duplicados en `layout/` y en `islands/`; y `Footer` seguía citando Q36 como
+pendiente cuando estaba resuelta.
 
 `BaseLayout` · marca y favicon (`12-brand.md`) · header ocultable con los **tres
 modos** de navegación · footer · **i18n completo** (rutas `/` y `/es`, diccionarios,
@@ -61,9 +65,31 @@ de las refactorizaciones más caras y propensas a error que existen.
 
 **Entregable:** el sitio navegable en dos idiomas con páginas vacías.
 
+**Cierre real (2026-09-14), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **57 tests unitarios** (39 + 18 de i18n) · **46 tests E2E**
+(26 + 20 de i18n, header, navegación y boot sequence) · **62,1 KB gzip** de los
+75 KB · 12 rutas generadas, 6 por idioma.
+
+Dos hallazgos de la implementación, propagados a las specs:
+
+1. **`i18n/routes.ts` no llega a existir.** Era un mapa de rutas equivalentes
+   entre idiomas, y solo hace falta si los segmentos se traducen — que es
+   justamente lo que ADR-0010 decidió NO hacer, y por este motivo exacto. Con
+   rutas en inglés en ambos idiomas la equivalencia es quitar o poner el
+   prefijo. Vive en `i18n/utils.ts`.
+2. **Dos islas no pueden ser dueñas del mismo atributo.** `NavDropdown` y
+   `MobileNav` escribían ambas `data-open` sobre `#site-nav`; con `client:idle`
+   no hay garantía de orden de hidratación, y la que llegaba segunda pisaba a la
+   primera. Se resolvió no escribiendo al montar: el estado inicial lo fija el
+   HTML servido y cada isla solo toca el atributo tras una acción real.
+
 **Acción del usuario:** crear el proyecto en Vercel. Recomiendo desplegar al
 cerrar esta fase: fija `SITE_URL`, activa las previews por PR y permite revisar
 desde el móvil en vez de en mi pantalla.
+
+**Pendiente en esta fase:** los enlaces de redes del footer son placeholder
+hasta la fase 10 (Q36), y las páginas están vacías a propósito — las rellenan
+las fases 4 a 7.
 
 ---
 

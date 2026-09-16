@@ -3,6 +3,101 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-14] Toggle de tema traducido
+
+Petición del usuario: *"El botón de tema en español debe decir sistema"*. Era un
+hueco del i18n de la fase 2: `ThemeToggle` venía de la fase 1 con los textos en
+inglés escritos en el componente.
+
+- Los tres estados y el nombre accesible salen de los diccionarios y el header se
+  los pasa como props. En español: "Sistema", "Claro", "Oscuro" y "Tema: … Pulsa
+  para cambiar.". La isla no importa los diccionarios, para no cargar todas las
+  traducciones en el JS del cliente.
+- La styleguide, que no forma parte del sitio, conserva los textos por defecto en
+  inglés.
+
+## [2026-09-14] Páginas `es/` como cáscaras mínimas: `src/views/`
+
+Corrección de un incumplimiento de la fase 2, detectado por el agente al preparar
+la fase 4. `03-architecture.md` exige que cada página de `es/` sea una cáscara que
+reutilice el componente de página de su equivalente en inglés, y declara error de
+implementación duplicar el marcado. Las 10 páginas del esqueleto eran copias
+completas.
+
+- Los componentes de página viven en **`src/views/`** (decisión del usuario).
+- Las páginas vacías comparten `views/PlaceholderView.astro`; cada una la
+  abandona cuando su fase la construye.
+
+## [2026-09-14] Sidebar móvil y toggle de tema en móvil
+
+Peticiones del usuario tras revisar la fase 2:
+
+- *"El botón de abrir el sidebar no debe tener texto, sino un ícono de
+  hamburger"* — el nombre accesible pasa a `aria-label`.
+- *"El contenido detrás debería tener blur y al tocarlo cerrarse, además de un
+  botón X en la esquina para cerrarlo"*, *"el botón de cerrar el sidebar va
+  arriba a la derecha"*.
+- *"Asegúrate de que con el sidebar abierto no se scrollee el fondo"* — con
+  compensación del ancho de la barra de scroll para que el contenido no salte.
+- *"Theme toggle en mobile solo mostrará el ícono, no texto"*.
+
+- *"Al cerrar el sidebar no se ve la transición"* — dos causas. El panel pasaba a
+  `visibility: hidden` en el mismo instante en que empezaba a salir, y el
+  backdrop se desmontaba de golpe. Ahora `visibility` cambia con un retardo igual
+  al deslizamiento (220 ms), y backdrop y botón X quedan siempre montados y se
+  funden por CSS. Con test de regresión que falla sin el arreglo.
+
+No derogan ninguna regla escrita: `06-components.md` no especificaba la forma del
+disparador ni el backdrop. Se añaden como detalle a las filas de `MobileNav` y
+`ThemeToggle` y a los requisitos de accesibilidad del sidebar, sin entrada en
+`DEVIATIONS.md`.
+
+## [2026-09-14] Fase 2 — esqueleto del sitio
+
+Implementación de la fase 2. Dos correcciones a las specs salidas de construirla:
+
+- **`i18n/routes.ts` no existe y no va a existir.** `03-architecture.md` y
+  `06-components.md` lo describían como el mapa de rutas equivalentes entre
+  idiomas que usaría `LanguageSwitcher`. Ese mapa solo es necesario si los
+  segmentos se traducen (`/es/proyectos`), y ADR-0010 decidió mantenerlos en
+  inglés **precisamente para no tener que mantenerlo**. Con rutas sin traducir,
+  la página equivalente se obtiene quitando o poniendo el prefijo: es
+  `canonicalPath` + `localizePath` en `i18n/utils.ts`. Era un resto del borrador
+  anterior a ADR-0010.
+- **`LanguageSwitcher` no reimplementa el enrutado en cliente.** El destino de
+  cada idioma se calcula en el servidor y llega como prop.
+
+Se documenta además en `13-roadmap.md` el hallazgo de implementación que más
+tiempo costó: `NavDropdown` y `MobileNav` escribían las dos `data-open` sobre el
+mismo `#site-nav`, y con `client:idle` el orden de hidratación no está
+garantizado, de modo que la isla que hidrataba después pisaba el estado de la
+otra. El sidebar se abría y se cerraba solo. La regla que queda: **ninguna isla
+escribe su estado inicial al montar** sobre DOM que no le pertenece.
+
+## [2026-09-14] Aprobadas las specs de la fase 2
+
+Desbloqueo del prerrequisito de la fase 2. `06-components.md` y `05-pages/404.md`
+pasan de BORRADOR a APROBADA. Al auditarlas contra lo que la fase necesita
+aparecieron tres huecos, resueltos con el usuario antes de aprobar:
+
+- **`BootSequence` no estaba en el inventario.** ADR-0019 está APROBADA y la fase
+  2 debe construir el overlay de arranque, pero la regla 5 de `06-components.md`
+  prohíbe crear un componente que no figure en la lista. Entra en `layout/` como
+  `.astro` **sin isla**, que es lo que ya exigía el requisito 1 de ADR-0019: el
+  overlay se retira por animación CSS de duración fija y el JS solo gestiona el
+  "saltar" y el `sessionStorage`. Una isla React ataría la retirada a que React
+  hidrate, que es el fallo catastrófico que la propia ADR descarta.
+- **`NavDropdown` y `MobileNav` estaban listados dos veces**, en `layout/` y en
+  `islands/`. Se quedan solo en `islands/`, y se añade la regla explícita de que
+  todo componente React vive ahí y solo ahí, para que no se vuelva a duplicar.
+- **`Footer` citaba Q36 como pendiente** cuando está resuelta desde el 2026-09-09
+  (placeholder hasta la fase 10). Por la Regla 2 ese adjetivo detendría a un
+  agente sin motivo.
+
+También se corrige la estructura de carpetas de `03-architecture.md`, que iba por
+detrás del código aprobado en la fase 1: situaba `Container` en `layout/` y
+mencionaba un `Tag` que nunca existió (es `Chip`).
+
 ## [2026-09-14] El typing sustituye al glitch
 
 Decisión del usuario: *"eliminaremos el efecto de glitch, lo sustituiremos por el
