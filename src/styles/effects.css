@@ -128,6 +128,18 @@
 }
 
 /* -----------------------------------------------------------------------------
+   TYPING — ENCADENADO CON LA BOOT SEQUENCE (hero)
+   `data-booting` lo pone BootSequence solo mientras la secuencia está en
+   pantalla, y lo quita al terminar o al saltarla. Sin secuencia —segunda visita,
+   reduced-motion, sin JavaScript— el atributo no existe y el hero teclea de
+   inmediato: nunca espera a algo que no se ve.
+   -------------------------------------------------------------------------- */
+[data-booting] .typing[data-typing-trigger='boot'] .typing-char,
+[data-booting] .typing[data-typing-trigger='boot'] .caret {
+  animation-play-state: paused;
+}
+
+/* -----------------------------------------------------------------------------
    CURSOR EFÍMERO (encabezados)
    Acompaña al tecleo y se apaga con la última letra. El cursor permanente se
    reserva al hero, que es la marca (12-brand.md): uno por encabezado dejaría

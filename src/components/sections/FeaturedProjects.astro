@@ -1,0 +1,54 @@
+---
+/**
+ * Proyectos destacados del home — 05-pages/home.md.
+ *
+ * Exactamente 3, por `featuredOrder`, con la MISMA `ProjectCard` que /projects
+ * (Q-B). Aquí la card cuelga del <h2> de la sección, así que su título es <h3>.
+ */
+import ProjectCard from '@/components/project/ProjectCard.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { getFeaturedProjects } from '@/content/queries';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+const projects = await getFeaturedProjects(lang);
+---
+
+<section class="py-20" data-featured>
+  <Container class="flex flex-col gap-10">
+    <SectionHeading text={t('nav.projects')} as="h2" />
+
+    <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {
+        projects.map((project) => (
+          <li class="flex">
+            <ProjectCard
+              lang={lang}
+              headingLevel="h3"
+              title={project.data.title}
+              summary={project.data.summary}
+              stack={project.data.stack}
+              cover={project.data.cover}
+              coverAlt={project.data.coverAlt}
+              liveUrl={project.data.liveUrl}
+              detailHref={localizePath(`/projects/${project.slug}`, lang)}
+            />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div>
+      <Button href={localizePath('/projects', lang)} variant="secondary">
+        {t('home.projects.more')}
+      </Button>
+    </div>
+  </Container>
+</section>

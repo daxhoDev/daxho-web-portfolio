@@ -1,0 +1,32 @@
+---
+/**
+ * Home — 05-pages/home.md (APROBADA).
+ *
+ * Sirve / y /es: cada página es una cáscara que pasa el idioma
+ * (03-architecture.md). Secciones en el orden de la spec.
+ */
+import AboutTeaser from '@/components/sections/AboutTeaser.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+import FeaturedProjects from '@/components/sections/FeaturedProjects.astro';
+import Hero from '@/components/sections/Hero.astro';
+import TechCarousel from '@/components/sections/TechCarousel.astro';
+import { useTranslations, type Lang } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('home.title')}>
+  <Hero lang={lang} next="about" />
+  <AboutTeaser lang={lang} id="about" />
+  <div class="border-subtle border-y">
+    <TechCarousel label={t('home.tech')} />
+  </div>
+  <FeaturedProjects lang={lang} />
+  <CtaBand lang={lang} />
+</BaseLayout>

@@ -56,6 +56,16 @@ export function sortProjects<T extends ProjectEntryLike>(entries: readonly T[]):
 }
 
 /**
+ * Los destacados del home, en el orden de `featuredOrder` (05-pages/home.md).
+ * Que sean exactamente 3 ya lo garantiza `validateProjectSet` en el build.
+ */
+export function featuredProjects<T extends ProjectEntryLike>(entries: readonly T[]): T[] {
+  return entries
+    .filter((entry) => entry.data.featured)
+    .sort((a, b) => (a.data.featuredOrder ?? 0) - (b.data.featuredOrder ?? 0));
+}
+
+/**
  * Proyecto anterior y siguiente. **Sin vuelta circular** (decisión del usuario,
  * 2026-09-14): el primero no tiene anterior y el último no tiene siguiente.
  */

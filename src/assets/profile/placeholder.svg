@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <defs>
+    <pattern id="h" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="14" height="28" fill="#23262c"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="1000" fill="#1b1d22"/>
+  <rect width="800" height="1000" fill="url(#h)"/>
+  <rect x="32" y="32" width="736" height="936" fill="none" stroke="#3a3f48" stroke-width="4" stroke-dasharray="18 14"/>
+  <circle cx="400" cy="380" r="120" fill="none" stroke="#3a3f48" stroke-width="6"/>
+  <path d="M190 760c30-130 120-200 210-200s180 70 210 200" fill="none" stroke="#3a3f48" stroke-width="6"/>
+  <text x="400" y="880" text-anchor="middle" font-family="ui-monospace, monospace" font-size="64" font-weight="700" fill="#8a9099" letter-spacing="8">PLACEHOLDER</text>
+</svg>

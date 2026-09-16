@@ -66,6 +66,21 @@ const en = {
   'project.next': 'Next project',
   'project.back': 'Back to projects',
   'project.nav': 'Project navigation',
+
+  'home.title': 'Daxho — Software Engineer',
+  'home.headline': "welcome to daxho's corner, what should we build?",
+  'home.subtitle': 'Software Engineer · full-stack web',
+  'home.scroll': 'scroll',
+  // TODO(fase 10): texto real (Q32). Relleno marcado (04-content-model.md).
+  'home.about.text':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+  // TODO(fase 10): fotografía real (Q33).
+  'home.about.photoAlt': 'PLACEHOLDER — photo of Daxho',
+  'home.about.more': 'Read more',
+  'home.tech': 'Technologies',
+  'home.projects.more': 'View more projects',
+  'home.cta.heading': 'ready when you are',
+  'home.cta.button': 'contact',
 } as const;
 
 /** Toda traducción debe cubrir exactamente las claves de `en`. */
@@ -119,6 +134,21 @@ const es: Translations = {
   'project.next': 'Proyecto siguiente',
   'project.back': 'Volver a proyectos',
   'project.nav': 'Navegación entre proyectos',
+
+  'home.title': 'Daxho — Software Engineer',
+  'home.headline': 'bienvenido a la guarida de daxho, ¿qué construimos?',
+  'home.subtitle': 'Software Engineer · desarrollo web full-stack',
+  'home.scroll': 'scroll',
+  // TODO(fase 10): texto real (Q32). Relleno marcado (04-content-model.md).
+  'home.about.text':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+  // TODO(fase 10): fotografía real (Q33).
+  'home.about.photoAlt': 'PLACEHOLDER — foto de Daxho',
+  'home.about.more': 'Leer más',
+  'home.tech': 'Tecnologías',
+  'home.projects.more': 'Ver más proyectos',
+  'home.cta.heading': 'listo cuando tú lo estés',
+  'home.cta.button': 'contacto',
 };
 
 export const UI: Record<Lang, Translations> = { en, es };

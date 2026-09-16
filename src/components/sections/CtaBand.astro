@@ -1,0 +1,48 @@
+---
+/**
+ * Banda CTA final del home — 05-pages/home.md.
+ *
+ * Único bloque con fondo rojo de la página, para que el ojo lo encuentre.
+ * Voz de terminal (decisión del usuario, 2026-09-16).
+ *
+ * Todo lo que va encima del rojo usa `--accent-on-surface`, el par de color ya
+ * verificado para esa superficie. Incluido el cursor del tecleo, que por
+ * defecto es rojo y aquí desaparecería.
+ *
+ * El botón no usa `Button`: sus variantes están pensadas para el fondo de la
+ * página, y la primaria es justo rojo sobre rojo. Se estiliza aquí con el mismo
+ * par invertido al hacer hover.
+ */
+import Container from '@/components/ui/Container.astro';
+import TypingText from '@/components/ui/TypingText.astro';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="cta-band bg-accent-surface text-accent-on-surface py-20" data-cta-band>
+  <Container class="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
+    <h2 class="font-mono text-3xl lowercase md:text-4xl">
+      <span aria-hidden="true">&gt;</span>
+      <TypingText text={t('home.cta.heading')} trigger="viewport" caret="transient" />
+    </h2>
+
+    <a
+      href={localizePath('/contact', lang)}
+      class="border-accent-on-surface text-accent-on-surface hover:bg-accent-on-surface hover:text-accent-surface inline-flex h-11 items-center rounded-sm border px-5 font-mono text-sm font-medium lowercase transition-colors"
+    >
+      {t('home.cta.button')}
+    </a>
+  </Container>
+</section>
+
+<style>
+  .cta-band :global(.caret) {
+    background-color: var(--accent-on-surface);
+  }
+</style>

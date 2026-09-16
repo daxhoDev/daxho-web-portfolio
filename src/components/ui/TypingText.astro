@@ -28,8 +28,10 @@ interface Props {
    * pliegue y encadena con la boot sequence: el hero.
    * `viewport` — arranca al entrar en pantalla. Para los encabezados, que de
    * otro modo terminarían de teclearse sin que nadie los viera.
+   * `boot` — como `load`, pero espera a que termine la boot sequence si está en
+   * pantalla (ADR-0019). Es el hero: las dos piezas encadenan.
    */
-  trigger?: 'load' | 'viewport';
+  trigger?: 'load' | 'viewport' | 'boot';
   /**
    * `persistent` — el cursor queda parpadeando al terminar. Es la marca del
    * hero (`>daxho▮`, 12-brand.md).

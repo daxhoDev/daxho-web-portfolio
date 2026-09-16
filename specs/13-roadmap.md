@@ -52,7 +52,7 @@ pasaron de 23 a 26.
 
 ---
 
-## Fase 2 — Esqueleto del sitio · **L** · 🔍 EN REVISIÓN (PR #3)
+## Fase 2 — Esqueleto del sitio · **L** · ✅ COMPLETADA (PR #3)
 Rama: `feat/site-skeleton`
 
 **Prerrequisito cumplido (2026-09-14):** `06-components.md` y `05-pages/404.md`
@@ -112,7 +112,7 @@ deja de depender de esta.
 
 ---
 
-## Fase 4 — Contenido y proyectos · **L** · 🔍 EN REVISIÓN (PR #4)
+## Fase 4 — Contenido y proyectos · **L** · ✅ COMPLETADA (PR #4)
 Rama: `feat/projects`
 
 **Prerrequisito cumplido (2026-09-14):** `04-content-model.md`,
@@ -153,17 +153,34 @@ card.
 
 ---
 
-## Fase 5 — Home · **M**
+## Fase 5 — Home · **M** · 🔍 EN REVISIÓN
 Rama: `feat/home`
+
+**Prerrequisito cumplido (2026-09-16):** `05-pages/home.md` pasa a APROBADA, con
+el texto del subtítulo y de la banda CTA, y la forma del hero y su indicador de
+scroll.
 
 Hero con boot sequence encadenada + typing · about breve · carrusel con los 25 ·
 tres destacados (misma `ProjectCard`) · banda CTA.
 
-Va **después** de las fases 3 y 4 porque depende de los iconos y de la colección
-de proyectos.
+Va **después** de la fase 4 porque depende de la colección de proyectos. (Los
+iconos, que eran la fase 3, se resolvieron en la fase 1.)
 
 **Entregable:** la portada completa. Es el momento de juzgar si el conjunto
 funciona.
+
+**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **82 tests unitarios** · **83 tests E2E** (69 + 14 del
+home) · **63,2 KB gzip** de los 75 KB, sin JS nuevo: las cuatro secciones son
+`.astro` · revisado en escritorio y móvil, en ambos temas e idiomas.
+
+**Riesgo a medir en la fase 9 — LCP.** `home.md` pide LCP < 2,0 s con el texto
+del hero como elemento LCP. En una primera visita el titular espera a la boot
+sequence (820 ms) y después se teclea (~2,2 s para la frase inglesa), así que los
+caracteres terminan de hacerse visibles hacia los 3 s. Cómo cuenta Chrome el LCP
+de un texto revelado carácter a carácter no está verificado. Si la medición lo
+confirma, las salidas razonables son que cuente el subtítulo, que es estático y
+se pinta de inmediato, o acortar el tecleo. No se decide nada sin medir.
 
 ---
 

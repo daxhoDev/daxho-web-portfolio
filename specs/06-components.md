@@ -24,7 +24,7 @@
 | `Card` | astro | contenedor con borde y superficie |
 | `Container` | astro | ancho máximo y padding lateral |
 | `SectionHeading` | astro | `<h2>` que se **teclea** al entrar en pantalla, una sola vez (ADR-0014) |
-| `TypingText` | astro | **CSS puro, sin JS.** Efecto de tecleo. `trigger`: `load` (hero) o `viewport` (encabezados); `caret`: `persistent` (hero, es la marca), `transient` (encabezados) o `none` |
+| `TypingText` | astro | **CSS puro, sin JS.** Efecto de tecleo. `trigger`: `load`, `boot` (hero: espera a la boot sequence si está en pantalla) o `viewport` (encabezados); `caret`: `persistent` (hero, es la marca), `transient` (encabezados) o `none` |
 | `Icon` | astro | envoltorio de SVG, aplica la especificación de `02-design-system.md` §6 |
 | `Prose` | astro | estilos tipográficos para el cuerpo MDX; todo con tokens semánticos, sin plugin de tipografía |
 
@@ -43,7 +43,7 @@
 
 | Componente | Tipo | Notas |
 |---|---|---|
-| `Hero` | astro | usa `TypingText` con `trigger="load"` y cursor permanente; encadena con la boot sequence de ADR-0019 |
+| `Hero` | astro | pantalla completa bajo el header; usa `TypingText` con `trigger="boot"` y cursor permanente, que arranca al terminar la boot sequence de ADR-0019 o de inmediato si no se muestra; enlace estático `scroll ↓` |
 | `AboutTeaser` | astro | bloque about breve del home |
 | `TechCarousel` | astro | **CSS puro, sin JS** |
 | `FeaturedProjects` | astro | los 3 destacados |
@@ -139,6 +139,7 @@ Nota conocida del patrón: seleccionar texto dentro de la card se vuelve difíci
 Es aceptable, porque el texto de la card es corto y no está pensado para copiarse.
 
 ### Variantes
-El home usa **exactamente esta misma card** (Q-B decidida). El componente expone
-una prop `variant` para futuros usos, pero hoy solo existe la variante por
-defecto. No se crea un segundo componente.
+El home usa **exactamente esta misma card** (Q-B decidida). No se crea un segundo
+componente, y **no hay prop `variant`**: se describía "para futuros usos", nunca
+llegó a implementarse y nadie la necesita. Si un día hace falta, se añade
+entonces.

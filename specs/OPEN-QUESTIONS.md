@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-14 (Q-P resuelta)
+Última actualización: 2026-09-16 (aprobada la spec de la fase 5)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -91,11 +91,12 @@ traslado de `NavDropdown` y `MobileNav` a `islands/`.
 
 **Las tres de la fase 4 (`04-content-model.md`, `05-pages/projects.md` y
 `05-pages/project-detail.md`) se aprobaron el mismo día**, con tres decisiones:
-filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta. Quedan:
+filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta.
+
+**La de la fase 5 (`05-pages/home.md`) se aprobó el 2026-09-16.** Quedan:
 
 | Spec | La consume | Estado |
 |---|---|---|
-| `05-pages/home.md` | Fase 5 | BORRADOR |
 | `05-pages/about.md`, `resume.md` | Fase 6 | BORRADOR |
 | `05-pages/contact.md` | Fase 7 | BORRADOR + Q38/Q41 |
 | `08-integrations.md` | Fases 7 y 8 | BORRADOR |
