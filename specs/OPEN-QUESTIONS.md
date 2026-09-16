@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-16 (añadida la fase 11 y Q-Q)
+Última actualización: 2026-09-16 (Q-Q resuelta)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -12,25 +12,13 @@ seguir en "Abiertas" ni en "Aplazado".
 
 ## Abiertas
 
-### Q-Q · Tema claro u oscuro de los correos
-**Bloquea la fase 11** (`13-roadmap.md`), que no tiene fecha: no hay prisa.
-
-Los correos seguirán la estética del sitio (ADR-0022), pero Gmail en iOS y
-Android invierte los colores en modo oscuro con su propio algoritmo.
-
-- **(a)** Base clara con variante oscura por `prefers-color-scheme` donde el
-  cliente la soporte.
-- **(b)** Oscuro fijo, la cara más reconocible del sitio, a riesgo de que algunas
-  apps lo inviertan con contrastes imprevisibles.
-- **(c)** Solo claro.
-
-**Recomendación: (a).** Da la estética oscura donde el cliente la respeta sin
-arriesgar la legibilidad donde no. Detalle en `14-email.md`.
+Ninguna. Q-Q, la última, se resolvió el 2026-09-16.
 
 ## Resueltas
 
 | Ref | Resolución | Documentado en |
 |---|---|---|
+| Q-Q | Correos con **base clara y variante oscura** por `prefers-color-scheme` (a) | `14-email.md` |
 | Q38 | Anti-spam: **honeypot + límite de envíos por IP** (b). Cómo se implementa el límite en Vercel, sin memoria compartida entre ejecuciones, se decide al aprobar `contact.md` | `05-pages/contact.md` |
 | Q41 | **Sin persistencia**: el correo es el único registro (a) | `05-pages/contact.md` |
 | Q-A | Iconos dibujados a mano, uno por archivo — **luego derogada** | ADR-0018, `DEVIATIONS.md` |
@@ -85,7 +73,7 @@ fase 6 (`about.md`, `resume.md`) el mismo día, igual que las dos de la fase 7 (
 
 | Spec | La consume | Estado |
 |---|---|---|
-| `14-email.md` | Fase 11 (sin fecha) | BORRADOR + Q-Q |
+| `14-email.md` | Fase 11 (sin fecha) | BORRADOR |
 
 ---
 

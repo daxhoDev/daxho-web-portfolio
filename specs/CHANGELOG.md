@@ -3,6 +3,17 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-16] Q-Q resuelta: correos con base clara y variante oscura
+
+Decisión del usuario: opción (a). No queda ninguna pregunta abierta.
+
+- **`14-email.md`:** la sección de Q-Q pasa a ser la decisión, con los colores
+  exactos de cada tema tomados de `tokens.css` y la aceptación de que los
+  clientes que invierten colores (Gmail móvil) deciden el resultado sobre la base
+  clara.
+- **`13-roadmap.md`:** a la fase 11 solo le queda aprobar `14-email.md`.
+- **`OPEN-QUESTIONS.md`:** Q-Q pasa a resueltas.
+
 ## [2026-09-16] Plantillas de correo: ADR-0022, `14-email.md` y fase 11
 
 Petición del usuario: especificar el paso a correos HTML con React Email

@@ -22,6 +22,7 @@ cambiar o romper. Obligatorio por la Regla 3 de `../AGENTS.md`.
   - La estética se traduce, no se copia: sin fuentes web, sin variables CSS y
     sin animación, porque Gmail no los soporta.
   - Queda abierta Q-Q (tema claro u oscuro), que bloquea la fase 11.
+    *Resuelta el mismo día: base clara con variante oscura.*
   - Se advirtió al usuario de que el único destinatario es él mismo mientras no
     haya dominio propio (Q39); aun así decidió especificarlo.
 - **Aprobada por:** usuario.

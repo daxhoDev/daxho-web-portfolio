@@ -310,8 +310,8 @@ Añadida el 2026-09-16 a petición del usuario, **sin fecha**: se empieza cuando
 pida. Solo depende de la fase 7, así que puede ir en cualquier momento a partir de
 ahí, antes o después de las fases 8, 10 y 9.
 
-**Prerrequisitos:** resolver Q-Q (tema claro u oscuro del correo) y aprobar
-`14-email.md`.
+**Prerrequisito:** aprobar `14-email.md`. Q-Q ya está resuelta (2026-09-16): base
+clara con variante oscura.
 
 Aviso del formulario con React Email siguiendo la estética del sitio (ADR-0022) ·
 `EmailLayout` + `ContactNotification` · colores en literales con test contra los
