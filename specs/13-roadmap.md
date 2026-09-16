@@ -52,7 +52,7 @@ pasaron de 23 a 26.
 
 ---
 
-## Fase 2 — Esqueleto del sitio · **L** · 🔍 EN REVISIÓN (PR #3)
+## Fase 2 — Esqueleto del sitio · **L** · ✅ COMPLETADA (PR #3)
 Rama: `feat/site-skeleton`
 
 **Prerrequisito cumplido (2026-09-14):** `06-components.md` y `05-pages/404.md`
@@ -112,7 +112,7 @@ deja de depender de esta.
 
 ---
 
-## Fase 4 — Contenido y proyectos · **L** · 🔍 EN REVISIÓN (PR #4)
+## Fase 4 — Contenido y proyectos · **L** · ✅ COMPLETADA (PR #4)
 Rama: `feat/projects`
 
 **Prerrequisito cumplido (2026-09-14):** `04-content-model.md`,
@@ -153,14 +153,18 @@ card.
 
 ---
 
-## Fase 5 — Home · **M**
+## Fase 5 — Home · **M** · ⬅️ EN CURSO
 Rama: `feat/home`
+
+**Prerrequisito cumplido (2026-09-16):** `05-pages/home.md` pasa a APROBADA, con
+el texto del subtítulo y de la banda CTA, y la forma del hero y su indicador de
+scroll.
 
 Hero con boot sequence encadenada + typing · about breve · carrusel con los 25 ·
 tres destacados (misma `ProjectCard`) · banda CTA.
 
-Va **después** de las fases 3 y 4 porque depende de los iconos y de la colección
-de proyectos.
+Va **después** de la fase 4 porque depende de la colección de proyectos. (Los
+iconos, que eran la fase 3, se resolvieron en la fase 1.)
 
 **Entregable:** la portada completa. Es el momento de juzgar si el conjunto
 funciona.

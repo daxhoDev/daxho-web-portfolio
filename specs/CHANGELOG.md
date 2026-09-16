@@ -3,6 +3,28 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-16] Aprobada la spec de la fase 5
+
+`05-pages/home.md` pasa de BORRADOR a APROBADA. Decisiones del usuario:
+
+- **Hero** a pantalla completa bajo el header, con un enlace estático `scroll ↓`.
+- **Subtítulo:** `Software Engineer · full-stack web` /
+  `Software Engineer · desarrollo web full-stack`.
+- **Banda CTA** en voz de terminal: `> ready when you are` + `contact` /
+  `> listo cuando tú lo estés` + `contacto`.
+
+Añadido por el agente, sin decisión nueva: el tecleo del hero arranca **de
+inmediato** cuando la boot sequence no se muestra o se salta, en vez de esperar
+siempre su duración. Es lo que ya pedía ADR-0019 al encadenar las dos piezas.
+
+Desfases corregidos:
+- `home.md` daba el carrusel por bloqueado por Q-A, resuelta desde la fase 1.
+- `home.md` y `06-components.md` describían una prop `variant` de `ProjectCard`
+  "para futuros usos" que nunca se implementó. Se elimina la mención.
+- `13-roadmap.md` decía que la fase 5 depende de la fase 3, eliminada. Fases 2 y 4
+  marcadas como completadas (PR #3 y #4).
+- JSON-LD, OG y `description` del home quedan explícitamente en la fase 8.
+
 ## [2026-09-14] Q-P resuelta: contenido real antes de la auditoría, sin `master`
 
 Decisión del usuario, registrada en `DEVIATIONS.md`: *"Adelantamos la fase de
