@@ -90,6 +90,8 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   ├── layouts/
 │   │   ├── BaseLayout.astro
 │   │   └── ProjectLayout.astro
+│   ├── emails/               (plantillas React Email, solo servidor — fase 11,
+│   │                          ver 14-email.md)
 │   ├── lib/                  (utilidades puras — objetivo de Vitest;
 │   │                          projects.ts: validaciones del conjunto de proyectos)
 │   ├── pages/

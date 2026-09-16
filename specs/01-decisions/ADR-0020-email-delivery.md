@@ -1,6 +1,6 @@
 # ADR-0020 — Servicio de envío del formulario de contacto
 
-**Estado:** APROBADA · 2026-09-09 · restricción de Resend verificada el 2026-09-16
+**Estado:** APROBADA · 2026-09-09 · restricción de Resend verificada el 2026-09-16 · regla de formato modificada por ADR-0022 (efectiva en la fase 11)
 Sustituye el análisis previo de `OPEN-QUESTIONS.md` Q-H.
 
 ## Contexto
@@ -80,5 +80,8 @@ perjudica su reputación.
   directamente. **Este es el detalle que hace útil el formulario.**
 - El asunto identifica el origen: `[Portfolio] Mensaje de {name}` (el formulario
   no tiene campo de asunto, `05-pages/contact.md`).
-- El cuerpo incluye nombre, correo y mensaje en texto plano legible.
+- El cuerpo incluye nombre, correo y mensaje en texto plano legible. **A partir
+  de la fase 11** se envía además una versión HTML con React Email, con la
+  estética del sitio (ADR-0022, `14-email.md`); el texto plano se conserva como
+  alternativa.
 - El contenido del mensaje **nunca** se escribe en los logs.
