@@ -73,6 +73,18 @@
    arriba y al recibir foco por teclado: si no, un usuario de teclado podría
    tabular hasta un header invisible.
    -------------------------------------------------------------------------- */
+:root {
+  /* Alto del header: fila de 44 px (área táctil) + padding de 16 px arriba y
+     abajo + 1 px de borde. Lo usan el hero a pantalla completa y el
+     `scroll-margin` de los anclajes, para que no queden tapados. */
+  --header-h: 4.8125rem;
+}
+
+/* Los anclajes no quedan tapados por el header sticky al saltar a ellos. */
+.anchor-target {
+  scroll-margin-top: var(--header-h);
+}
+
 .site-header {
   position: sticky;
   top: 0;

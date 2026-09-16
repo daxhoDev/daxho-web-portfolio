@@ -153,7 +153,7 @@ card.
 
 ---
 
-## Fase 5 — Home · **M** · ⬅️ EN CURSO
+## Fase 5 — Home · **M** · 🔍 EN REVISIÓN
 Rama: `feat/home`
 
 **Prerrequisito cumplido (2026-09-16):** `05-pages/home.md` pasa a APROBADA, con
@@ -168,6 +168,19 @@ iconos, que eran la fase 3, se resolvieron en la fase 1.)
 
 **Entregable:** la portada completa. Es el momento de juzgar si el conjunto
 funciona.
+
+**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **82 tests unitarios** · **83 tests E2E** (69 + 14 del
+home) · **63,2 KB gzip** de los 75 KB, sin JS nuevo: las cuatro secciones son
+`.astro` · revisado en escritorio y móvil, en ambos temas e idiomas.
+
+**Riesgo a medir en la fase 9 — LCP.** `home.md` pide LCP < 2,0 s con el texto
+del hero como elemento LCP. En una primera visita el titular espera a la boot
+sequence (820 ms) y después se teclea (~2,2 s para la frase inglesa), así que los
+caracteres terminan de hacerse visibles hacia los 3 s. Cómo cuenta Chrome el LCP
+de un texto revelado carácter a carácter no está verificado. Si la medición lo
+confirma, las salidas razonables son que cuente el subtítulo, que es estático y
+se pinta de inmediato, o acortar el tecleo. No se decide nada sin medir.
 
 ---
 

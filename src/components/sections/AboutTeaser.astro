@@ -1,0 +1,47 @@
+---
+/**
+ * About breve del home — 05-pages/home.md.
+ *
+ * Dos columnas en escritorio, apiladas en móvil con la imagen primero.
+ * Texto y fotografía son relleno hasta la fase 10 (Q32, Q33).
+ */
+import { Image } from 'astro:assets';
+
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+import photo from '@/assets/profile/placeholder.svg';
+
+interface Props {
+  lang: Lang;
+  id: string;
+}
+
+const { lang, id }: Props = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id={id} class="anchor-target py-20">
+  <Container class="grid items-center gap-10 md:grid-cols-2">
+    <div class="border-subtle overflow-hidden rounded-md border">
+      <Image
+        src={photo}
+        alt={t('home.about.photoAlt')}
+        widths={[400, 600, 800]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        class="aspect-[4/5] h-auto w-full object-cover"
+      />
+    </div>
+
+    <div class="flex flex-col items-start gap-6">
+      <SectionHeading text={t('nav.about')} as="h2" />
+      <p class="text-fg-secondary max-w-(--container-reading) leading-relaxed">
+        {t('home.about.text')}
+      </p>
+      <Button href={localizePath('/about', lang)} variant="secondary">
+        {t('home.about.more')}
+      </Button>
+    </div>
+  </Container>
+</section>

@@ -59,17 +59,27 @@ const LINES = ['> boot daxho.dev', '> loading modules ...', '> ready'];
       /* se muestra igual */
     }
 
-    // Requisito 4: se salta con clic, Esc o cualquier tecla.
-    const skip = () => {
-      boot.remove();
-      document.removeEventListener('keydown', skip);
-      document.removeEventListener('pointerdown', skip);
-    };
-    document.addEventListener('keydown', skip);
-    document.addEventListener('pointerdown', skip);
+    // ENCADENADO CON EL HERO (05-pages/home.md). Mientras la secuencia está en
+    // pantalla, <html> lleva `data-booting` y el CSS deja en pausa el tecleo del
+    // hero (TypingText con trigger="boot"). Se marca AQUÍ, en el mismo script
+    // que decide mostrarla: si no se muestra (segunda visita, reduced-motion,
+    // sin JS) el atributo nunca existe y el hero teclea de inmediato.
+    const root = document.documentElement;
+    root.setAttribute('data-booting', '');
 
-    // Red de seguridad: la animación CSS ya lo oculta, pero así el nodo no se
-    // queda en el DOM interceptando nada.
-    window.setTimeout(skip, 1200);
+    // Requisito 4: se salta con clic, Esc o cualquier tecla. Saltar también
+    // libera el hero en ese mismo instante.
+    const finish = () => {
+      boot.remove();
+      root.removeAttribute('data-booting');
+      document.removeEventListener('keydown', finish);
+      document.removeEventListener('pointerdown', finish);
+    };
+    document.addEventListener('keydown', finish);
+    document.addEventListener('pointerdown', finish);
+
+    // Debe coincidir con el retardo de `boot-out` en layout.css (820 ms): el
+    // overlay se va por CSS y en ese momento el hero empieza a teclear.
+    window.setTimeout(finish, 820);
   })();
 </script>

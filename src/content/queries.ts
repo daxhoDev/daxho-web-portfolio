@@ -10,6 +10,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 import type { Lang } from '@/i18n/utils';
 import {
+  featuredProjects,
   isPublished,
   neighbors,
   parseProjectId,
@@ -45,6 +46,12 @@ function loadPublished(): Promise<Project[]> {
 export async function getProjects(lang: Lang): Promise<Project[]> {
   const all = await loadPublished();
   return sortProjects(all.filter((project) => project.lang === lang));
+}
+
+/** Los 3 destacados de un idioma, ordenados por `featuredOrder`. */
+export async function getFeaturedProjects(lang: Lang): Promise<Project[]> {
+  const all = await loadPublished();
+  return featuredProjects(all.filter((project) => project.lang === lang));
 }
 
 /** Rutas estáticas del detalle para un idioma, con sus vecinos ya resueltos. */

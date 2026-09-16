@@ -3,6 +3,19 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-16] Fase 5 — Home
+
+Implementación de la fase 5. Sin cambios de decisión; se documenta:
+
+- **`13-roadmap.md`:** cierre real de la fase y un **riesgo de LCP** a medir en la
+  fase 9. En la primera visita el titular espera a la boot sequence y después se
+  teclea, y no está verificado cómo cuenta Chrome el LCP de un texto revelado
+  carácter a carácter.
+- **Nota de accesibilidad conocida:** en español, la lista del carrusel y las
+  filas de stack de las cards comparten el nombre accesible "Tecnologías". Son
+  listas distintas en secciones con encabezados distintos, así que no se ha
+  cambiado; queda anotado por si la auditoría de la fase 9 lo señala.
+
 ## [2026-09-16] Aprobada la spec de la fase 5
 
 `05-pages/home.md` pasa de BORRADOR a APROBADA. Decisiones del usuario:

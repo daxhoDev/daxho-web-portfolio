@@ -29,6 +29,8 @@ interface Props {
    * apelotonados en mitad de la banda.
    */
   minPerGroup?: number;
+  /** Nombre accesible de la lista, en el idioma de la página. */
+  label?: string;
 }
 
 const {
@@ -36,6 +38,7 @@ const {
   iconSize = 40,
   showLabels = false,
   minPerGroup = 14,
+  label = 'Technologies',
 } = Astro.props;
 
 const catalog = getCarouselTech();
@@ -53,7 +56,7 @@ const duration = `${(items.length * secondsPerItem).toFixed(1)}s`;
       [0, 1].map((copy) => (
         <ul
           class="text-accent-text flex shrink-0 items-center gap-12 pr-12"
-          aria-label={copy === 0 ? 'Technologies' : undefined}
+          aria-label={copy === 0 ? label : undefined}
           aria-hidden={copy === 1 ? 'true' : undefined}
         >
           {items.map((tech, index) => {
