@@ -303,7 +303,7 @@ y lo hace el usuario (Q-P).
 
 ---
 
-## Fase 11 — Plantillas de correo · **S** · 🚧 EN CURSO
+## Fase 11 — Plantillas de correo · **S** · ✅ COMPLETADA (PR #10, pendiente de merge)
 Rama: `feat/email-templates`
 
 Añadida el 2026-09-16 a petición del usuario, sin fecha. El 2026-09-17 el usuario
@@ -327,7 +327,12 @@ claro y en oscuro.
 **Acción del usuario:** leer ese envío de prueba en los dos clientes y en los dos
 modos, que es la verificación que no se puede automatizar.
 
-**Cierre real (2026-09-17), pendiente de tu revisión en Gmail:** lint limpio ·
+**Verificación manual superada (2026-09-17):** el usuario leyó los cuatro
+envíos reales y los dio por buenos —*"Los correos funcionando"*—, que era la
+única comprobación que no se podía automatizar. Con eso, los cinco criterios de
+aceptación de `14-email.md` quedan cumplidos.
+
+**Cierre real (2026-09-17):** lint limpio ·
 typecheck 0 errores · **144 tests unitarios** (112 + 32 de contenido, escapado,
 saltos de línea, modo oscuro, colores contra `tokens.css` y caída a texto plano)
 · **110 tests E2E** sin cambios · build correcto · **cuatro envíos reales

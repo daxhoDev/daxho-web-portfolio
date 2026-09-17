@@ -3,6 +3,16 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-17] Fase 11 verificada a mano: los correos se leen bien
+
+El usuario revisó los cuatro envíos reales en Gmail y los dio por buenos
+(*"Los correos funcionando"*). Era la única comprobación que no se puede
+automatizar, y con ella la fase queda cerrada.
+
+- **`14-email.md`:** los cinco criterios de aceptación pasan a cumplidos, cada
+  uno con su fuente: la revisión del usuario o el test que lo cubre.
+- **`13-roadmap.md`:** la fase 11 pasa a COMPLETADA, pendiente solo del merge.
+
 ## [2026-09-17] Fase 11 — Plantillas de correo
 
 Implementación de la fase 11. Un cambio de decisión y dos hallazgos que tocan a

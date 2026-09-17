@@ -136,9 +136,13 @@ clientes descartan. Queda **prohibido** depender de selectores complejos
   Es el único cliente del único destinatario.
 
 ## Criterios de aceptación
-- [ ] El aviso se lee correctamente en Gmail web y en la app móvil, en claro y
-      oscuro.
-- [ ] La marca, el acento y la monoespaciada identifican el sitio.
-- [ ] El texto del visitante nunca se interpreta como HTML.
-- [ ] Un fallo al renderizar no impide recibir el aviso.
-- [ ] El presupuesto de JS del sitio no cambia (dependencia solo de servidor).
+- [x] El aviso se lee correctamente en Gmail web y en la app móvil, en claro y
+      oscuro. **Verificado por el usuario el 2026-09-17** sobre cuatro envíos
+      reales, en sus palabras: *"Los correos funcionando"*.
+- [x] La marca, el acento y la monoespaciada identifican el sitio (misma
+      verificación).
+- [x] El texto del visitante nunca se interpreta como HTML. Cubierto por tests y
+      ejercitado en el tercer envío de prueba, con `<script>` y `<b>`.
+- [x] Un fallo al renderizar no impide recibir el aviso. Cubierto por test.
+- [x] El presupuesto de JS del sitio no cambia: la dependencia es solo de
+      servidor y el home carga los mismos cinco bundles de islas.
