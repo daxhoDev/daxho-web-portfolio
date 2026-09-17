@@ -345,6 +345,58 @@ Al terminar, **no puede quedar ningún `draft: true`**: la guarda de CI
 (`scripts/check-drafts.mjs`) sigue protegiendo cualquier PR hacia `master`, lo
 haga quien lo haga.
 
+### Inventario exacto de lo que hace falta (2026-09-17)
+
+Escrito al cerrar la fase 8, para que reunir el material no dependa de ir
+preguntando. Todo lo que aquí no se diga ya está resuelto en el código.
+
+**1. Los 6 proyectos** — `src/content/projects/{en,es}/{slug}.mdx`, el **mismo
+slug** en los dos idiomas (12 archivos). Por cada uno:
+
+| Campo | Obligatorio | Nota |
+|---|---|---|
+| `title` | sí | |
+| `summary` | sí | **máximo 160 caracteres**: es la `description` de la página |
+| `cover` / `coverAlt` | sí | captura principal **16:9** y su texto alternativo |
+| `gallery` | no | lista de `{ image, alt, caption? }` |
+| `stack` | sí | claves del catálogo de 25 (`10-tech-catalog.md`); una clave que no exista **rompe el build** |
+| `liveUrl` / `repoUrl` | no | sin `liveUrl` no se pinta "Open project" |
+| `featured` + `featuredOrder` | sí en 3 | **exactamente 3** por idioma, con orden 1-2-3 |
+| `order` | sí | orden de la galería |
+| `year`, `role`, `status` | `role` opcional | `status`: `live`, `archived` o `wip` |
+| `draft` | sí | pasa a `false` |
+
+El cuerpo MDX empieza en `##`: el `#` de la página es el título del proyecto.
+
+**2. Capturas** — en `src/assets/projects/{slug}/`, sustituyendo los SVG de
+relleno. **16:9** (1600×900 va sobrado; el ancho útil máximo son 1200 px), PNG o
+JPG: Astro genera AVIF y WebP en el build.
+
+**3. Experiencia** — `src/content/experience/{en,es}/{slug}.mdx`: `company`,
+`role`, `startDate`, `endDate` (`null` = actualidad), `location`, `type`
+(`full-time`, `contract` o `freelance`), `highlights` (mínimo uno), `stack`,
+`draft: false`, y el cuerpo con el párrafo de contexto.
+
+**4. Formación** — `src/content/education.ts`: institución, titulación en los dos
+idiomas, año de inicio y de fin (`null` si sigue en curso).
+
+**5. Idiomas hablados** — `src/content/languages.ts`: nombre y nivel, en los dos
+idiomas.
+
+**6. Redes** — `src/content/social.ts`: nombre y URL reales. Hasta que dejen de
+ser `draft`, el `Person` del JSON-LD **no publica `sameAs`** (ADR-0016).
+
+**7. Fotografía** — sustituye `src/assets/profile/placeholder.svg`, y su texto
+alternativo va en `home.about.photoAlt`.
+
+**8. CV en PDF** — `public/resume/daxho-resume-en.pdf` y `-es.pdf`. Basta con
+sustituir los archivos: el peso que se enseña se lee del archivo en el build, y
+si falta uno el build falla.
+
+**9. Textos de `src/i18n/ui.ts`**, en los dos idiomas — todos marcados con
+`TODO(fase 10)`: `home.about.text`, `home.description` (hoy provisional),
+`projects.intro`, `about.intro` y `about.bio.1..3`.
+
 ---
 
 ## Fase 9 — Auditoría · **M** · va DESPUÉS de la fase 10

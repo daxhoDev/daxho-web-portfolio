@@ -3,6 +3,14 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-17] Inventario de contenido de la fase 10
+
+Al cerrar la fase 8, la única fase que queda por delante depende por completo de
+material del usuario. `13-roadmap.md` gana el **inventario exacto** de lo que
+hace falta —los 9 bloques, con los campos obligatorios de cada archivo, el
+límite de 160 caracteres del `summary`, el 16:9 de las capturas y la regla de
+los 3 destacados por idioma—, para que reunirlo no dependa de ir preguntando.
+
 ## [2026-09-17] Fase 8 — SEO y analytics
 
 Implementación de la fase 8, sin cambios de decisión.
