@@ -1,13 +1,20 @@
 # 06 — Inventario de componentes
 
-**Estado:** APROBADA · 2026-09-14 · prerrequisito de la fase 2, cumplido
+**Estado:** APROBADA · 2026-09-14 · prerrequisito de la fase 2, cumplido ·
+alcance acotado el 2026-09-17
+
+**Alcance:** los componentes del sitio, los de `src/components/`. Las plantillas
+de correo de `src/emails/` **no** entran aquí: no llegan al navegador y las rige
+`14-email.md`, que por fuerza permite colores literales —los clientes de correo
+no soportan variables CSS— con un test que los compara con `tokens.css`.
 
 ## Reglas generales
 
 1. **Astro por defecto, React solo si hace falta estado o eventos.** Ver
    `03-architecture.md`.
 2. Todo componente consume **tokens semánticos** de `02-design-system.md`. Está
-   prohibido escribir un color literal en un componente.
+   prohibido escribir un color literal en un componente. (Única excepción, fuera
+   de este inventario: las plantillas de correo, ver el alcance de arriba.)
 3. Todo componente interactivo cubre: reposo, hover, foco, activo, deshabilitado.
 4. Props tipadas. Sin `any`.
 5. Ningún componente nuevo se crea sin estar en este inventario o sin aprobación
