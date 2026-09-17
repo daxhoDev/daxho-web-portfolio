@@ -13,6 +13,8 @@
  *   3. TypingObserver / NavScript — marcan <html> para que el CSS pueda pausar
  *                    el tecleo y colapsar la navegación.
  */
+import Analytics from '@vercel/analytics/astro';
+
 import BootSequence from '@/components/layout/BootSequence.astro';
 import Footer from '@/components/layout/Footer.astro';
 import Header from '@/components/layout/Header.astro';
@@ -22,6 +24,7 @@ import SkipLink from '@/components/layout/SkipLink.astro';
 import ThemeScript from '@/components/ThemeScript.astro';
 import TypingObserver from '@/components/TypingObserver.astro';
 import { DEFAULT_LANG, alternates, getLangFromUrl } from '@/i18n/utils';
+import { SITE_NAME, serializeJsonLd, type JsonLdNode } from '@/lib/seo';
 import '@/styles/global.css';
 
 interface Props {
@@ -31,9 +34,23 @@ interface Props {
   noindex?: boolean;
   /** El 404 y la styleguide no llevan cromo de navegación completo. */
   chrome?: boolean;
+  /** Ruta de la OG. Por defecto, la genérica del sitio (ADR-0016). */
+  ogImage?: string;
+  /** `article` en el detalle de proyecto; en el resto, `website`. */
+  ogType?: 'website' | 'article';
+  /** Nodos de datos estructurados de la página (ADR-0016). */
+  jsonLd?: JsonLdNode | JsonLdNode[];
 }
 
-const { title, description = '', noindex = false, chrome = true } = Astro.props;
+const {
+  title,
+  description = '',
+  noindex = false,
+  chrome = true,
+  ogImage = '/og/default.png',
+  ogType = 'website',
+  jsonLd,
+} = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -46,6 +63,12 @@ const links = alternates(Astro.url.pathname).map((entry) => ({
   href: new URL(entry.path, Astro.site ?? Astro.url).toString(),
 }));
 const xDefault = links.find((entry) => entry.lang === DEFAULT_LANG);
+
+// ADR-0016: todas las URL salen de `SITE_URL`; ninguna se escribe a mano.
+const base = Astro.site ?? Astro.url;
+const canonical = new URL(Astro.url.pathname, base).toString();
+const ogImageUrl = new URL(ogImage, base).toString();
+const structuredData = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <!doctype html>
@@ -57,12 +80,38 @@ const xDefault = links.find((entry) => entry.lang === DEFAULT_LANG);
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString()} />
+    <link rel="canonical" href={canonical} />
     {links.map((entry) => <link rel="alternate" hreflang={entry.lang} href={entry.href} />)}
     {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault.href} />}
 
-    {/* Favicon derivado de la marca reducida (12-brand.md). El SVG cambia con
-        el tema para que no desaparezca en la barra de pestañas contraria. */}
+    {
+      /* Open Graph y Twitter (ADR-0016). La imagen es la genérica salvo en el
+        detalle de proyecto, que trae la suya generada en el build. */
+    }
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    {
+      structuredData.map((node) => (
+        <script type="application/ld+json" set:html={serializeJsonLd(node)} is:inline />
+      ))
+    }
+
+    {
+      /* Favicon derivado de la marca reducida (12-brand.md). El SVG cambia con
+        el tema para que no desaparezca en la barra de pestañas contraria. */
+    }
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -97,5 +146,14 @@ const xDefault = links.find((entry) => entry.lang === DEFAULT_LANG);
       <slot />
     </main>
     {chrome && <Footer lang={lang} />}
+    {
+      /* ADR-0015: analítica sin cookies, por eso no hay banner. La nota de que
+        el sitio no las usa vive en el footer.
+
+        SOLO en producción: en desarrollo el paquete carga un `script.debug.js`
+        de un dominio externo que no mide nada y cuya espera llegó a romper el
+        test de tiempos de la boot sequence. */
+    }
+    {import.meta.env.PROD && <Analytics />}
   </body>
 </html>

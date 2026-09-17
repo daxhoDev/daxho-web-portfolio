@@ -17,15 +17,22 @@ interface Props {
 const { lang }: Props = Astro.props;
 const t = useTranslations(lang);
 
-
 const year = new Date().getFullYear();
 ---
 
 <footer class="border-subtle mt-24 border-t py-10">
   <Container class="flex flex-wrap items-center justify-between gap-4">
     <p class="text-fg-muted font-mono text-xs">
-      © {year} <a class="hover:text-accent-text" href={localizePath('/', lang)}>daxho</a>
+      © {year}
+      <a class="hover:text-accent-text" href={localizePath('/', lang)}>daxho</a>
       {' · '}{t('footer.rights')}
+      {
+        /* ADR-0015: la analítica no usa cookies, y decirlo en una línea evita
+          el banner entero. */
+      }
+      <span class="block sm:inline">
+        <span class="hidden sm:inline">{' · '}</span>{t('footer.cookies')}
+      </span>
     </p>
 
     <ul class="flex items-center gap-4" aria-label={t('footer.social')}>

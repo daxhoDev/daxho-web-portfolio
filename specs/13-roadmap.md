@@ -261,14 +261,74 @@ Hallazgos de la implementación:
 
 ---
 
-## Fase 8 — SEO y analytics · **M**
+## Fase 8 — SEO y analytics · **M** · 🚧 EN CURSO
 Rama: `feat/seo`
+
+**Prerrequisito cumplido (2026-09-17):** se cierran las cuatro decisiones que
+faltaban y se documentan donde corresponde.
+
+1. **OG con Satori + sharp en build**, no `@vercel/og` en ejecución (ADR-0016).
+   Satori no lee `woff2`, así que los TTF de JetBrains Mono entran en
+   `src/assets/fonts/` con su licencia, solo para el build.
+2. **Base oscura** para las OG (ADR-0016).
+3. **Textos de `title` y `description`** de `/projects`, `/contact` y del home
+   (provisional hasta la fase 10), aprobados y escritos en la spec de cada
+   página. La 404 no lleva `description`: es `noindex`.
+4. **La nota de cookies va en el footer**, en una línea (ADR-0015, `06-components.md`).
 
 Metadatos por página · JSON-LD (`Person`, `CreativeWork`, `BreadcrumbList`) ·
 `hreflang` verificado · sitemap y robots · **OG dinámicas por proyecto** generadas
 en build · Vercel Web Analytics.
 
 Va al final porque necesita que todas las páginas existan.
+
+**Cierre real (2026-09-17), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **131 tests unitarios** (112 + 19 de SEO, OG y sitemap) ·
+**131 tests E2E** (110 + 21 de metadatos, JSON-LD, OG, robots, sitemap, la nota
+de cookies y el `<h1>` del HTML servido) · build correcto, con **13 PNG de OG** generados (6 proyectos × 2
+idiomas + la genérica) y un sitemap de **20 URL**, las públicas de los dos
+idiomas y solo esas.
+
+**JS del home: ~59,7 KB gzip** de los 75 KB. Son 58,4 KB de los cinco bundles de
+islas más 1,3 KB del script en línea de la analítica; el `script.js` de Vercel no
+cuenta porque lo sirve Vercel, no el build. (La cifra de 63,2 KB que anotaban las
+fases anteriores se midió de otra forma: estas dos no son comparables.)
+
+Hallazgos de la implementación:
+
+1. **Satori no lee `woff2`.** Es el único formato que sirve el sitio, así que la
+   fase incluye los TTF en `src/assets/fonts/` (ADR-0016). Verificado con el
+   error exacto: `Unsupported OpenType signature wOF2`.
+2. **El JSON-LD apuntaba a URL sin barra final**, mientras la canónica y el
+   sitemap sí la llevan. Para un buscador eran dos páginas distintas.
+   `absoluteUrl` normaliza, y respeta los archivos (`.png`, `.txt`), donde la
+   barra rompería el enlace.
+3. **El contenido `draft` no entra en el JSON-LD.** Un `sameAs` a `#` o una
+   universidad de relleno se publicarían como ciertos. Es regla escrita en
+   `seo.ts` y cubierta por un test.
+4. **Un título con `</script>` cerraría la etiqueta** y volcaría el resto del
+   JSON como HTML. `serializeJsonLd` escapa los `<` a `\u003c`, que sigue siendo
+   JSON válido. Con test que falla sin el arreglo.
+5. **`robots.txt` se genera en el build**, no vive en `public/`: la línea
+   `Sitemap:` necesita la URL absoluta, que sale de `SITE_URL`. Y no lleva
+   ningún `Disallow`: una página con `noindex` hay que dejarla rastrear para que
+   esa etiqueta se lea.
+6. **La barra de herramientas de desarrollo de Astro monta sus propios `<h1>`**
+   ("Audit", "Settings") dentro de un shadow DOM que los selectores de
+   Playwright atraviesan. Los tests de "un solo `<h1>`" de las fases anteriores
+   empezaron a ver cuatro sin que la página cambiara. Ahora cuentan dentro de
+   `main`, y el `<h1>` del **documento servido** —que es lo que lee un
+   rastreador, y no tiene toolbar— lo comprueba `seo.spec.ts` sobre el HTML.
+7. **La analítica se monta solo en producción.** En desarrollo el paquete carga
+   un `script.debug.js` de un dominio externo que no mide nada, y esa espera
+   retrasaba la página lo justo para que la boot sequence terminara antes de que
+   el test de tiempos la comprobara. Que el build de producción sí la lleve está
+   cubierto por un test sobre el HTML generado.
+
+**Pendiente de la fase 10:** la `description` del home es provisional, y las
+redes del footer siguen en placeholder, así que el `Person` aún no publica
+`sameAs`. **Pendiente de la fase 9:** medir con Lighthouse, incluido el efecto
+del script de analítica.
 
 ---
 

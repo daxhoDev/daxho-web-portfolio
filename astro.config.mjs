@@ -2,8 +2,11 @@
 import { defineConfig, envField } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
+
+import { sitemapFilter } from './src/lib/sitemap';
 
 // ADR-0004: output estático. La única ruta con servidor será /api/contact
 // (fase 7), marcada con `export const prerender = false`.
@@ -45,7 +48,16 @@ export default defineConfig({
     },
   },
   // ADR-0005: MDX para el cuerpo largo del detalle de proyecto.
-  integrations: [react(), mdx()],
+  // ADR-0016: el sitemap incluye los dos idiomas y se anuncia en robots.txt.
+  integrations: [
+    react(),
+    mdx(),
+    sitemap({
+      i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
+      // La regla vive en src/lib/sitemap.ts, donde los tests pueden leerla.
+      filter: sitemapFilter,
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

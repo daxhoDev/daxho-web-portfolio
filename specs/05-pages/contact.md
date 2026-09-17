@@ -129,6 +129,21 @@ Cerradas: Q37 (tres campos), Q38 (honeypot + límite por IP), Q39 (autorespuesta
 fuera de alcance sin dominio propio, ADR-0020), Q40 (`developer.daxho@gmail.com`),
 Q41 (sin persistencia).
 
+## SEO
+
+**Se construye en la fase 8.** La fase 7 entregó `<title>` y `hreflang`.
+
+- `<title>`: en "Contact — Daxho" · es "Contacto — Daxho"
+- `description` (aprobada el 2026-09-17):
+  - en: "Tell me about your project: a short form and an answer straight to your
+    inbox."
+  - es: "Cuéntame tu proyecto: un formulario breve y respuesta directa a tu
+    correo."
+- OG: imagen genérica del sitio.
+- Las páginas de resultado (`/contact/sent` y `/contact/error`) llevan `noindex`
+  desde la fase 7 y **no entran en el sitemap**: no son contenido, son el final
+  de un envío.
+
 ## Criterios de aceptación
 - [ ] El formulario es enteramente usable con teclado.
 - [ ] Cada campo tiene su `<label>` asociado; no se usa `placeholder` como

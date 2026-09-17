@@ -94,7 +94,12 @@ test.describe('detalle de proyecto', () => {
 
   test('un solo <h1>, y el cuerpo MDX empieza en <h2>', async ({ page }) => {
     await visit(page, '/projects/lorem-ipsum-one');
-    await expect(page.locator('h1')).toHaveCount(1);
+    // Acotado a `main` a propósito: la barra de herramientas de desarrollo de
+    // Astro monta sus propios <h1> ("Audit", "Settings") en un shadow DOM, y
+    // los selectores de Playwright lo atraviesan. No existen en producción.
+    // Que el documento servido tenga UN solo <h1> lo comprueba seo.spec.ts
+    // sobre el HTML, sin navegador de por medio.
+    await expect(page.locator('main h1')).toHaveCount(1);
     await expect(page.locator('.prose h1')).toHaveCount(0);
     await expect(page.locator('.prose h2').first()).toBeVisible();
   });

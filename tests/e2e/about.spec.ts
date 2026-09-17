@@ -18,7 +18,10 @@ const EXPECTED_ORDER = ['Lorem Ipsum Studio', 'Dolor Sit Labs', 'Amet Consectetu
 test.describe('/about', () => {
   test('un solo <h1> y las secciones de la spec, en orden', async ({ page }) => {
     await visit(page, '/es/about', 'es');
-    await expect(page.locator('h1')).toHaveCount(1);
+    // Acotado a `main`: la barra de desarrollo de Astro monta sus propios
+    // <h1> en un shadow DOM que Playwright atraviesa, y que no existen en
+    // producción. El <h1> del documento servido lo cuenta seo.spec.ts.
+    await expect(page.locator('main h1')).toHaveCount(1);
     await expect(page).toHaveTitle('Sobre mí — Daxho');
     // Nombre accesible y no texto: un encabezado tecleado contiene la frase en
     // un nodo sr-only y además las letras animadas.
@@ -69,7 +72,10 @@ test.describe('/about', () => {
   test('el CTA final lleva solo a /contact', async ({ page }) => {
     await visit(page, '/es/about', 'es');
     const main = page.locator('main');
-    await expect(main.getByRole('link', { name: 'Contacto' })).toHaveAttribute('href', '/es/contact');
+    await expect(main.getByRole('link', { name: 'Contacto' })).toHaveAttribute(
+      'href',
+      '/es/contact',
+    );
     await expect(main.locator('a[href*="/resume"]:not([data-cv-download])')).toHaveCount(0);
   });
 });
@@ -142,8 +148,7 @@ test.describe('/about — impresión', () => {
     const colors = await page.evaluate(() => ({
       text: getComputedStyle(document.querySelector('main h2')!).color,
       background: getComputedStyle(document.body).backgroundColor,
-      node: getComputedStyle(document.querySelector('.timeline-item')!, '::before')
-        .backgroundColor,
+      node: getComputedStyle(document.querySelector('.timeline-item')!, '::before').backgroundColor,
     }));
     expect(colors.text).toBe('rgb(0, 0, 0)');
     expect(colors.background).toBe('rgb(255, 255, 255)');
