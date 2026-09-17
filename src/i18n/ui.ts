@@ -40,15 +40,21 @@ const en = {
   'footer.rights': 'All rights reserved.',
   'footer.builtWith': 'Built with Astro.',
   'footer.social': 'Social links',
+  // ADR-0015: analítica sin cookies, así que basta esta línea y no hay banner.
+  'footer.cookies': 'This website does not use cookies',
 
   'boot.skip': 'Press any key to skip',
 
   '404.title': 'Page not found',
-  '404.message': "This path leads nowhere. The links below do.",
+  '404.message': 'This path leads nowhere. The links below do.',
   '404.back': 'Back to home',
 
+  'projects.title': 'Projects — Daxho',
+  'projects.description':
+    'Selected work: what each project solves, what it is built with and how it turned out.',
   // TODO(fase 10): entradilla real. Relleno marcado (04-content-model.md).
-  'projects.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+  'projects.intro':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
 
   'project.viewDetails': 'View details',
   'project.openProject': 'Open project',
@@ -67,6 +73,10 @@ const en = {
   'project.nav': 'Project navigation',
 
   'home.title': 'Daxho — Software Engineer',
+  // TODO(fase 10): description definitiva con el contenido real. Esta es la
+  // provisional aprobada el 2026-09-17 (05-pages/home.md).
+  'home.description':
+    'Software Engineer building full-stack web applications. Projects, background and a direct way to get in touch.',
   'home.headline': "welcome to daxho's corner, what should we build?",
   'home.subtitle': 'Software Engineer · full-stack web',
   'home.scroll': 'scroll',
@@ -83,6 +93,8 @@ const en = {
 
   // TODO(fase 10): textos reales (Q32). Relleno marcado (04-content-model.md).
   'about.title': 'About — Daxho',
+  'about.description':
+    'Software Engineer: experience, stack, education and languages. CV available to download.',
   'about.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
   'about.bio.1':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -115,6 +127,8 @@ const en = {
   'about.inProgress': 'in progress',
 
   'contact.title': 'Contact — Daxho',
+  'contact.description':
+    'Tell me about your project: a short form and an answer straight to your inbox.',
   'contact.intro': 'ready when you are. Tell me about your project.',
   'contact.name': 'Name',
   'contact.email': 'Email',
@@ -137,8 +151,7 @@ const en = {
   'contact.sent.text': 'Thanks for writing. I will get back to you soon.',
   'contact.failed.title': 'Message not sent — Daxho',
   'contact.failed.heading': 'message not sent',
-  'contact.failed.text':
-    'Something went wrong: check the fields or try again in a few minutes.',
+  'contact.failed.text': 'Something went wrong: check the fields or try again in a few minutes.',
   'contact.backToForm': 'Back to the form',
 } as const;
 
@@ -167,6 +180,7 @@ const es: Translations = {
   'footer.rights': 'Todos los derechos reservados.',
   'footer.builtWith': 'Hecho con Astro.',
   'footer.social': 'Redes sociales',
+  'footer.cookies': 'Este sitio web no utiliza cookies',
 
   'boot.skip': 'Pulsa cualquier tecla para saltar',
 
@@ -174,8 +188,12 @@ const es: Translations = {
   '404.message': 'Este camino no lleva a ninguna parte. Los enlaces de abajo sí.',
   '404.back': 'Volver al inicio',
 
+  'projects.title': 'Proyectos — Daxho',
+  'projects.description':
+    'Trabajos seleccionados: qué resuelve cada proyecto, con qué está construido y en qué quedó.',
   // TODO(fase 10): entradilla real. Relleno marcado (04-content-model.md).
-  'projects.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+  'projects.intro':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
 
   'project.viewDetails': 'Ver detalles',
   'project.openProject': 'Abrir proyecto',
@@ -194,6 +212,9 @@ const es: Translations = {
   'project.nav': 'Navegación entre proyectos',
 
   'home.title': 'Daxho — Software Engineer',
+  // TODO(fase 10): description definitiva con el contenido real.
+  'home.description':
+    'Software Engineer especializado en desarrollo web full-stack. Proyectos, trayectoria y una vía directa de contacto.',
   'home.headline': 'bienvenido a la guarida de daxho, ¿qué construimos?',
   'home.subtitle': 'Software Engineer · desarrollo web full-stack',
   'home.scroll': 'scroll',
@@ -210,6 +231,8 @@ const es: Translations = {
 
   // TODO(fase 10): textos reales (Q32). Relleno marcado (04-content-model.md).
   'about.title': 'Sobre mí — Daxho',
+  'about.description':
+    'Software Engineer: experiencia, stack, formación e idiomas. CV disponible para descargar.',
   'about.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
   'about.bio.1':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -241,6 +264,8 @@ const es: Translations = {
   'about.inProgress': 'en curso',
 
   'contact.title': 'Contacto — Daxho',
+  'contact.description':
+    'Cuéntame tu proyecto: un formulario breve y respuesta directa a tu correo.',
   'contact.intro': 'listo cuando tú lo estés. Cuéntame tu proyecto.',
   'contact.name': 'Nombre',
   'contact.email': 'Correo',
@@ -249,7 +274,8 @@ const es: Translations = {
   'contact.sending': 'Enviando…',
   'contact.success': 'Mensaje enviado. Te responderé pronto.',
   'contact.error.generic': 'No se pudo enviar el mensaje. Inténtalo de nuevo en unos minutos.',
-  'contact.error.rateLimited': 'Demasiados mensajes en poco tiempo. Inténtalo de nuevo en 10 minutos.',
+  'contact.error.rateLimited':
+    'Demasiados mensajes en poco tiempo. Inténtalo de nuevo en 10 minutos.',
   'contact.error.fields': 'Revisa los campos marcados.',
   'contact.field.required': 'Este campo es obligatorio.',
   'contact.field.tooShort': 'Usa al menos {n} caracteres.',
@@ -262,8 +288,7 @@ const es: Translations = {
   'contact.sent.text': 'Gracias por escribir. Te responderé pronto.',
   'contact.failed.title': 'Mensaje no enviado — Daxho',
   'contact.failed.heading': 'mensaje no enviado',
-  'contact.failed.text':
-    'Algo ha fallado: revisa los campos o inténtalo de nuevo en unos minutos.',
+  'contact.failed.text': 'Algo ha fallado: revisa los campos o inténtalo de nuevo en unos minutos.',
   'contact.backToForm': 'Volver al formulario',
 };
 

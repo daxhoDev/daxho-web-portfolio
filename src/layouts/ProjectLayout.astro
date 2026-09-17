@@ -5,9 +5,9 @@
  * Secciones en el orden de la spec: cabecera, captura principal, stack,
  * descripción (MDX), galería y navegación.
  *
- * SEO de la fase 4: <title>, description y hreflang (este último lo emite
- * BaseLayout; el slug es idéntico en ambos idiomas). La OG dinámica y el
- * JSON-LD llegan en la fase 8.
+ * SEO: <title>, description y hreflang desde la fase 4 (el hreflang lo emite
+ * BaseLayout; el slug es idéntico en ambos idiomas). La fase 8 añade la OG
+ * generada en el build para ESTE proyecto, el `CreativeWork` y las migas.
  */
 import { Image } from 'astro:assets';
 import { render } from 'astro:content';
@@ -20,8 +20,10 @@ import Container from '@/components/ui/Container.astro';
 import Prose from '@/components/ui/Prose.astro';
 import SectionHeading from '@/components/ui/SectionHeading.astro';
 import type { Project } from '@/content/queries';
-import { useTranslations } from '@/i18n/utils';
+import { getTechByKey } from '@/content/tech';
+import { localizePath, useTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { breadcrumbJsonLd, projectJsonLd } from '@/lib/seo';
 
 interface Props {
   project: Project;
@@ -39,9 +41,41 @@ const meta = [
   data.role ? { label: t('project.role'), value: data.role } : undefined,
   { label: t('project.status'), value: t(`project.status.${data.status}`) },
 ].filter((item): item is { label: string; value: string } => Boolean(item));
+
+// ADR-0016. La OG la genera `src/pages/og/[...path].png.ts` en el build, una por
+// proyecto y por idioma; aquí solo se apunta a ella.
+const siteUrl = (Astro.site ?? Astro.url).toString();
+const path = localizePath(`/projects/${project.slug}`, lang);
+const ogImage = `/og/${lang}/${project.slug}.png`;
+
+const jsonLd = [
+  projectJsonLd({
+    siteUrl,
+    lang,
+    path,
+    title: data.title,
+    summary: data.summary,
+    image: ogImage,
+    year: data.year,
+    keywords: data.stack.map((key) => getTechByKey(key)?.label ?? key),
+    liveUrl: data.liveUrl,
+    repoUrl: data.repoUrl,
+  }),
+  breadcrumbJsonLd(siteUrl, [
+    { name: t('nav.home'), path: localizePath('/', lang) },
+    { name: t('nav.projects'), path: localizePath('/projects', lang) },
+    { name: data.title, path },
+  ]),
+];
 ---
 
-<BaseLayout title={`${data.title} — Daxho`} description={data.summary}>
+<BaseLayout
+  title={`${data.title} — Daxho`}
+  description={data.summary}
+  ogImage={ogImage}
+  ogType="article"
+  jsonLd={jsonLd}
+>
   <Container class="py-16">
     <article>
       {/* 1. Cabecera */}
@@ -83,8 +117,10 @@ const meta = [
         }
       </header>
 
-      {/* 2. Captura principal, a ancho completo del contenedor. Es la imagen
-          LCP de la página: se carga con prioridad. */}
+      {
+        /* 2. Captura principal, a ancho completo del contenedor. Es la imagen
+          LCP de la página: se carga con prioridad. */
+      }
       <div class="border-subtle mb-12 overflow-hidden rounded-md border">
         <Image
           src={data.cover}

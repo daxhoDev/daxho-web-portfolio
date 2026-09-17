@@ -24,7 +24,10 @@ const playState = (page: Page) =>
 test.describe('home — estructura', () => {
   test('un solo <h1>, con el titular como nombre accesible', async ({ page }) => {
     await visit(page);
-    await expect(page.locator('h1')).toHaveCount(1);
+    // Acotado a `main`: la barra de desarrollo de Astro monta sus propios
+    // <h1> en un shadow DOM que Playwright atraviesa, y que no existen en
+    // producción. El <h1> del documento servido lo cuenta seo.spec.ts.
+    await expect(page.locator('main h1')).toHaveCount(1);
     await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName(
       "welcome to daxho's corner, what should we build?",
     );
@@ -42,8 +45,14 @@ test.describe('home — estructura', () => {
   test('CTAs del hero: primario a /projects, secundario a /contact', async ({ page }) => {
     await visit(page, '/es', { lang: 'es' });
     const hero = page.locator('.hero');
-    await expect(hero.getByRole('link', { name: 'Proyectos' })).toHaveAttribute('href', '/es/projects');
-    await expect(hero.getByRole('link', { name: 'Contacto' })).toHaveAttribute('href', '/es/contact');
+    await expect(hero.getByRole('link', { name: 'Proyectos' })).toHaveAttribute(
+      'href',
+      '/es/projects',
+    );
+    await expect(hero.getByRole('link', { name: 'Contacto' })).toHaveAttribute(
+      'href',
+      '/es/contact',
+    );
   });
 
   test('el hero ocupa la pantalla bajo el header', async ({ page }) => {
@@ -116,7 +125,10 @@ test.describe('home — estructura', () => {
     await expect(band.getByRole('heading', { level: 2 })).toHaveAccessibleName(
       'listo cuando tú lo estés',
     );
-    await expect(band.getByRole('link', { name: 'contacto' })).toHaveAttribute('href', '/es/contact');
+    await expect(band.getByRole('link', { name: 'contacto' })).toHaveAttribute(
+      'href',
+      '/es/contact',
+    );
   });
 });
 

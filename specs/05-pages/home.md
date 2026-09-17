@@ -100,7 +100,11 @@ La fase 5 entrega `<title>` y `hreflang`. JSON-LD, OG y `description` llegan en 
 fase 8 (y la `description`, con el contenido real).
 
 - `<title>`: "Daxho — Software Engineer"
-- `description`: pendiente de contenido real.
+- `description` (**provisional**, aprobada el 2026-09-17; definitiva en la fase 10):
+  - en: "Software Engineer building full-stack web applications. Projects,
+    background and a direct way to get in touch."
+  - es: "Software Engineer especializado en desarrollo web full-stack. Proyectos,
+    trayectoria y una vía directa de contacto."
 - JSON-LD `Person`.
 - OG: imagen genérica del sitio.
 

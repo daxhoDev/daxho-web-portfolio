@@ -3,7 +3,10 @@ import { expect, test } from '@playwright/test';
 test.describe('accesibilidad', () => {
   test('hay exactamente un <h1>', async ({ page }) => {
     await page.goto('/styleguide');
-    await expect(page.locator('h1')).toHaveCount(1);
+    // Acotado a `main`: la barra de desarrollo de Astro monta sus propios
+    // <h1> en un shadow DOM que Playwright atraviesa, y que no existen en
+    // producción. El <h1> del documento servido lo cuenta seo.spec.ts.
+    await expect(page.locator('main h1')).toHaveCount(1);
   });
 
   test('el skip link es el primer elemento tabulable', async ({ page }) => {
@@ -17,9 +20,7 @@ test.describe('accesibilidad', () => {
     await page.goto('/styleguide');
     const button = page.getByRole('button', { name: /^Theme:/ });
     await button.focus();
-    const outlineWidth = await button.evaluate(
-      (el) => getComputedStyle(el).outlineWidth,
-    );
+    const outlineWidth = await button.evaluate((el) => getComputedStyle(el).outlineWidth);
     expect(outlineWidth).not.toBe('0px');
   });
 

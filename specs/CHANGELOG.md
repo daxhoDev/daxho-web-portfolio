@@ -13,6 +13,49 @@ automatizar, y con ella la fase queda cerrada.
   uno con su fuente: la revisión del usuario o el test que lo cubre.
 - **`13-roadmap.md`:** la fase 11 pasa a COMPLETADA, pendiente solo del merge.
 
+## [2026-09-17] Inventario de contenido de la fase 10
+
+Al cerrar la fase 8, la única fase que queda por delante depende por completo de
+material del usuario. `13-roadmap.md` gana el **inventario exacto** de lo que
+hace falta —los 9 bloques, con los campos obligatorios de cada archivo, el
+límite de 160 caracteres del `summary`, el 16:9 de las capturas y la regla de
+los 3 destacados por idioma—, para que reunirlo no dependa de ir preguntando.
+
+## [2026-09-17] Fase 8 — SEO y analytics
+
+Implementación de la fase 8, sin cambios de decisión.
+
+- **`13-roadmap.md`:** cierre real de la fase (131 unitarios, 131 E2E, 13 OG,
+  sitemap de 20 URL, ~59,7 KB de JS en el home) y seis hallazgos: el `woff2` que
+  Satori no lee, las URL sin barra final en el JSON-LD, la regla de que el
+  contenido `draft` no entra en datos estructurados, el escapado de `<` para que
+  un título no cierre el `<script>`, el `robots.txt` generado en el build y los
+  `<h1>` que la barra de desarrollo de Astro añade en el shadow DOM.
+- **ADR-0015:** la analítica **solo se monta en producción**; en desarrollo su
+  script de depuración no mide nada y su espera desestabilizaba los tests.
+- **`OPEN-QUESTIONS.md`:** el proyecto de Vercel queda cerrado como acción hecha.
+
+## [2026-09-17] Decisiones de la fase 8 (SEO y analytics)
+
+Cuatro decisiones del usuario antes de implementar, más una comprobación del
+entorno.
+
+- **ADR-0016:** las OG dinámicas se generan en el build con **Satori + sharp**,
+  no con `@vercel/og` en ejecución, y se dibujan sobre la **base oscura**.
+  Satori **no lee `woff2`** (verificado: `Unsupported OpenType signature wOF2`),
+  así que los TTF de JetBrains Mono entran en `src/assets/fonts/` con su licencia
+  OFL, para uso exclusivo del build.
+- **ADR-0015:** la nota de "sin cookies" va en **una línea del footer**, con los
+  textos exactos en los dos idiomas. Propagado a `06-components.md`.
+- **`05-pages/projects.md` y `05-pages/contact.md`:** ganan sección de SEO con
+  `title` y `description` aprobados. `projects` deja de usar su entradilla de
+  Lorem Ipsum como `description`.
+- **`05-pages/home.md` y `05-pages/about.md`:** `description` aprobada; la del
+  home es **provisional** hasta la fase 10.
+- **`05-pages/404.md`:** no lleva `description`, por `noindex`.
+- **`OPEN-QUESTIONS.md`:** el proyecto de Vercel ya existe; la acción del usuario
+  queda cerrada.
+
 ## [2026-09-17] Fase 11 — Plantillas de correo
 
 Implementación de la fase 11. Un cambio de decisión y dos hallazgos que tocan a

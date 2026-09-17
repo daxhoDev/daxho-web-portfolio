@@ -79,7 +79,12 @@ viñetas) se recolorean aparte porque `*` no los alcanza.
 
 La fase 6 entrega `<title>` y `hreflang`; el JSON-LD llega en la fase 8.
 
-- `<title>`: "About — Daxho"
+- `<title>`: "About — Daxho" · es: "Sobre mí — Daxho"
+- `description` (aprobada el 2026-09-17):
+  - en: "Software Engineer: experience, stack, education and languages. CV
+    available to download."
+  - es: "Software Engineer: experiencia, stack, formación e idiomas. CV
+    disponible para descargar."
 - JSON-LD `Person` ampliado (`alumniOf`, `knowsAbout`, `worksFor`).
 
 ## Criterios de aceptación

@@ -42,7 +42,7 @@ no soportan variables CSS— con un test que los compara con `tokens.css`.
 | `Header` | astro | **ocultable al bajar** (Q28): se esconde al hacer scroll hacia abajo, reaparece al subir. Debe reaparecer siempre al llegar arriba y al recibir foco por teclado |
 | `Brand` | astro | marca denominativa, enlaza al home del idioma activo (ver `12-brand.md`) |
 | `Nav` | astro | Home · About · Projects · Contact — **tres modos**, ver abajo. Eran 5 enlaces hasta que se eliminó `/resume` (2026-09-16) |
-| `Footer` | astro | enlaces a redes sociales desde `src/content/social.ts`, **placeholder hasta la fase 10** (Q36 resuelta) |
+| `Footer` | astro | enlaces a redes sociales desde `src/content/social.ts`, **placeholder hasta la fase 10** (Q36 resuelta) · desde la fase 8, la línea de cookies de ADR-0015 |
 | `SkipLink` | astro | "Skip to content", primer elemento tabulable de la página |
 | `BootSequence` | astro | overlay de arranque de ADR-0019. **Sin isla**: se retira por animación CSS de duración fija, y el script inline solo gestiona el "saltar" y el `sessionStorage`. Si el JS falla, el overlay desaparece igual |
 

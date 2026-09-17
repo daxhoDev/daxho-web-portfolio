@@ -84,8 +84,8 @@ revisión se hace sobre envíos reales.
 
 No son decisiones de diseño, sino trabajo fuera del repositorio que bloquea fases:
 
-1. **Crear el proyecto en Vercel** — recomendado al cerrar la fase 2 (fija
-   `SITE_URL` y activa las previews por PR).
+1. ~~**Crear el proyecto en Vercel**~~ — **hecho**: confirmado el 2026-09-17, la
+   preview de una PR desplegó en `daxhos-projects/daxho-web-portfolio`.
 2. **Crear la regla del firewall** del formulario en Vercel, con los valores de
    `08-integrations.md`. Requiere el proyecto del punto 1.
 3. ~~**Crear la cuenta de Resend con `developer.daxho@gmail.com`**~~ — **hecha**:

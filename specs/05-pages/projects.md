@@ -35,6 +35,20 @@ Ventajas frente al `div` clicable: la card es navegable con teclado sin trucos, 
 enlace se puede abrir en pestaña nueva y copiar su URL, y los lectores de pantalla
 la anuncian como lo que es. Un `div` con `onClick` incumpliría WCAG AA.
 
+## SEO
+
+**Se construye en la fase 8.** La fase 4 entregó `<title>` y `hreflang`.
+
+- `<title>`: en "Projects — Daxho" · es "Proyectos — Daxho"
+- `description` (aprobada el 2026-09-17). Sustituye al uso de la entradilla, que
+  hasta la fase 8 servía de `description` con su texto de relleno:
+  - en: "Selected work: what each project solves, what it is built with and how
+    it turned out."
+  - es: "Trabajos seleccionados: qué resuelve cada proyecto, con qué está
+    construido y en qué quedó."
+- JSON-LD `BreadcrumbList`.
+- OG: imagen genérica del sitio. Las dinámicas son solo del detalle (ADR-0016).
+
 ## Criterios de aceptación
 - [ ] Tabulación: título → "View details" → "Open project", en ese orden.
 - [ ] El clic en la card lleva al detalle; el clic en un botón hace lo suyo y no

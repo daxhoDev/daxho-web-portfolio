@@ -26,9 +26,12 @@ import SectionHeading from '@/components/ui/SectionHeading.astro';
 import { EDUCATION } from '@/content/education';
 import { LANGUAGES_SPOKEN } from '@/content/languages';
 import { getExperience } from '@/content/queries';
+import { SOCIAL_LINKS } from '@/content/social';
+import { TECH_CATALOG } from '@/content/tech';
 import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { formatFileSize } from '@/lib/format';
+import { personJsonLd } from '@/lib/seo';
 import photo from '@/assets/profile/placeholder.svg';
 
 interface Props {
@@ -52,9 +55,21 @@ try {
 const cvMeta = t('about.cv.meta')
   .replace('{lang}', t('about.cv.lang'))
   .replace('{size}', formatFileSize(cvSize, lang));
+
+// ADR-0016: el mismo `Person` del home con más campos. Todo lo marcado `draft`
+// se queda fuera: formación y empresas de relleno no se publican como ciertas
+// en datos estructurados (`seo.ts`).
+const person = personJsonLd({
+  siteUrl: (Astro.site ?? Astro.url).toString(),
+  lang,
+  sameAs: SOCIAL_LINKS.filter((link) => !link.draft).map((link) => link.href),
+  knowsAbout: TECH_CATALOG.map((tech) => tech.label),
+  alumniOf: EDUCATION.filter((entry) => !entry.draft).map((entry) => entry.institution),
+  worksFor: experience.filter((entry) => !entry.data.draft).map((entry) => entry.data.company),
+});
 ---
 
-<BaseLayout title={t('about.title')}>
+<BaseLayout title={t('about.title')} description={t('about.description')} jsonLd={person}>
   <Container class="flex flex-col gap-20 py-16">
     {/* 1. Encabezado, con el botón del CV justo tras la entradilla. */}
     <header class="flex flex-col items-start gap-4">
@@ -74,7 +89,9 @@ const cvMeta = t('about.cv.meta')
 
     {/* 2. Biografía + fotografía. En móvil la foto va primero. */}
     <section class="grid items-start gap-10 md:grid-cols-[minmax(0,65ch)_minmax(0,1fr)]">
-      <div class="text-fg-secondary order-2 flex max-w-[65ch] flex-col gap-5 leading-relaxed md:order-1">
+      <div
+        class="text-fg-secondary order-2 flex max-w-[65ch] flex-col gap-5 leading-relaxed md:order-1"
+      >
         {bio.map((paragraph) => <p>{paragraph}</p>)}
       </div>
       <div class="border-subtle order-1 overflow-hidden rounded-md border md:order-2">
@@ -109,8 +126,7 @@ const cvMeta = t('about.cv.meta')
             <li class="flex flex-col gap-1">
               <span class="text-fg-primary">{entry.degree[lang]}</span>
               <span class="text-fg-secondary font-mono text-xs">
-                {entry.institution} · {entry.startYear} –{' '}
-                {entry.endYear ?? t('about.inProgress')}
+                {entry.institution} · {entry.startYear} – {entry.endYear ?? t('about.inProgress')}
               </span>
             </li>
           ))

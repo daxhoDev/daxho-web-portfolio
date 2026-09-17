@@ -15,6 +15,7 @@ import SectionHeading from '@/components/ui/SectionHeading.astro';
 import { getProjects } from '@/content/queries';
 import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { breadcrumbJsonLd } from '@/lib/seo';
 
 interface Props {
   lang: Lang;
@@ -23,9 +24,18 @@ interface Props {
 const { lang }: Props = Astro.props;
 const t = useTranslations(lang);
 const projects = await getProjects(lang);
+
+const breadcrumbs = breadcrumbJsonLd((Astro.site ?? Astro.url).toString(), [
+  { name: t('nav.home'), path: localizePath('/', lang) },
+  { name: t('nav.projects'), path: localizePath('/projects', lang) },
+]);
 ---
 
-<BaseLayout title={`${t('nav.projects')} — Daxho`} description={t('projects.intro')}>
+<BaseLayout
+  title={t('projects.title')}
+  description={t('projects.description')}
+  jsonLd={breadcrumbs}
+>
   <Container class="py-16">
     <SectionHeading text={t('nav.projects')} as="h1" class="mb-4 text-4xl" />
     <p class="text-fg-secondary mb-12 max-w-(--container-reading)">{t('projects.intro')}</p>
