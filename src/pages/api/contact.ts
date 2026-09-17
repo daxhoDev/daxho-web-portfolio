@@ -12,13 +12,16 @@
 import type { APIRoute } from 'astro';
 import { CONTACT_FROM_EMAIL, CONTACT_TO_EMAIL, RESEND_API_KEY } from 'astro:env/server';
 
+import { renderContactNotification } from '@/emails/render';
 import { isLang, localizePath, type Lang } from '@/i18n/utils';
-import { processContact, type ContactOutcome } from '@/lib/contact';
+import { processContact, type ContactData, type ContactOutcome } from '@/lib/contact';
 import { createResendSender } from '@/lib/resend';
 
 export const prerender = false;
 
-async function readInput(request: Request): Promise<{ json: boolean; input: Record<string, unknown> }> {
+async function readInput(
+  request: Request,
+): Promise<{ json: boolean; input: Record<string, unknown> }> {
   const type = request.headers.get('content-type') ?? '';
   if (type.includes('application/json')) {
     const body: unknown = await request.json();
@@ -49,13 +52,24 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
   const lang: Lang = isLang(input.lang) ? input.lang : 'en';
 
+  // El idioma de la página y la URL del sitio los conoce la ruta, no la
+  // función pura: por eso el render llega ya cerrado sobre ellos (14-email.md).
+  const renderHtml = (data: ContactData) =>
+    renderContactNotification({ ...data, lang, siteUrl: import.meta.env.SITE });
+
   const outcome = RESEND_API_KEY
     ? await processContact(
         input,
-        createResendSender({ apiKey: RESEND_API_KEY, from: CONTACT_FROM_EMAIL, to: CONTACT_TO_EMAIL }),
+        createResendSender({
+          apiKey: RESEND_API_KEY,
+          from: CONTACT_FROM_EMAIL,
+          to: CONTACT_TO_EMAIL,
+        }),
+        renderHtml,
       )
     : await processContact(input, async () => {
         // Sin clave no se finge un envío: el visitante debe saber que no llegó.
+        // Tampoco se renderiza la plantilla: nadie la va a leer.
         throw new Error('RESEND_API_KEY no configurada');
       });
 
@@ -71,7 +85,11 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return Response.json(
       ok
         ? { ok: true }
-        : { ok: false, error: outcome.kind, ...(outcome.kind === 'invalid' && { fields: outcome.fields }) },
+        : {
+            ok: false,
+            error: outcome.kind,
+            ...(outcome.kind === 'invalid' && { fields: outcome.fields }),
+          },
       { status: JSON_STATUS[outcome.kind] },
     );
   }

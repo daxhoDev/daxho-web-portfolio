@@ -24,7 +24,10 @@ export function createResendSender(config: ResendConfig, fetchImpl: typeof fetch
         from: config.from,
         to: [config.to],
         subject: email.subject,
+        // Los dos cuerpos en la misma petición (14-email.md): el cliente elige.
+        // Sin `html` —render fallido o fase previa— va solo el texto plano.
         text: email.text,
+        ...(email.html ? { html: email.html } : {}),
         reply_to: email.replyTo,
       }),
     });

@@ -42,3 +42,7 @@ lo que soportan los clientes de correo (`14-email.md`).
   define la traducción.
 - Cuando haya dominio propio y se active la autorespuesta al visitante (Q39),
   reutilizará el mismo sistema.
+- **Del ecosistema solo entra la librería de componentes.** El servidor de
+  previsualización que se cita arriba como ventaja de (d) no se instala: al
+  aprobar `14-email.md` (2026-09-17) se prefirió un script propio que renderiza
+  el HTML a un archivo, para no añadir una dependencia grande por una plantilla.
