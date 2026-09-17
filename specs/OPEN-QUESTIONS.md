@@ -88,9 +88,10 @@ No son decisiones de diseño, sino trabajo fuera del repositorio que bloquea fas
    `SITE_URL` y activa las previews por PR).
 2. **Crear la regla del firewall** del formulario en Vercel, con los valores de
    `08-integrations.md`. Requiere el proyecto del punto 1.
-3. **Crear la cuenta de Resend con `developer.daxho@gmail.com`** — el dominio de
-   pruebas solo envía a la dirección de registro (ADR-0020). Bloquea la fase 7.
-4. **Filtro "nunca a spam" en Gmail** antes de la primera prueba de envío.
+3. ~~**Crear la cuenta de Resend con `developer.daxho@gmail.com`**~~ — **hecha**:
+   el 2026-09-17 llegaron cuatro envíos reales a esa dirección.
+4. ~~**Filtro "nunca a spam" en Gmail**~~ — sin efecto práctico pendiente: los
+   cuatro envíos de prueba se leyeron en la bandeja.
 5. **Contenido real** (fase 10, que va antes de la 9): textos, fotografía, datos y capturas de los 6
    proyectos, redes del footer, formación, idiomas y el PDF del CV por idioma.
 
