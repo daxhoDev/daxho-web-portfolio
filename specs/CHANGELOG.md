@@ -3,6 +3,48 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-17] Fase 11 — Plantillas de correo
+
+Implementación de la fase 11. Un cambio de decisión y dos hallazgos que tocan a
+las specs.
+
+- **`14-email.md`:** el paquete es **`react-email`**, no `@react-email/components`
+  —deprecado en npm en todas sus versiones—; `src/emails/render.ts` es la entrada
+  del render, y el idioma de la página y `SITE_URL` llegan cerrados desde la ruta.
+- **`14-email.md` y `13-roadmap.md`:** **sin previsualización local** (decisión
+  del usuario, el mismo día): el `export` del CLI de React Email no escribe nada
+  y un script propio obligaría a añadir un transformador de TSX, porque Node no
+  interpreta JSX. La revisión se hace sobre envíos reales, que además ejercitan
+  el camino de producción entero.
+- **`13-roadmap.md`:** cierre real de la fase, con los cuatro envíos de prueba,
+  el crecimiento de la función del endpoint y los hallazgos de React (el
+  `<!-- -->` entre textos adyacentes y el `!important` de la variante oscura).
+- **`06-components.md`:** acota su alcance a `src/components/`. Su regla 2
+  prohíbe los colores literales en un componente, y `src/emails/` los usa por
+  obligación; sin esta línea las dos specs se contradecían.
+
+## [2026-09-17] Aprobada `14-email.md` y arranca la fase 11
+
+El usuario pide empezar la fase 11 antes que la fase 8 y aprueba la spec tal
+cual, cerrando las dos vías que quedaban abiertas dentro de ella.
+
+- **`14-email.md` (APROBADA):** estilos **en línea** desde `src/emails/theme.ts`
+  —se descarta el componente `Tailwind` de React Email, que duplicaría la
+  configuración de colores y puede emitir selectores que algunos clientes
+  descartan— y **sin previsualización local**: la revisión se hace sobre envíos
+  reales a la bandeja de Daxho. La media query oscura va en un `<style>` del
+  `<Head>`, porque `@media` no cabe en un atributo `style`.
+- **ADR-0022:** anota que el servidor de previsualización que se cita como
+  ventaja de React Email no se instala.
+- **`13-roadmap.md`:** la fase 11 pasa a EN CURSO, con el prerrequisito cumplido.
+- **`03-architecture.md`:** `src/emails/render.ts` es la entrada del render.
+- **`OPEN-QUESTIONS.md`:** no queda ninguna spec en BORRADOR.
+- Verificado antes de aprobar: los 12 colores de la spec coinciden exactamente
+  con `src/styles/tokens.css`; `@react-email/components@1.0.12` declara peer
+  `react ^19`, compatible con el `react@19.2.8` del proyecto; y el idioma del
+  visitante ya viaja en el formulario (`input.lang` en `src/pages/api/contact.ts`),
+  así que el punto 3 del contenido no obliga a tocar `05-pages/contact.md`.
+
 ## [2026-09-16] Q-Q resuelta: correos con base clara y variante oscura
 
 Decisión del usuario: opción (a). No queda ninguna pregunta abierta.

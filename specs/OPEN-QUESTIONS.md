@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-16 (Q-Q resuelta)
+Última actualización: 2026-09-17 (`14-email.md` aprobada; no queda ninguna spec en BORRADOR)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -71,9 +71,12 @@ filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta.
 **La de la fase 5 (`05-pages/home.md`) se aprobó el 2026-09-16, y las dos de la
 fase 6 (`about.md`, `resume.md`) el mismo día, igual que las dos de la fase 7 (`contact.md`, `08-integrations.md`).** `resume.md` quedó SUPERSEDED esa misma tarde: la página se eliminó.
 
-| Spec | La consume | Estado |
-|---|---|---|
-| `14-email.md` | Fase 11 (sin fecha) | BORRADOR |
+**La de la fase 11 (`14-email.md`) se aprobó el 2026-09-17**, con dos decisiones
+que la spec dejaba abiertas: estilos **en línea** desde `theme.ts` en vez del
+componente `Tailwind` de React Email, y **sin previsualización local** — la
+revisión se hace sobre envíos reales.
+
+**No queda ninguna spec en BORRADOR.**
 
 ---
 

@@ -303,15 +303,19 @@ y lo hace el usuario (Q-P).
 
 ---
 
-## Fase 11 — Plantillas de correo · **S** · 🕓 PARA MÁS ADELANTE
+## Fase 11 — Plantillas de correo · **S** · 🚧 EN CURSO
 Rama: `feat/email-templates`
 
-Añadida el 2026-09-16 a petición del usuario, **sin fecha**: se empieza cuando lo
-pida. Solo depende de la fase 7, así que puede ir en cualquier momento a partir de
-ahí, antes o después de las fases 8, 10 y 9.
+Añadida el 2026-09-16 a petición del usuario, sin fecha. El 2026-09-17 el usuario
+pide empezarla, **antes que la fase 8**: solo depende de la fase 7, así que el
+orden de las fases 8, 10 y 9 no cambia.
 
-**Prerrequisito:** aprobar `14-email.md`. Q-Q ya está resuelta (2026-09-16): base
-clara con variante oscura.
+**Prerrequisito cumplido (2026-09-17):** `14-email.md` pasa a APROBADA. Q-Q ya
+estaba resuelta (2026-09-16): base clara con variante oscura. Al aprobarla se
+cerraron las dos vías que la spec dejaba abiertas: **estilos en línea** desde
+`theme.ts` (no el componente `Tailwind`, que duplicaría la configuración de
+colores) y **sin previsualización local**: la revisión se hace sobre envíos
+reales a la bandeja de Daxho, que ejercitan el camino de producción entero.
 
 Aviso del formulario con React Email siguiendo la estética del sitio (ADR-0022) ·
 `EmailLayout` + `ContactNotification` · colores en literales con test contra los
@@ -322,6 +326,38 @@ claro y en oscuro.
 
 **Acción del usuario:** leer ese envío de prueba en los dos clientes y en los dos
 modos, que es la verificación que no se puede automatizar.
+
+**Cierre real (2026-09-17), pendiente de tu revisión en Gmail:** lint limpio ·
+typecheck 0 errores · **144 tests unitarios** (112 + 32 de contenido, escapado,
+saltos de línea, modo oscuro, colores contra `tokens.css` y caída a texto plano)
+· **110 tests E2E** sin cambios · build correcto · **cuatro envíos reales
+aceptados por Resend** (mensaje corto, saltos de línea desde la página inglesa,
+intento de HTML con acentos, y nombre y URL larguísimos).
+
+El sitio **no gana ni un byte de JavaScript**: el home carga los mismos cinco
+bundles de islas y nada de `src/emails/` aparece en `_astro/*.js` (comprobado por
+búsqueda). Lo que crece es la función del endpoint, como anticipaba ADR-0022:
+`react-email` arrastra prettier, tailwindcss, css-tree, marked y html-to-text,
+unos **2,6 MB** sobre los 25 MB que ya ocupaba —18 de ellos de `sharp`—, muy
+lejos del límite de Vercel.
+
+Hallazgos de la implementación:
+
+1. **El paquete cambió de nombre.** `@react-email/components` está deprecado en
+   npm en todas sus versiones, junto con los 19 paquetes por componente. En la
+   versión 6 los componentes viven en `react-email`, que es lo que documenta hoy
+   react.email. Propagado a `14-email.md`.
+2. **El `export` del CLI de React Email no escribe nada.** Era el candidato
+   natural para la previsualización: anuncia `✔ Rendered all files` y después
+   falla con `ENOENT` sobre el directorio de salida, que nunca crea. Con eso y
+   con que Node no interpreta JSX, la previsualización local se descartó y la
+   revisión pasó a hacerse sobre envíos reales (`14-email.md`).
+3. **Dos hijos de texto seguidos meten un comentario en medio.** React separa
+   los nodos de texto adyacentes con `<!-- -->` al renderizar, así que
+   `Enviado desde ... {siteUrl}` llegaba partido. La frase se compone en JS.
+4. **La variante oscura necesita `!important`.** El `<style>` del `<Head>` pierde
+   siempre contra el atributo `style`, y sin eso el modo oscuro no se vería en
+   ningún cliente. Cubierto por un test.
 
 ---
 

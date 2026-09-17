@@ -67,7 +67,15 @@ export interface OutgoingEmail {
   subject: string;
   text: string;
   replyTo: string;
+  /** Versión HTML (fase 11, `14-email.md`). Ausente si el render falló. */
+  html?: string;
 }
+
+/**
+ * Render de la plantilla. Se inyecta, como el envío: `contact.ts` no importa
+ * React ni conoce el idioma de la página, que el llamante ya captura.
+ */
+export type HtmlRenderer = (data: ContactData) => Promise<string>;
 
 /**
  * ADR-0020: asunto que identifica el origen, cuerpo en texto plano legible, y el
@@ -92,18 +100,32 @@ export type ContactOutcome =
  * Orden deliberado: el honeypot se comprueba ANTES de validar. Un bot recibe
  * éxito aunque el resto de campos sea basura: cualquier otra respuesta le diría
  * que hay una trampa.
+ *
+ * El render del HTML va en su propio `try`: un fallo de plantilla NO puede
+ * impedir que el aviso llegue (`14-email.md`), así que se envía el texto plano
+ * y el resultado sigue siendo `sent`.
  */
 export async function processContact(
   input: Record<string, unknown>,
   send: (email: OutgoingEmail) => Promise<void>,
+  renderHtml?: HtmlRenderer,
 ): Promise<ContactOutcome> {
   if (isHoneypotFilled(input)) return { kind: 'ignored' };
 
   const validation = validateContact(input);
   if (!validation.ok) return { kind: 'invalid', fields: validation.fields };
 
+  const email = buildEmail(validation.data);
+  if (renderHtml) {
+    try {
+      email.html = await renderHtml(validation.data);
+    } catch {
+      // Sin HTML, pero con aviso: el texto plano es el mínimo garantizado.
+    }
+  }
+
   try {
-    await send(buildEmail(validation.data));
+    await send(email);
     return { kind: 'sent' };
   } catch {
     return { kind: 'failed' };
