@@ -20,7 +20,7 @@ test.describe('/projects', () => {
     const titles = page.getByRole('article').getByRole('heading', { level: 2 });
     await expect(titles).toHaveCount(6);
     await expect(titles).toHaveText([
-      'Lorem Ipsum One',
+      'Destinos Únicos',
       'Lorem Ipsum Two',
       'Lorem Ipsum Three',
       'Lorem Ipsum Four',
@@ -32,10 +32,11 @@ test.describe('/projects', () => {
   test('existe en español con sus propios títulos', async ({ page }) => {
     await visit(page, '/es/projects', 'es');
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-    await expect(page.getByRole('heading', { name: 'Lorem Ipsum Uno' })).toBeVisible();
+    // El primero es un nombre propio y no se traduce; el segundo sí.
+    await expect(page.getByRole('heading', { name: 'Lorem Ipsum Dos' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Ver detalles' }).first()).toHaveAttribute(
       'href',
-      '/es/projects/lorem-ipsum-one',
+      '/es/projects/destinos-unicos',
     );
   });
 
@@ -57,9 +58,9 @@ test.describe('/projects', () => {
 
   test('tabulación dentro de la card: título → View details → Open project', async ({ page }) => {
     await visit(page, '/projects');
-    const card = page.getByRole('article').filter({ hasText: 'Lorem Ipsum One' });
+    const card = page.getByRole('article').filter({ hasText: 'Destinos Únicos' });
 
-    await card.getByRole('link', { name: 'Lorem Ipsum One' }).focus();
+    await card.getByRole('link', { name: 'Destinos Únicos' }).focus();
     await page.keyboard.press('Tab');
     await expect(card.getByRole('link', { name: 'View details' })).toBeFocused();
     await page.keyboard.press('Tab');
@@ -93,7 +94,7 @@ test.describe('detalle de proyecto', () => {
   });
 
   test('un solo <h1>, y el cuerpo MDX empieza en <h2>', async ({ page }) => {
-    await visit(page, '/projects/lorem-ipsum-one');
+    await visit(page, '/projects/destinos-unicos');
     // Acotado a `main` a propósito: la barra de herramientas de desarrollo de
     // Astro monta sus propios <h1> ("Audit", "Settings") en un shadow DOM, y
     // los selectores de Playwright lo atraviesan. No existen en producción.
@@ -120,11 +121,12 @@ test.describe('detalle de proyecto', () => {
   test('galería en línea: cada captura enlaza a la imagen completa, sin lightbox', async ({
     page,
   }) => {
-    await visit(page, '/projects/lorem-ipsum-one');
+    await visit(page, '/projects/destinos-unicos');
     const figures = page.locator('figure');
     await expect(figures).toHaveCount(2);
     await expect(figures.first().locator('a')).toHaveAttribute('href', /\.svg(\?|$)/);
-    await expect(figures.first().locator('figcaption')).toHaveText(/Lorem ipsum/);
+    // El pie se pinta, sea cual sea su texto: el primer proyecto ya es real.
+    await expect(figures.first().locator('figcaption')).not.toBeEmpty();
   });
 
   test('sin galería no se pinta la sección', async ({ page }) => {
@@ -133,7 +135,7 @@ test.describe('detalle de proyecto', () => {
   });
 
   test('ProjectNav sin vuelta: el primero no tiene "anterior"', async ({ page }) => {
-    await visit(page, '/projects/lorem-ipsum-one');
+    await visit(page, '/projects/destinos-unicos');
     await expect(page.locator('[data-project-nav="prev"]')).toHaveCount(0);
     await expect(page.locator('[data-project-nav="next"]')).toHaveAttribute(
       'href',

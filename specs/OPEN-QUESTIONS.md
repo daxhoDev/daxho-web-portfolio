@@ -86,8 +86,8 @@ No son decisiones de diseño, sino trabajo fuera del repositorio que bloquea fas
 
 1. ~~**Crear el proyecto en Vercel**~~ — **hecho**: confirmado el 2026-09-17, la
    preview de una PR desplegó en `daxhos-projects/daxho-web-portfolio`.
-2. **Crear la regla del firewall** del formulario en Vercel, con los valores de
-   `08-integrations.md`. Requiere el proyecto del punto 1.
+2. ~~**Crear la regla del firewall** del formulario en Vercel~~ — **hecha**:
+   configurada por el usuario el 2026-09-17.
 3. ~~**Crear la cuenta de Resend con `developer.daxho@gmail.com`**~~ — **hecha**:
    el 2026-09-17 llegaron cuatro envíos reales a esa dirección.
 4. ~~**Filtro "nunca a spam" en Gmail**~~ — sin efecto práctico pendiente: los

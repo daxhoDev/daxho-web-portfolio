@@ -1,0 +1,67 @@
+---
+title: Destinos Únicos
+summary: Landing y catálogo de regalos para una tienda, con un área privada desde la que la tienda actualiza su catálogo sin tocar código.
+cover: ../../../assets/projects/destinos-unicos/cover.svg
+coverAlt: 'PLACEHOLDER — captura pendiente'
+gallery:
+  - image: ../../../assets/projects/destinos-unicos/gallery-1.svg
+    alt: 'PLACEHOLDER — captura pendiente'
+    caption: El catálogo, filtrado por categoría.
+  - image: ../../../assets/projects/destinos-unicos/gallery-2.svg
+    alt: 'PLACEHOLDER — captura pendiente'
+    caption: El área privada, donde se crea y se edita cada regalo.
+stack: [nextjs, react, typescript, tailwindcss, supabase, vercel]
+liveUrl: https://destinos-unicos.vercel.app
+repoUrl: https://github.com/daxhoDev/destinos-unicos-landing-page
+featured: true
+featuredOrder: 1
+order: 1
+year: 2025
+role: Full-stack
+status: live
+# Los TEXTOS ya son reales; siguen pendientes las CAPTURAS, que aporta el
+# usuario. Hasta entonces no puede publicarse (04-content-model.md).
+draft: true
+# Este archivo es la versión castellana escrita por el agente: pendiente de tu
+# revisión (04-content-model.md).
+translatedByAgent: true
+---
+
+## Qué hace
+
+Destinos Únicos vende regalos para una ocasión concreta: un cumpleaños, un
+aniversario, una fecha que había que marcar de alguna forma. El sitio tiene una
+cara pública y otra privada.
+
+La parte pública abre con la propuesta de la tienda, una sección breve sobre
+quién está detrás, unos cuantos regalos destacados leídos directamente de la
+base de datos y un carrusel de reseñas de clientes. El catálogo completo vive en
+su propia página, donde los regalos se filtran por ocasión —románticos, fechas
+especiales o cumpleaños— y cada uno se abre en una ficha.
+
+No hay carrito, y es a propósito: cada regalo y el propio catálogo llevan a
+WhatsApp con el mensaje ya escrito, que es por donde esta tienda recibe de
+verdad sus pedidos.
+
+## Cómo está hecho
+
+Next.js con el App Router y React, en TypeScript, con Tailwind CSS. El catálogo,
+las reseñas y los perfiles viven en Supabase, y cada pantalla los lee desde el
+servidor a través de un módulo de consultas propio, así que el navegador no se
+descarga código de acceso a datos. Las fotos de los regalos se guardan en
+Cloudinary. Todo está desplegado en Vercel.
+
+Los grupos de rutas separan los tres mundos del sitio —público, autenticación y
+administración— sin que eso asome en las URL.
+
+## El área privada
+
+La tienda mantiene su propio catálogo. Tras un login sobre Supabase Auth hay un
+formulario para crear un regalo, editarlo, sustituir su foto o retirarlo del
+catálogo sin borrarlo, de modo que un regalo de temporada pueda volver al año
+siguiente.
+
+El acceso se comprueba antes incluso de pintar la página: quien pide el área de
+administración sin sesión acaba en el login, y quien pide el login teniéndola
+acaba en la administración. La foto que se sube viaja a Cloudinary y vuelve como
+una URL guardada junto al regalo.

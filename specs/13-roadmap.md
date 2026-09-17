@@ -184,7 +184,7 @@ se pinta de inmediato, o acortar el tecleo. No se decide nada sin medir.
 
 ---
 
-## Fase 6 — About · **M** · 🔍 EN REVISIÓN
+## Fase 6 — About · **M** · ✅ COMPLETADA (PR #6)
 Rama: `feat/about-resume`
 
 **Prerrequisito cumplido (2026-09-16):** `05-pages/about.md` y `05-pages/resume.md`
@@ -203,7 +203,9 @@ timeline, formación, idiomas) · hoja de estilos de impresión.
 **Acción del usuario:** el PDF del CV, uno por idioma (Q-G). Hasta la fase 10 hay
 uno de relleno: basta con sustituir el archivo.
 
-**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+**Revisión visual superada (2026-09-17):** el usuario da por buena la página.
+
+**Cierre real (2026-09-16):** lint limpio ·
 typecheck 0 errores · **97 tests unitarios** · **95 tests E2E** · **63,2 KB gzip**
 de los 75 KB, sin JS nuevo · 22 rutas (las 2 de `/resume` ya no existen).
 
@@ -218,7 +220,7 @@ impresión.
 
 ---
 
-## Fase 7 — Contacto · **M** · 🔍 EN REVISIÓN
+## Fase 7 — Contacto · **M** · ✅ COMPLETADA (PR #7)
 Rama: `feat/contact`
 
 **Prerrequisito cumplido (2026-09-16):** Q38 (honeypot + límite por IP con una
@@ -241,9 +243,11 @@ typecheck 0 errores · **112 tests unitarios** (97 + 15 de validación, honeypot
 correo y cliente de Resend) · **110 tests E2E** (95 + 15 de contacto y de la boot
 sequence) · home **63,2 KB gzip** sin cambios.
 
-**No verificado:** el envío real por Resend. Necesita tu cuenta y la clave; los
-tests simulan la API o solo ejercitan casos que no envían correo (validación,
-honeypot). Tampoco la regla del firewall, que se crea en el panel de Vercel.
+**Revisión visual superada (2026-09-17):** el usuario da por buena la página.
+
+**Lo que estaba sin verificar, ya verificado (2026-09-17):** el envío real por
+Resend funciona —cuatro avisos llegados y leídos en Gmail, en la fase 11— y la
+**regla del firewall está configurada** en el panel de Vercel.
 
 Hallazgos de la implementación:
 
@@ -261,7 +265,7 @@ Hallazgos de la implementación:
 
 ---
 
-## Fase 8 — SEO y analytics · **M** · 🚧 EN CURSO
+## Fase 8 — SEO y analytics · **M** · ✅ COMPLETADA (PR #11)
 Rama: `feat/seo`
 
 **Prerrequisito cumplido (2026-09-17):** se cierran las cuatro decisiones que
@@ -332,7 +336,7 @@ del script de analítica.
 
 ---
 
-## Fase 10 — Contenido real · **M** · va ANTES de la fase 9
+## Fase 10 — Contenido real · **M** · 🚧 EN CURSO · va ANTES de la fase 9
 Rama: `feat/real-content`
 
 Sustitución de todos los placeholders. **Revisión de layout obligatoria**: es
@@ -340,6 +344,21 @@ cuando aparecen los desbordes que el Lorem Ipsum ocultaba.
 
 **Acción del usuario:** textos, fotografía, datos y capturas de los 6 proyectos,
 redes del footer, formación e idiomas.
+
+### Avance (2026-09-17)
+
+**Primer proyecto real: Destinos Únicos.** El usuario pidió rellenarlo a partir
+de su repositorio, y los textos de los dos idiomas salen de leer ese código: no
+hay nada inventado sobre lo que el proyecto hace. `lorem-ipsum-one` pasa a
+`destinos-unicos` en las dos colecciones y en la carpeta de imágenes; los tests
+E2E que citaban el slug o el título viejos van con él.
+
+**Sigue en `draft: true`**, y debe seguir hasta que lleguen las capturas: el
+usuario las aporta. Lo único que falta de este proyecto son las tres imágenes
+—portada y dos de galería— y su texto alternativo.
+
+Quedan los otros 5 proyectos, la fotografía, la formación, los idiomas, las
+redes, el PDF del CV y los textos de `src/i18n/ui.ts`.
 
 Al terminar, **no puede quedar ningún `draft: true`**: la guarda de CI
 (`scripts/check-drafts.mjs`) sigue protegiendo cualquier PR hacia `master`, lo
@@ -415,7 +434,7 @@ y lo hace el usuario (Q-P).
 
 ---
 
-## Fase 11 — Plantillas de correo · **S** · ✅ COMPLETADA (PR #10, pendiente de merge)
+## Fase 11 — Plantillas de correo · **S** · ✅ COMPLETADA (PR #10)
 Rama: `feat/email-templates`
 
 Añadida el 2026-09-16 a petición del usuario, sin fecha. El 2026-09-17 el usuario

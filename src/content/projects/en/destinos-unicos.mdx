@@ -1,0 +1,63 @@
+---
+title: Destinos Únicos
+summary: Landing page and gift catalogue for a shop, with a private area where the shop updates its own catalogue without touching code.
+cover: ../../../assets/projects/destinos-unicos/cover.svg
+coverAlt: 'PLACEHOLDER — screenshot pending'
+gallery:
+  - image: ../../../assets/projects/destinos-unicos/gallery-1.svg
+    alt: 'PLACEHOLDER — screenshot pending'
+    caption: The catalogue, filtered by category.
+  - image: ../../../assets/projects/destinos-unicos/gallery-2.svg
+    alt: 'PLACEHOLDER — screenshot pending'
+    caption: The private area, where each gift is created and edited.
+stack: [nextjs, react, typescript, tailwindcss, supabase, vercel]
+liveUrl: https://destinos-unicos.vercel.app
+repoUrl: https://github.com/daxhoDev/destinos-unicos-landing-page
+featured: true
+featuredOrder: 1
+order: 1
+year: 2025
+role: Full-stack
+status: live
+# Los TEXTOS ya son reales; siguen pendientes las CAPTURAS, que aporta el
+# usuario. Hasta entonces no puede publicarse (04-content-model.md).
+draft: true
+---
+
+## What it does
+
+Destinos Únicos sells gifts for a specific occasion: a birthday, an anniversary,
+a date that had to be marked somehow. The site has a public face and a private
+one.
+
+The public side opens with the shop's pitch, a short section about who is behind
+it, a handful of featured gifts read straight from the database and a slider of
+customer reviews. The full catalogue lives on its own page, where gifts are
+filtered by occasion — romantic, special date or birthday — and each one opens
+in a detail card.
+
+There is no checkout, on purpose: every gift and the catalogue itself lead to
+WhatsApp with the message already written, which is where this shop actually
+takes its orders.
+
+## How it is built
+
+Next.js with the App Router and React, in TypeScript, styled with Tailwind CSS.
+The catalogue, the reviews and the profiles live in Supabase, and each screen
+reads them from the server through a small query module, so the browser
+downloads no data-fetching code of its own. The pictures of the gifts are stored
+in Cloudinary. The whole thing is deployed on Vercel.
+
+The route groups split the three worlds the site has — public, authentication
+and administration — without that showing up in the URLs.
+
+## The private area
+
+The shop keeps its own catalogue. Behind a login backed by Supabase Auth, there
+is a form to create a gift, edit it, replace its picture or take it off the
+catalogue without deleting it, so a seasonal gift can come back next year.
+
+Access is checked before the page is even rendered: anyone without a session who
+asks for the admin area lands on the login page, and anyone with one who asks
+for the login page lands on the admin. The picture that is uploaded travels to
+Cloudinary and comes back as a URL stored next to the gift.

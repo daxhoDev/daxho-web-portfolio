@@ -109,7 +109,7 @@ test.describe('home — estructura', () => {
     await visit(page);
     const featured = page.locator('[data-featured]');
     await expect(featured.getByRole('heading', { level: 3 })).toHaveText([
-      'Lorem Ipsum One',
+      'Destinos Únicos',
       'Lorem Ipsum Two',
       'Lorem Ipsum Three',
     ]);

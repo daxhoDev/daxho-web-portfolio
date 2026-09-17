@@ -3,6 +3,23 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-17] Primer proyecto real y cierre de las fases 6, 7, 8 y 11
+
+Las dos PRs (fases 8 y 11) quedan mergeadas en `development`, el usuario da por
+buenas `/about` y `/contact`, confirma que la regla del firewall está puesta, y
+pide rellenar el primer proyecto con su repositorio `destinos-unicos-landing-page`.
+
+- **`13-roadmap.md`:** las fases 6, 7, 8 y 11 pasan a COMPLETADA; la 10 pasa a
+  EN CURSO y anota qué se ha rellenado y qué falta.
+- **Contenido:** `lorem-ipsum-one` pasa a `destinos-unicos` en las dos
+  colecciones y en `src/assets/projects/`. Los textos de los dos idiomas salen
+  de leer el repositorio del proyecto. **Sigue en `draft: true`**: faltan las
+  capturas, que aporta el usuario.
+- **Tests E2E:** los que citaban el slug o el título antiguos pasan al nuevo. La
+  comprobación de "títulos propios en español" se mueve al segundo proyecto,
+  porque "Destinos Únicos" es un nombre propio y no se traduce.
+- **`OPEN-QUESTIONS.md`:** la regla del firewall queda cerrada como acción hecha.
+
 ## [2026-09-17] Fase 11 verificada a mano: los correos se leen bien
 
 El usuario revisó los cuatro envíos reales en Gmail y los dio por buenos
