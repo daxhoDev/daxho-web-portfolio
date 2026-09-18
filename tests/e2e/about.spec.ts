@@ -35,7 +35,7 @@ test.describe('/about', () => {
     await expect(page.locator('main img')).toHaveAttribute('width', /\d+/);
   });
 
-  test('skills: seis grupos con las 25 tecnologías y sin niveles', async ({ page }) => {
+  test('skills: seis grupos con las 26 tecnologías y sin niveles', async ({ page }) => {
     await visit(page, '/es/about', 'es');
     const groups = page.locator('section:has(> h3)');
     await expect(groups.getByRole('heading', { level: 3 })).toHaveText([
@@ -46,7 +46,7 @@ test.describe('/about', () => {
       'Infraestructura',
       'Herramientas y calidad',
     ]);
-    await expect(groups.locator('li')).toHaveCount(25);
+    await expect(groups.locator('li')).toHaveCount(26);
     await expect(page.locator('progress, meter, [role="progressbar"]')).toHaveCount(0);
   });
 

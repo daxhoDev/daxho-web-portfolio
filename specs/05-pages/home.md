@@ -66,7 +66,7 @@ está en pantalla.
 
 ### 3. Divisoria — Carrusel de tecnologías
 - Carrusel **infinito**, desplazamiento continuo horizontal.
-- Muestra **las 25 tecnologías** del catálogo (`10-tech-catalog.md`). Su función es
+- Muestra **todas las tecnologías** del catálogo, 26 hoy (`10-tech-catalog.md`). Su función es
   decorativa: textura visual, no inventario legible. Ver `DEVIATIONS.md`.
 - Iconos **monocromáticos** en el color de acento, como **siluetas sólidas**
   (Simple Icons). Ver `02-design-system.md` §6 y `DEVIATIONS.md`.

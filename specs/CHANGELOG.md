@@ -3,6 +3,33 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-18] Segundo proyecto real: el portafolio de Keily Mar
+
+- **Contenido:** `lorem-ipsum-two` pasa a `keilys-portfolio`, con textos en los
+  dos idiomas sacados del repositorio y de sus decisiones de diseño, y tres
+  capturas tomadas del sitio en producción: portada, galería con filtros por
+  tono y el lightbox escrito a mano.
+- **Tests E2E:** el caso de "solo `liveUrl`, sin `repoUrl`" ya no existe entre
+  los proyectos reales, así que la prueba de "cada botón solo si existe su URL"
+  pasa a cubrir los tres casos con los proyectos que hoy los representan.
+- **`13-roadmap.md`:** avance de la fase 10 y la regla de que cada proyecto que
+  se vuelve real obliga a revisar los E2E que lo citaban.
+
+## [2026-09-17] Capturas reales de Destinos Únicos y Cloudinary en el catálogo
+
+- **Capturas:** tomadas del sitio en producción con Playwright a 1600×900 y
+  convertidas a JPEG con sharp (114, 69 y 59 KB). Portada, catálogo con sus
+  filtros por ocasión y la ficha de un regalo con el botón que arranca el pedido
+  por WhatsApp. **El área privada no se pudo capturar**: exige credenciales, así
+  que el pie de la segunda imagen dice lo que de verdad se ve.
+- **Cloudinary entra en el catálogo** (`DEVIATIONS.md`): 26 tecnologías, icono de
+  Simple Icons, grupo de infraestructura, y añadida al `stack` del proyecto.
+  Q34 —catálogo cerrado en 25— queda derogada y el catálogo pasa a estar abierto
+  a añadidos del usuario.
+- **El proyecto sigue en `draft: true`,** ahora por un motivo distinto: ya no le
+  faltan ni textos ni imágenes, sino que la validación del conjunto exige 3
+  destacados por idioma y los otros 5 proyectos siguen siendo relleno.
+
 ## [2026-09-17] Primer proyecto real y cierre de las fases 6, 7, 8 y 11
 
 Las dos PRs (fases 8 y 11) quedan mergeadas en `development`, el usuario da por

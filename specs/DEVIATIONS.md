@@ -5,6 +5,34 @@ cambiar o romper. Obligatorio por la Regla 3 de `../AGENTS.md`.
 
 ---
 
+## [2026-09-17] El catálogo de tecnologías se abre: entra Cloudinary
+
+- **Regla anterior:** Q34 y `10-tech-catalog.md` — *catálogo **CERRADO** en 25
+  tecnologías*, con la regla 1 de que solo se lista lo que se puede defender en
+  una entrevista.
+- **Regla nueva:** el catálogo pasa a **26 entradas** con `cloudinary`, y queda
+  **abierto a añadidos que decida el usuario**, uno a uno y documentados aquí.
+  La regla 1 sigue en pie: el carrusel es una afirmación de competencia, no un
+  volcado del `package.json`.
+- **Motivo (palabras del usuario):** *"añade Cloudinary al catálogo de
+  tecnologías con su ícono, y a este proyecto"*.
+- **Consecuencias asumidas:**
+  - El carrusel del home y la rejilla de skills de `/about` pasan a 26; sus tests
+    E2E cuentan 26.
+  - Cloudinary entra en el grupo de infraestructura de `src/content/skills.ts`.
+  - El icono sale de Simple Icons (`cloudinary`), así que sigue habiendo un solo
+    icono dibujado a mano, Playwright (ADR-0018).
+  - El proyecto Destinos Únicos, que lo usa para las fotos de los regalos, ya
+    puede declararlo en su `stack`.
+- **Aprobada por:** usuario.
+- **Archivos actualizados:** `10-tech-catalog.md`, `OPEN-QUESTIONS.md`,
+  `04-content-model.md`, `05-pages/home.md`, `11-styleguide.md`,
+  `13-roadmap.md`, ADR-0018, `src/content/tech.ts`, `src/content/skills.ts`,
+  los dos `destinos-unicos.mdx`, `tests/e2e/home.spec.ts`,
+  `tests/e2e/about.spec.ts`, `CHANGELOG.md`.
+
+---
+
 ## [2026-09-16] Los correos pasan a HTML con React Email (fase 11)
 
 - **Regla anterior:** ADR-0020 — *"El cuerpo incluye nombre, correo y mensaje en

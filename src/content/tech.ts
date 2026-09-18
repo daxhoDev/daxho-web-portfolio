@@ -4,7 +4,7 @@
  * Fuente ÚNICA para el carrusel del home, la fila de stack de cada
  * ProjectCard, el stack del detalle de proyecto y las skills de /about.
  *
- * `icon` es el slug de Simple Icons. Las 25 salen de la librería salvo
+ * `icon` es el slug de Simple Icons. Las 26 salen de la librería salvo
  * Playwright, que no está y se dibuja a mano (ver DEVIATIONS.md).
  */
 
@@ -17,7 +17,7 @@ export interface TechEntry {
   /** Slug de Simple Icons, o `null` si el icono es propio. */
   icon: string | null;
   /**
-   * Por decisión del usuario (DEVIATIONS.md) el carrusel muestra las 25:
+   * Por decisión del usuario (DEVIATIONS.md) el carrusel las muestra todas:
    * este campo se conserva por si en el futuro se quiere volver a filtrar.
    */
   inCarousel: boolean;
@@ -54,6 +54,8 @@ export const TECH_CATALOG: readonly TechEntry[] = [
   { key: 'git', label: 'Git', category: 'tool', icon: 'git', inCarousel: true },
   { key: 'github', label: 'GitHub', category: 'platform', icon: 'github', inCarousel: true },
   { key: 'vercel', label: 'Vercel', category: 'platform', icon: 'vercel', inCarousel: true },
+  // Entrada 26, añadida el 2026-09-17 al abrir el catálogo (DEVIATIONS.md).
+  { key: 'cloudinary', label: 'Cloudinary', category: 'platform', icon: 'cloudinary', inCarousel: true },
 
   // Herramientas y calidad
   { key: 'postman', label: 'Postman', category: 'tool', icon: 'postman', inCarousel: true },

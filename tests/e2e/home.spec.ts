@@ -87,13 +87,13 @@ test.describe('home — estructura', () => {
     await expect(page.locator('#about img')).toHaveAttribute('alt', /PLACEHOLDER/);
   });
 
-  test('carrusel: 25 tecnologías con nombre y lista traducida', async ({ page }) => {
+  test('carrusel: 26 tecnologías con nombre y lista traducida', async ({ page }) => {
     await visit(page, '/es', { lang: 'es' });
     // Acotado al carrusel: en español las filas de stack de las cards también se
     // llaman "Tecnologías".
     const list = page.locator('.carousel').getByRole('list', { name: 'Tecnologías' });
     await expect(list).toHaveCount(1);
-    await expect(list.getByRole('img')).toHaveCount(25);
+    await expect(list.getByRole('img')).toHaveCount(26);
   });
 
   test('el carrusel no provoca scroll horizontal', async ({ page }) => {
@@ -110,7 +110,7 @@ test.describe('home — estructura', () => {
     const featured = page.locator('[data-featured]');
     await expect(featured.getByRole('heading', { level: 3 })).toHaveText([
       'Destinos Únicos',
-      'Lorem Ipsum Two',
+      'Keily Mar — Photography portfolio',
       'Lorem Ipsum Three',
     ]);
     await expect(featured.getByRole('link', { name: 'View more projects' })).toHaveAttribute(

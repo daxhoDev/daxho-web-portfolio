@@ -21,7 +21,7 @@ test.describe('/projects', () => {
     await expect(titles).toHaveCount(6);
     await expect(titles).toHaveText([
       'Destinos Únicos',
-      'Lorem Ipsum Two',
+      'Keily Mar — Photography portfolio',
       'Lorem Ipsum Three',
       'Lorem Ipsum Four',
       'Lorem Ipsum Five',
@@ -33,7 +33,7 @@ test.describe('/projects', () => {
     await visit(page, '/es/projects', 'es');
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
     // El primero es un nombre propio y no se traduce; el segundo sí.
-    await expect(page.getByRole('heading', { name: 'Lorem Ipsum Dos' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Keily Mar — Portafolio fotográfico' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Ver detalles' }).first()).toHaveAttribute(
       'href',
       '/es/projects/destinos-unicos',
@@ -79,18 +79,23 @@ test.describe('/projects', () => {
     const img = page.getByRole('article').first().locator('img');
     await expect(img).toHaveAttribute('width', /\d+/);
     await expect(img).toHaveAttribute('height', /\d+/);
-    await expect(img).toHaveAttribute('alt', /PLACEHOLDER/);
+    // El `alt` es obligatorio y descriptivo (04-content-model.md). Ya no se
+    // comprueba que diga PLACEHOLDER: el primer proyecto tiene capturas reales.
+    const alt = await img.getAttribute('alt');
+    expect(alt?.length ?? 0).toBeGreaterThan(20);
   });
 });
 
 test.describe('detalle de proyecto', () => {
   test('el clic en la card lleva al detalle', async ({ page }) => {
     await visit(page, '/projects');
-    await page.getByRole('link', { name: 'Lorem Ipsum Two' }).click();
-    await expect(page).toHaveURL(/\/projects\/lorem-ipsum-two$/);
+    await page.getByRole('link', { name: 'Keily Mar — Photography portfolio' }).click();
+    await expect(page).toHaveURL(/\/projects\/keilys-portfolio$/);
     // Nombre accesible, no textContent: el <h1> teclado contiene el texto en un
     // nodo sr-only y además las letras animadas aria-hidden.
-    await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName('Lorem Ipsum Two');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName(
+      'Keily Mar — Photography portfolio',
+    );
   });
 
   test('un solo <h1>, y el cuerpo MDX empieza en <h2>', async ({ page }) => {
@@ -106,12 +111,16 @@ test.describe('detalle de proyecto', () => {
   });
 
   test('muestra cada botón solo si existe su URL', async ({ page }) => {
-    await visit(page, '/projects/lorem-ipsum-two'); // liveUrl sí, repoUrl no
+    await visit(page, '/projects/lorem-ipsum-three'); // repoUrl sí, liveUrl no
+    await expect(page.getByRole('link', { name: 'Open project' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'View repository' })).toHaveCount(1);
+
+    await visit(page, '/projects/destinos-unicos'); // las dos
     await expect(page.getByRole('link', { name: 'Open project' })).toHaveAttribute(
       'rel',
       'noopener noreferrer',
     );
-    await expect(page.getByRole('link', { name: 'View repository' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'View repository' })).toHaveCount(1);
 
     await visit(page, '/projects/lorem-ipsum-six'); // ninguna de las dos
     await expect(page.getByRole('link', { name: 'Open project' })).toHaveCount(0);
@@ -124,7 +133,11 @@ test.describe('detalle de proyecto', () => {
     await visit(page, '/projects/destinos-unicos');
     const figures = page.locator('figure');
     await expect(figures).toHaveCount(2);
-    await expect(figures.first().locator('a')).toHaveAttribute('href', /\.svg(\?|$)/);
+    // Enlaza al archivo original, sea el relleno en SVG o una captura real.
+    await expect(figures.first().locator('a')).toHaveAttribute(
+      'href',
+      /\.(svg|jpg|jpeg|png|webp|avif)(\?|$)/,
+    );
     // El pie se pinta, sea cual sea su texto: el primer proyecto ya es real.
     await expect(figures.first().locator('figcaption')).not.toBeEmpty();
   });
@@ -139,7 +152,7 @@ test.describe('detalle de proyecto', () => {
     await expect(page.locator('[data-project-nav="prev"]')).toHaveCount(0);
     await expect(page.locator('[data-project-nav="next"]')).toHaveAttribute(
       'href',
-      '/projects/lorem-ipsum-two',
+      '/projects/keilys-portfolio',
     );
   });
 

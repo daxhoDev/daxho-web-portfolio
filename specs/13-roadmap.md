@@ -357,8 +357,24 @@ E2E que citaban el slug o el título viejos van con él.
 usuario las aporta. Lo único que falta de este proyecto son las tres imágenes
 —portada y dos de galería— y su texto alternativo.
 
-Quedan los otros 5 proyectos, la fotografía, la formación, los idiomas, las
+**Segundo proyecto real: Keily Mar — Portafolio fotográfico**
+(`lorem-ipsum-two` → `keilys-portfolio`), de `daxhoDev/keilys-portfolio`. Los
+textos salen del repositorio y sus decisiones de diseño; las capturas, del sitio
+en producción.
+
+**Las capturas las toma el agente**, no el usuario (decisión del 2026-09-17):
+Playwright abre el sitio en producción a 1600×900 y sharp las pasa a JPEG. Lo
+que no se puede capturar así queda dicho tal cual: el área privada de Destinos
+Únicos exige credenciales, y el pie de esa imagen describe lo que de verdad se
+ve.
+
+Quedan los otros 4 proyectos, la fotografía, la formación, los idiomas, las
 redes, el PDF del CV y los textos de `src/i18n/ui.ts`.
+
+**Efecto colateral en los tests:** cada proyecto que se vuelve real obliga a
+revisar los E2E que lo citaban por título, por slug o por qué enlaces tiene. Los
+de `/styleguide` **no**: sus tarjetas llevan datos literales y no salen de la
+colección.
 
 Al terminar, **no puede quedar ningún `draft: true`**: la guarda de CI
 (`scripts/check-drafts.mjs`) sigue protegiendo cualquier PR hacia `master`, lo
@@ -378,7 +394,7 @@ slug** en los dos idiomas (12 archivos). Por cada uno:
 | `summary` | sí | **máximo 160 caracteres**: es la `description` de la página |
 | `cover` / `coverAlt` | sí | captura principal **16:9** y su texto alternativo |
 | `gallery` | no | lista de `{ image, alt, caption? }` |
-| `stack` | sí | claves del catálogo de 25 (`10-tech-catalog.md`); una clave que no exista **rompe el build** |
+| `stack` | sí | claves del catálogo (`10-tech-catalog.md`); una clave que no exista **rompe el build** |
 | `liveUrl` / `repoUrl` | no | sin `liveUrl` no se pinta "Open project" |
 | `featured` + `featuredOrder` | sí en 3 | **exactamente 3** por idioma, con orden 1-2-3 |
 | `order` | sí | orden de la galería |
