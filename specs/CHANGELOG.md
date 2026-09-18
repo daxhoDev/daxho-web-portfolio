@@ -13,6 +13,16 @@ producto.
   existe**.
 - El generador del PDF se queda **fuera del repositorio** mientras Q-G diga que
   el CV es un archivo estático mantenido por el usuario.
+- **Segunda pasada el mismo día**, a petición del usuario: se presenta como
+  **Software Engineer**, el copy pasa de tareas a resultados, el resumen deja de
+  citar el número de proyectos, y entran arquitectura e ingeniería asistida por
+  IA entre las competencias. Cada enlace lleva su icono de destino **en SVG**,
+  no en texto, para no ensuciar lo que extrae un ATS.
+- **Verificado con un extractor real** (`pdfjs-dist`), no a ojo: el
+  `letter-spacing` de los encabezados hacía que el texto saliera como
+  "E X P E R I E N C E" y el prompt de la marca se colaba dentro del nombre. Se
+  quitó el primero y el segundo pasó a ser un SVG. Las cinco secciones se
+  extraen ahora limpias en los dos idiomas.
 
 ## [2026-09-18] Segundo proyecto real: el portafolio de Keily Mar
 
