@@ -1,6 +1,8 @@
 # 10 — Catálogo de tecnologías
 
-**Estado:** CERRADO · 2026-09-10 · 25 entradas, las 25 en el carrusel (Q-K).
+**Estado:** ABIERTO A AÑADIDOS · 2026-09-10, reabierto el 2026-09-17 ·
+**26 entradas**, todas en el carrusel (Q-K). Q34 lo había cerrado en 25; el
+usuario lo abrió para que entre Cloudinary (`DEVIATIONS.md`).
 Iconos implementados en la fase 1.
 Ver ADR-0018 para la especificación de los iconos.
 
@@ -9,10 +11,10 @@ Fuente **única** para: el carrusel del home, la fila de stack de cada
 
 ---
 
-## Catálogo completo — 25 tecnologías
+## Catálogo completo — 26 tecnologías
 
 Columna "Icono": dificultad estimada que tuvo el icono cuando el plan era
-dibujarlo a mano. Se conserva como registro histórico; hoy 24 de los 25 salen de
+dibujarlo a mano. Se conserva como registro histórico; hoy 25 de las 26 salen de
 Simple Icons como siluetas sólidas (ADR-0018, `DEVIATIONS.md`).
 
 ### Lenguajes
@@ -60,6 +62,7 @@ Simple Icons como siluetas sólidas (ADR-0018, `DEVIATIONS.md`).
 | `git` | Git | fácil — nodos y ramas |
 | `github` | GitHub | media — gato |
 | `vercel` | Vercel | trivial — triángulo |
+| `cloudinary` | Cloudinary | desde Simple Icons (añadida el 2026-09-17) |
 
 ### Herramientas y calidad
 
@@ -74,7 +77,7 @@ Simple Icons como siluetas sólidas (ADR-0018, `DEVIATIONS.md`).
 
 ## Origen de los iconos
 
-**24 de 25 desde Simple Icons**, como siluetas sólidas (ver `DEVIATIONS.md`).
+**25 de 26 desde Simple Icons**, como siluetas sólidas (ver `DEVIATIONS.md`).
 La columna «Icono» de las tablas de arriba describía la dificultad de dibujarlos
 a mano y ha dejado de aplicar: los trazados oficiales tienen la forma correcta
 por construcción.
@@ -98,7 +101,7 @@ legibilidad del círculo con «ex».
 
 ## Contenido del carrusel — DECIDIDO
 
-**El carrusel muestra las 25 tecnologías del catálogo.** `inCarousel = true` para
+**El carrusel muestra las 26 tecnologías del catálogo.** `inCarousel = true` para
 todas.
 
 Decisión del usuario, registrada en `DEVIATIONS.md`: el carrusel es **textura
@@ -109,12 +112,12 @@ El campo `inCarousel` se conserva en el modelo (`04-content-model.md`) por si en
 futuro se quiere volver a filtrar, pero hoy no filtra nada.
 
 ### Consecuencias
-- La fase 1 de iconos pasa de 16 a **25 dibujos**. No hay subconjunto menor con el
-  que publicar el home.
+- La fase 1 de iconos pasó de 16 a **25 dibujos**. No había subconjunto menor con
+  el que publicar el home.
 - La vuelta completa del carrusel será larga. Es aceptable dado que su función es
   decorativa: el visitante percibe un flujo continuo de tecnología, no una lista.
-- Con 25 iconos, la **coherencia de peso visual es aún más crítica**: cuantos más
-  elementos desfilan, más se nota uno que desentona.
+- Con dos docenas largas de iconos, la **coherencia de peso visual es aún más
+  crítica**: cuantos más elementos desfilan, más se nota uno que desentona.
 
 ## Plan de trabajo de los iconos — COMPLETADO
 
@@ -133,7 +136,10 @@ entre lineart y silueta sólida. Ganó la silueta sólida.
    afirmación de competencia.
 2. Toda `key` usada en el `stack` de un proyecto debe existir aquí, o el build
    falla.
-3. `inCarousel` está a `true` en las 25 (ver `DEVIATIONS.md`).
+3. `inCarousel` está a `true` en todas (ver `DEVIATIONS.md`).
+   3bis. **Añadir una entrada es una decisión del usuario**, nunca del agente, y
+   se documenta en `DEVIATIONS.md`: el catálogo es una afirmación de competencia
+   (regla 1), no una lista de todo lo que aparece en un `package.json`.
 4. ~~Tamaño del carrusel: 14-16 elementos.~~ Derogada por decisión del usuario.
 5. Todo icono se consume vía `TechIcon.astro`. Importar un icono suelto en una
    página o sección es un error.

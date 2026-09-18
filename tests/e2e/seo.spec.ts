@@ -103,7 +103,7 @@ test.describe('JSON-LD', () => {
   test('el detalle publica CreativeWork + migas, y el autor es el Person del sitio', async ({
     page,
   }) => {
-    await page.goto('/projects/lorem-ipsum-one');
+    await page.goto('/projects/destinos-unicos');
     const [work, breadcrumbs] = await structuredData(page);
 
     expect(work['@type']).toBe('CreativeWork');
@@ -127,10 +127,10 @@ test.describe('JSON-LD', () => {
 
 test.describe('imágenes OG', () => {
   test('cada proyecto tiene la suya, y existe', async ({ page, request }) => {
-    await page.goto('/es/projects/lorem-ipsum-one');
+    await page.goto('/es/projects/destinos-unicos');
 
     const url = await content(page, 'meta[property="og:image"]');
-    expect(url).toContain('/og/es/lorem-ipsum-one.png');
+    expect(url).toContain('/og/es/destinos-unicos.png');
 
     const response = await request.get(url!);
     expect(response.status()).toBe(200);
@@ -138,7 +138,7 @@ test.describe('imágenes OG', () => {
   });
 
   test('el detalle es `article`; el resto, `website`', async ({ page }) => {
-    await page.goto('/projects/lorem-ipsum-one');
+    await page.goto('/projects/destinos-unicos');
     expect(await content(page, 'meta[property="og:type"]')).toBe('article');
 
     await page.goto('/projects');
@@ -210,7 +210,7 @@ test.describe('semántica', () => {
       '/about',
       '/projects',
       '/contact',
-      '/projects/lorem-ipsum-one',
+      '/projects/destinos-unicos',
     ]) {
       const html = await (await request.get(path)).text();
       const headings = html.match(/<h1[\s>]/g) ?? [];

@@ -3,6 +3,95 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-18] Quinto proyecto: US Northside Parts, con el freno puesto
+
+- **Contenido:** `lorem-ipsum-five` pasa a `us-northside-parts`. Es el proyecto
+  más grande del usuario y **el único cuyo repositorio no es suyo**: privado, de
+  la organización del cliente.
+- **Regla aplicada:** la ficha cuenta solo lo que enseña el sitio público y no
+  enlaza el código. Nada de arquitectura interna ni de dependencias, aunque las
+  tenga a la vista quien construyó el proyecto. Decisión del usuario tras
+  plantearle el conflicto entre autoría y permiso.
+- **Tests:** aparece el caso "enlace vivo sin repositorio", que antes no existía
+  en la galería; el de "ninguna de las dos URL" pasa al último relleno.
+
+## [2026-09-18] `/about` real y dos proyectos más
+
+- **`/about`:** entradilla y biografía reales en los dos idiomas, experiencia
+  laboral con las tres entradas verdaderas, formación **en curso** (la
+  titulación llega en enero de 2027 y no se adelanta) e idiomas con el nivel de
+  inglés declarado como autoevaluación.
+- **Proyectos:** `la-cava-negra` y `notaria-123` sustituyen a los rellenos tres
+  y cuatro, con capturas del sitio en producción.
+- **Tests E2E:** el caso "sin `liveUrl`" pasa a `lorem-ipsum-five`, que es hoy
+  el único relleno que lo representa, y el resto de fixtures siguen a los slugs
+  nuevos.
+
+## [2026-09-18] El CV deja de ser relleno
+
+- **`public/resume/`:** los dos PDF son ya el CV real del usuario, uno por
+  idioma y de una página. El contenido sale de su CV anterior, de sus
+  repositorios y de Lighthouse; la maqueta, de la rampa clara del sitio.
+- **`13-roadmap.md`:** la fase 10 anota el CV como hecho, qué se dejó fuera a
+  propósito (ciudad y teléfono) y que **no se afirma una titulación que aún no
+  existe**.
+- El generador del PDF se queda **fuera del repositorio** mientras Q-G diga que
+  el CV es un archivo estático mantenido por el usuario.
+- **Segunda pasada el mismo día**, a petición del usuario: se presenta como
+  **Software Engineer**, el copy pasa de tareas a resultados, el resumen deja de
+  citar el número de proyectos, y entran arquitectura e ingeniería asistida por
+  IA entre las competencias. Cada enlace lleva su icono de destino **en SVG**,
+  no en texto, para no ensuciar lo que extrae un ATS.
+- **Verificado con un extractor real** (`pdfjs-dist`), no a ojo: el
+  `letter-spacing` de los encabezados hacía que el texto saliera como
+  "E X P E R I E N C E" y el prompt de la marca se colaba dentro del nombre. Se
+  quitó el primero y el segundo pasó a ser un SVG. Las cinco secciones se
+  extraen ahora limpias en los dos idiomas.
+
+## [2026-09-18] Segundo proyecto real: el portafolio de Keily Mar
+
+- **Contenido:** `lorem-ipsum-two` pasa a `keilys-portfolio`, con textos en los
+  dos idiomas sacados del repositorio y de sus decisiones de diseño, y tres
+  capturas tomadas del sitio en producción: portada, galería con filtros por
+  tono y el lightbox escrito a mano.
+- **Tests E2E:** el caso de "solo `liveUrl`, sin `repoUrl`" ya no existe entre
+  los proyectos reales, así que la prueba de "cada botón solo si existe su URL"
+  pasa a cubrir los tres casos con los proyectos que hoy los representan.
+- **`13-roadmap.md`:** avance de la fase 10 y la regla de que cada proyecto que
+  se vuelve real obliga a revisar los E2E que lo citaban.
+
+## [2026-09-17] Capturas reales de Destinos Únicos y Cloudinary en el catálogo
+
+- **Capturas:** tomadas del sitio en producción con Playwright a 1600×900 y
+  convertidas a JPEG con sharp (114, 69 y 59 KB). Portada, catálogo con sus
+  filtros por ocasión y la ficha de un regalo con el botón que arranca el pedido
+  por WhatsApp. **El área privada no se pudo capturar**: exige credenciales, así
+  que el pie de la segunda imagen dice lo que de verdad se ve.
+- **Cloudinary entra en el catálogo** (`DEVIATIONS.md`): 26 tecnologías, icono de
+  Simple Icons, grupo de infraestructura, y añadida al `stack` del proyecto.
+  Q34 —catálogo cerrado en 25— queda derogada y el catálogo pasa a estar abierto
+  a añadidos del usuario.
+- **El proyecto sigue en `draft: true`,** ahora por un motivo distinto: ya no le
+  faltan ni textos ni imágenes, sino que la validación del conjunto exige 3
+  destacados por idioma y los otros 5 proyectos siguen siendo relleno.
+
+## [2026-09-17] Primer proyecto real y cierre de las fases 6, 7, 8 y 11
+
+Las dos PRs (fases 8 y 11) quedan mergeadas en `development`, el usuario da por
+buenas `/about` y `/contact`, confirma que la regla del firewall está puesta, y
+pide rellenar el primer proyecto con su repositorio `destinos-unicos-landing-page`.
+
+- **`13-roadmap.md`:** las fases 6, 7, 8 y 11 pasan a COMPLETADA; la 10 pasa a
+  EN CURSO y anota qué se ha rellenado y qué falta.
+- **Contenido:** `lorem-ipsum-one` pasa a `destinos-unicos` en las dos
+  colecciones y en `src/assets/projects/`. Los textos de los dos idiomas salen
+  de leer el repositorio del proyecto. **Sigue en `draft: true`**: faltan las
+  capturas, que aporta el usuario.
+- **Tests E2E:** los que citaban el slug o el título antiguos pasan al nuevo. La
+  comprobación de "títulos propios en español" se mueve al segundo proyecto,
+  porque "Destinos Únicos" es un nombre propio y no se traduce.
+- **`OPEN-QUESTIONS.md`:** la regla del firewall queda cerrada como acción hecha.
+
 ## [2026-09-17] Fase 11 verificada a mano: los correos se leen bien
 
 El usuario revisó los cuatro envíos reales en Gmail y los dio por buenos

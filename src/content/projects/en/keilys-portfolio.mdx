@@ -1,0 +1,65 @@
+---
+title: Keily Mar — Photography portfolio
+summary: Bilingual portfolio for a self-taught photographer, built with no UI framework and with the photographs, never the interface, doing the talking.
+cover: ../../../assets/projects/keilys-portfolio/cover.jpg
+coverAlt: 'Home page of the portfolio: a black and white photograph of a bird filling the screen, with the headline "Hola, soy Keily, y soy fotógrafa".'
+gallery:
+  - image: ../../../assets/projects/keilys-portfolio/gallery-1.jpg
+    alt: 'The gallery page, with the filters for all, black and white and colour, showing the count of each, and the first photographs in a masonry layout.'
+    caption: The gallery, with tone filters and the photo count of each one.
+  - image: ../../../assets/projects/keilys-portfolio/gallery-2.jpg
+    alt: 'A photograph open in the lightbox, centred on a dark backdrop, with arrows to move and the position counter in the corner.'
+    caption: The lightbox, written by hand in about 3 KB, with no library.
+stack: [astro, typescript, tailwindcss, playwright, vercel]
+liveUrl: https://keilymargallery-sage.vercel.app
+repoUrl: https://github.com/daxhoDev/keilys-portfolio
+featured: true
+featuredOrder: 2
+order: 2
+year: 2026
+role: Front-end
+status: live
+# Textos y capturas reales. Sigue en `draft` hasta que los 6 proyectos lo sean:
+# la validación del conjunto exige 3 destacados por idioma (04-content-model.md).
+draft: true
+---
+
+## What it does
+
+A portfolio for a self-taught photographer based in Holguín, Cuba, whose work is
+mostly black and white. The whole site is bilingual — Spanish at the root,
+English under `/en` — with no hard-coded strings in the components.
+
+Three pages carry it. The landing opens with a full-screen photograph, a short
+introduction and a selection of featured work, and ends in a contact form. The
+about page holds the full biography with a portrait and a list of facts: where
+she works from, since when, what she photographs, the equipment. The gallery
+shows everything in a masonry layout with tone filters — all, black and white,
+colour — and each photograph opens in a lightbox.
+
+## How it is built
+
+Astro with static output and strict TypeScript, styled with Tailwind CSS, fonts
+self-hosted so no request leaves for Google, and images processed at build time
+into AVIF and WebP.
+
+**There is no UI framework**: no React, no Vue, no Svelte. What little
+interactivity the site has — the filters, the lightbox, the language switch — is
+plain TypeScript inside `<script>` blocks. That is what keeps the landing page
+under 30 KB of JavaScript, the hand-written lightbox included.
+
+Tests run on three levels: `node:test` for units and for the built output,
+Playwright for the browser, and axe-core for accessibility across all seven
+routes.
+
+## The decisions that shaped it
+
+The palette is achromatic: pure black, layered greys and a single accent chosen
+by the photographer for rules and active states. Hierarchy is carried by
+brightness, not by colour, precisely so that nothing competes with the
+photographs. The only colours in the interface are the red and green of the form
+messages, and neither travels alone: both come with text and an icon.
+
+The photographs are never rounded, never cropped in the gallery and never
+colour-graded by the interface. Motion is expressive, and it stops completely
+under `prefers-reduced-motion`.

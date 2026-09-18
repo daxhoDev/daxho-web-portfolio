@@ -88,7 +88,7 @@ cada card y la sección de skills.
 | `label` | string | nombre visible, ej. `React` |
 | `icon` | string \| null | slug de Simple Icons; `null` si el icono es propio (Playwright). Silueta sólida, ver `02-design-system.md` §6 |
 | `category` | enum | `language` · `framework` · `tool` · `platform` |
-| `inCarousel` | boolean | hoy `true` en las 25 (Q-K: el carrusel muestra todas); se conserva por si se vuelve a filtrar |
+| `inCarousel` | boolean | hoy `true` en todas (Q-K: el carrusel muestra todas); se conserva por si se vuelve a filtrar |
 
 Lista concreta de tecnologías: ver `10-tech-catalog.md`.
 Iconos: trazados oficiales de Simple Icons, dibujados a mano solo los que falten

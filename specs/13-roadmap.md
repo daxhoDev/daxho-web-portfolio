@@ -184,7 +184,7 @@ se pinta de inmediato, o acortar el tecleo. No se decide nada sin medir.
 
 ---
 
-## Fase 6 — About · **M** · 🔍 EN REVISIÓN
+## Fase 6 — About · **M** · ✅ COMPLETADA (PR #6)
 Rama: `feat/about-resume`
 
 **Prerrequisito cumplido (2026-09-16):** `05-pages/about.md` y `05-pages/resume.md`
@@ -203,7 +203,9 @@ timeline, formación, idiomas) · hoja de estilos de impresión.
 **Acción del usuario:** el PDF del CV, uno por idioma (Q-G). Hasta la fase 10 hay
 uno de relleno: basta con sustituir el archivo.
 
-**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+**Revisión visual superada (2026-09-17):** el usuario da por buena la página.
+
+**Cierre real (2026-09-16):** lint limpio ·
 typecheck 0 errores · **97 tests unitarios** · **95 tests E2E** · **63,2 KB gzip**
 de los 75 KB, sin JS nuevo · 22 rutas (las 2 de `/resume` ya no existen).
 
@@ -218,7 +220,7 @@ impresión.
 
 ---
 
-## Fase 7 — Contacto · **M** · 🔍 EN REVISIÓN
+## Fase 7 — Contacto · **M** · ✅ COMPLETADA (PR #7)
 Rama: `feat/contact`
 
 **Prerrequisito cumplido (2026-09-16):** Q38 (honeypot + límite por IP con una
@@ -241,9 +243,11 @@ typecheck 0 errores · **112 tests unitarios** (97 + 15 de validación, honeypot
 correo y cliente de Resend) · **110 tests E2E** (95 + 15 de contacto y de la boot
 sequence) · home **63,2 KB gzip** sin cambios.
 
-**No verificado:** el envío real por Resend. Necesita tu cuenta y la clave; los
-tests simulan la API o solo ejercitan casos que no envían correo (validación,
-honeypot). Tampoco la regla del firewall, que se crea en el panel de Vercel.
+**Revisión visual superada (2026-09-17):** el usuario da por buena la página.
+
+**Lo que estaba sin verificar, ya verificado (2026-09-17):** el envío real por
+Resend funciona —cuatro avisos llegados y leídos en Gmail, en la fase 11— y la
+**regla del firewall está configurada** en el panel de Vercel.
 
 Hallazgos de la implementación:
 
@@ -261,7 +265,7 @@ Hallazgos de la implementación:
 
 ---
 
-## Fase 8 — SEO y analytics · **M** · 🚧 EN CURSO
+## Fase 8 — SEO y analytics · **M** · ✅ COMPLETADA (PR #11)
 Rama: `feat/seo`
 
 **Prerrequisito cumplido (2026-09-17):** se cierran las cuatro decisiones que
@@ -332,7 +336,7 @@ del script de analítica.
 
 ---
 
-## Fase 10 — Contenido real · **M** · va ANTES de la fase 9
+## Fase 10 — Contenido real · **M** · 🚧 EN CURSO · va ANTES de la fase 9
 Rama: `feat/real-content`
 
 Sustitución de todos los placeholders. **Revisión de layout obligatoria**: es
@@ -340,6 +344,77 @@ cuando aparecen los desbordes que el Lorem Ipsum ocultaba.
 
 **Acción del usuario:** textos, fotografía, datos y capturas de los 6 proyectos,
 redes del footer, formación e idiomas.
+
+### Avance (2026-09-17)
+
+**Primer proyecto real: Destinos Únicos.** El usuario pidió rellenarlo a partir
+de su repositorio, y los textos de los dos idiomas salen de leer ese código: no
+hay nada inventado sobre lo que el proyecto hace. `lorem-ipsum-one` pasa a
+`destinos-unicos` en las dos colecciones y en la carpeta de imágenes; los tests
+E2E que citaban el slug o el título viejos van con él.
+
+**Sigue en `draft: true`**, y debe seguir hasta que lleguen las capturas: el
+usuario las aporta. Lo único que falta de este proyecto son las tres imágenes
+—portada y dos de galería— y su texto alternativo.
+
+**Segundo proyecto real: Keily Mar — Portafolio fotográfico**
+(`lorem-ipsum-two` → `keilys-portfolio`), de `daxhoDev/keilys-portfolio`. Los
+textos salen del repositorio y sus decisiones de diseño; las capturas, del sitio
+en producción.
+
+**Las capturas las toma el agente**, no el usuario (decisión del 2026-09-17):
+Playwright abre el sitio en producción a 1600×900 y sharp las pasa a JPEG. Lo
+que no se puede capturar así queda dicho tal cual: el área privada de Destinos
+Únicos exige credenciales, y el pie de esa imagen describe lo que de verdad se
+ve.
+
+**CV real, en los dos idiomas (2026-09-18).** `public/resume/daxho-resume-en.pdf`
+y `-es.pdf` dejan de ser relleno. Contenido acordado con el usuario a partir de
+su CV anterior, de sus repositorios y de medidas reales de Lighthouse; maquetado
+en HTML con la rampa clara del sitio, JetBrains Mono para encabezados e Inter
+para el cuerpo, e impreso a PDF con Playwright. Una página por idioma.
+
+**Dos cosas quedaron fuera a propósito:** la ciudad y el teléfono (decisión del
+usuario), y **no se afirma una titulación que aún no existe** — la formación
+dice "titulación prevista en enero de 2027", que es la verdad.
+
+El generador **no vive en el repositorio**: por Q-G el PDF es un archivo estático
+mantenido por el usuario, y meter aquí un generador contradiría esa decisión.
+Está pendiente de que el usuario decida si quiere versionarlo (haría falta
+cambiar `05-pages/about.md`).
+
+**`/about` con contenido real (2026-09-18).** Entradilla y los tres párrafos de
+la biografía en los dos idiomas · la colección `experience` pasa a ser la de
+verdad —Xlynx, Destinos Únicos y Delicias Yordan, con sus fechas, sus logros y
+su stack— · `education.ts` con la Universidad de Holguín **en curso**, no
+titulada · `languages.ts` con español nativo e inglés intermedio alto declarado
+como autoevaluación.
+
+**Proyectos 3 y 4: La Cava Negra y Notaría 123** (`lorem-ipsum-three` y
+`lorem-ipsum-four`). Son las dos caras de una misma prueba técnica y por eso
+entran juntas: una vende ambiente a oscuras y la otra confianza a plena luz.
+Ambas están etiquetadas como prueba técnica, sin nombrar a la empresa. Las
+capturas salen de los sitios en producción, con las animaciones congeladas para
+que no se fotografíen a medio revelar.
+
+**Proyecto 5: US Northside Parts** (`lorem-ipsum-five`), la tienda de
+climatización y repuestos que el usuario construyó de cero. Su repositorio es
+**privado y de la organización del cliente**, así que la ficha se limita a lo
+que cualquiera puede ver en el sitio público —qué hace, cómo se compra, cómo se
+sigue un pedido— y **no enlaza código ni describe arquitectura interna ni
+dependencias** (decisión del usuario, 2026-09-18). Es el único proyecto con
+`liveUrl` y sin `repoUrl`, y el test de botones lo usa justamente para cubrir
+ese caso.
+
+Queda **1 proyecto**: Survey System, que espera a estar desplegado —el usuario
+prefiere capturas reales antes que diagramas—, más la fotografía, las redes y la
+entradilla de `/projects`. Delicias Yordan se queda en la experiencia laboral y
+no ocupa hueco en la galería.
+
+**Efecto colateral en los tests:** cada proyecto que se vuelve real obliga a
+revisar los E2E que lo citaban por título, por slug o por qué enlaces tiene. Los
+de `/styleguide` **no**: sus tarjetas llevan datos literales y no salen de la
+colección.
 
 Al terminar, **no puede quedar ningún `draft: true`**: la guarda de CI
 (`scripts/check-drafts.mjs`) sigue protegiendo cualquier PR hacia `master`, lo
@@ -359,7 +434,7 @@ slug** en los dos idiomas (12 archivos). Por cada uno:
 | `summary` | sí | **máximo 160 caracteres**: es la `description` de la página |
 | `cover` / `coverAlt` | sí | captura principal **16:9** y su texto alternativo |
 | `gallery` | no | lista de `{ image, alt, caption? }` |
-| `stack` | sí | claves del catálogo de 25 (`10-tech-catalog.md`); una clave que no exista **rompe el build** |
+| `stack` | sí | claves del catálogo (`10-tech-catalog.md`); una clave que no exista **rompe el build** |
 | `liveUrl` / `repoUrl` | no | sin `liveUrl` no se pinta "Open project" |
 | `featured` + `featuredOrder` | sí en 3 | **exactamente 3** por idioma, con orden 1-2-3 |
 | `order` | sí | orden de la galería |
@@ -415,7 +490,7 @@ y lo hace el usuario (Q-P).
 
 ---
 
-## Fase 11 — Plantillas de correo · **S** · ✅ COMPLETADA (PR #10, pendiente de merge)
+## Fase 11 — Plantillas de correo · **S** · ✅ COMPLETADA (PR #10)
 Rama: `feat/email-templates`
 
 Añadida el 2026-09-16 a petición del usuario, sin fecha. El 2026-09-17 el usuario

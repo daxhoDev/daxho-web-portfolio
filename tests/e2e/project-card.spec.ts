@@ -3,6 +3,10 @@ import { expect, test } from '@playwright/test';
 /**
  * Cobertura del patrón de enlace con área extendida (06-components.md).
  * Es el requisito donde es más fácil incumplir WCAG usando un div clicable.
+ *
+ * Se prueba sobre `/styleguide`, cuyas tarjetas llevan datos literales propios
+ * y no salen de la colección: por eso estos títulos NO cambian cuando entra
+ * contenido real (11-styleguide.md).
  */
 
 test.describe('ProjectCard', () => {

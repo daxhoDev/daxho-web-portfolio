@@ -13,7 +13,9 @@ async function visit(page: Page, path: string, lang: 'en' | 'es' = 'en') {
   await page.goto(path);
 }
 
-const EXPECTED_ORDER = ['Lorem Ipsum Studio', 'Dolor Sit Labs', 'Amet Consectetur'];
+// Orden por fecha de INICIO, de más reciente a más antigua: Destinos Únicos
+// empezó antes que Delicias Yordan aunque terminara después.
+const EXPECTED_ORDER = ['Xlynx LLC', 'Delicias Yordan', 'Destinos Únicos'];
 
 test.describe('/about', () => {
   test('un solo <h1> y las secciones de la spec, en orden', async ({ page }) => {
@@ -35,7 +37,7 @@ test.describe('/about', () => {
     await expect(page.locator('main img')).toHaveAttribute('width', /\d+/);
   });
 
-  test('skills: seis grupos con las 25 tecnologías y sin niveles', async ({ page }) => {
+  test('skills: seis grupos con las 26 tecnologías y sin niveles', async ({ page }) => {
     await visit(page, '/es/about', 'es');
     const groups = page.locator('section:has(> h3)');
     await expect(groups.getByRole('heading', { level: 3 })).toHaveText([
@@ -46,7 +48,7 @@ test.describe('/about', () => {
       'Infraestructura',
       'Herramientas y calidad',
     ]);
-    await expect(groups.locator('li')).toHaveCount(25);
+    await expect(groups.locator('li')).toHaveCount(26);
     await expect(page.locator('progress, meter, [role="progressbar"]')).toHaveCount(0);
   });
 
@@ -57,9 +59,9 @@ test.describe('/about', () => {
     for (const [index, company] of EXPECTED_ORDER.entries()) {
       await expect(items.nth(index).getByRole('heading')).toContainText(company);
     }
-    await expect(items.first()).toContainText('Mar 2023 – Present');
+    await expect(items.first()).toContainText('Sep 2025 – Present');
     await expect(items.first().getByRole('heading')).toHaveText(
-      'Lorem ipsum dolor · Lorem Ipsum Studio',
+      'Software Engineer (Full-Stack) · Xlynx LLC',
     );
   });
 

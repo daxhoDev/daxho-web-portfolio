@@ -80,9 +80,8 @@ const en = {
   'home.headline': "welcome to daxho's corner, what should we build?",
   'home.subtitle': 'Software Engineer · full-stack web',
   'home.scroll': 'scroll',
-  // TODO(fase 10): texto real (Q32). Relleno marcado (04-content-model.md).
   'home.about.text':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+    'I build web applications end to end — architecture, interface, database and deployment — and I hand them over working. A gift shop that keeps its own catalogue without me, a photography portfolio that scores 100 on accessibility, an API documented from its own schemas.',
   // TODO(fase 10): fotografía real (Q33).
   'home.about.photoAlt': 'PLACEHOLDER — photo of Daxho',
   'home.about.more': 'Read more',
@@ -91,17 +90,17 @@ const en = {
   'home.cta.heading': 'ready when you are',
   'home.cta.button': 'contact',
 
-  // TODO(fase 10): textos reales (Q32). Relleno marcado (04-content-model.md).
   'about.title': 'About — Daxho',
   'about.description':
     'Software Engineer: experience, stack, education and languages. CV available to download.',
-  'about.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+  'about.intro':
+    'Software Engineer in Holguín, Cuba. I work remotely and asynchronously, and I like projects where someone ends up depending on me a little less.',
   'about.bio.1':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    'I am a Software Engineer at Xlynx LLC, where each project lands on one engineer from end to end: the brief, the design, the frontend, whatever backend it needs, the deployment and what comes after. Five have gone out in the past year.',
   'about.bio.2':
-    'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    'Before that, and alongside it, came the freelance work — a gift shop, a delivery business — and with it the lesson that shapes how I build: a project is not finished when it looks right, but when the client can run it without calling me. That is why Destinos Únicos has a private area its owner uses herself, and why a photography portfolio ships with a hand-written lightbox instead of a library.',
   'about.bio.3':
-    'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+    'I am finishing Computer Engineering at the University of Holguín, graduating in January 2027. I work with coding agents every day, on specs, reviews and test suites, and I measure what I claim: the numbers on this site are Lighthouse readings, not estimates.',
   'about.skills': 'Skills',
   'about.experience': 'Experience',
 
@@ -218,9 +217,8 @@ const es: Translations = {
   'home.headline': 'bienvenido a la guarida de daxho, ¿qué construimos?',
   'home.subtitle': 'Software Engineer · desarrollo web full-stack',
   'home.scroll': 'scroll',
-  // TODO(fase 10): texto real (Q32). Relleno marcado (04-content-model.md).
   'home.about.text':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+    'Construyo aplicaciones web de principio a fin —arquitectura, interfaz, base de datos y despliegue— y las entrego funcionando. Una tienda de regalos que mantiene su catálogo sin mí, un portafolio fotográfico con 100 en accesibilidad, una API documentada desde sus propios esquemas.',
   // TODO(fase 10): fotografía real (Q33).
   'home.about.photoAlt': 'PLACEHOLDER — foto de Daxho',
   'home.about.more': 'Leer más',
@@ -229,17 +227,17 @@ const es: Translations = {
   'home.cta.heading': 'listo cuando tú lo estés',
   'home.cta.button': 'contacto',
 
-  // TODO(fase 10): textos reales (Q32). Relleno marcado (04-content-model.md).
   'about.title': 'Sobre mí — Daxho',
   'about.description':
     'Software Engineer: experiencia, stack, formación e idiomas. CV disponible para descargar.',
-  'about.intro': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+  'about.intro':
+    'Software Engineer en Holguín, Cuba. Trabajo en remoto y en asíncrono, y me gustan los proyectos en los que alguien acaba dependiendo un poco menos de mí.',
   'about.bio.1':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    'Soy Software Engineer en Xlynx LLC, donde cada proyecto recae de principio a fin en un ingeniero: el encargo, el diseño, el frontend, el backend que haga falta, el despliegue y lo que viene después. En el último año han salido cinco.',
   'about.bio.2':
-    'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    'Antes, y en paralelo, llegaron los encargos freelance —una tienda de regalos, un negocio de reparto— y con ellos la lección que marca cómo construyo: un proyecto no está terminado cuando se ve bien, sino cuando el cliente puede usarlo sin llamarme. Por eso Destinos Únicos tiene un área privada que su dueña maneja sola, y por eso un portafolio fotográfico sale con un lightbox escrito a mano en vez de una librería.',
   'about.bio.3':
-    'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+    'Estoy terminando Ingeniería Informática en la Universidad de Holguín, con la titulación prevista en enero de 2027. Trabajo a diario con agentes de programación, en especificaciones, revisiones y suites de test, y mido lo que afirmo: las cifras de este sitio son lecturas de Lighthouse, no estimaciones.',
   'about.skills': 'Habilidades',
   'about.experience': 'Experiencia',
 

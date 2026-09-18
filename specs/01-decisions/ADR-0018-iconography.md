@@ -23,7 +23,7 @@ predicción era correcta y la decisión que la acompañaba, equivocada.
 1. Los iconos de tecnología usan los **trazados oficiales de Simple Icons**,
    renderizados como **silueta sólida** (`fill: currentColor`).
 2. Solo se dibuja a mano lo que la librería no tenga. Hoy: **Playwright**, y
-   nada más de las 25.
+   nada más del catálogo.
 3. Todo se consume a través de `src/components/icons/tech/TechIcon.astro`, que
    resuelve por clave del catálogo y **falla el build** si la tecnología no
    existe.

@@ -30,14 +30,14 @@ Ninguna. Q-Q, la última, se resolvió el 2026-09-16.
 | Q-G | PDF del CV **estático**, mantenido por el usuario; se descarga desde `/about` | `05-pages/about.md` |
 | Q-I | Boot sequence acotada, primera visita de sesión | ADR-0019 |
 | Q-J | Resend con dominio de pruebas → Gmail | ADR-0020 |
-| Q-K | Carrusel con **las 25**, no una selección | `DEVIATIONS.md`, `10-tech-catalog.md` |
+| Q-K | Carrusel con **todas** las del catálogo, no una selección | `DEVIATIONS.md`, `10-tech-catalog.md` |
 | Q-L | Express **entra**, con marca circular "ex" | `DEVIATIONS.md`, `10-tech-catalog.md` |
 | Q-M | Marca `>daxho▮` — prompt + cursor de bloque | `12-brand.md` |
 | Q-N | Navegación en 3 modos, se conservan todos los enlaces (4 desde que se eliminó `/resume`) | `06-components.md`, `DEVIATIONS.md` |
 | Q-O | Texto del brief intacto; "guarida" en español | `05-pages/home.md` |
 | Q32 | Texto "about me" — Lorem Ipsum hasta la fase 10 | `13-roadmap.md` |
 | Q33 | Fotografía — placeholder hasta la fase 10 | `13-roadmap.md` |
-| Q34 | Catálogo cerrado en 25 tecnologías | `10-tech-catalog.md` |
+| Q34 | Catálogo cerrado en 25 tecnologías — **derogada** el 2026-09-17: entra Cloudinary y el catálogo queda abierto a añadidos del usuario | `10-tech-catalog.md`, `DEVIATIONS.md` |
 | Q35 | Datos de los 6 proyectos — Lorem Ipsum hasta la fase 10 | `13-roadmap.md` |
 | Q36 | Redes del footer — placeholder hasta la fase 10 | `13-roadmap.md` |
 | Q37 | Formulario: nombre, correo, mensaje | `05-pages/contact.md` |
@@ -86,8 +86,8 @@ No son decisiones de diseño, sino trabajo fuera del repositorio que bloquea fas
 
 1. ~~**Crear el proyecto en Vercel**~~ — **hecho**: confirmado el 2026-09-17, la
    preview de una PR desplegó en `daxhos-projects/daxho-web-portfolio`.
-2. **Crear la regla del firewall** del formulario en Vercel, con los valores de
-   `08-integrations.md`. Requiere el proyecto del punto 1.
+2. ~~**Crear la regla del firewall** del formulario en Vercel~~ — **hecha**:
+   configurada por el usuario el 2026-09-17.
 3. ~~**Crear la cuenta de Resend con `developer.daxho@gmail.com`**~~ — **hecha**:
    el 2026-09-17 llegaron cuatro envíos reales a esa dirección.
 4. ~~**Filtro "nunca a spam" en Gmail**~~ — sin efecto práctico pendiente: los

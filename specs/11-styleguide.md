@@ -37,7 +37,7 @@ Playwright y en documentación viva del sistema.
 
 ### NO incluye
 Páginas del sitio, i18n, colecciones de contenido, endpoint de correo, imágenes
-OG, sitemap, los 25 iconos completos, analytics.
+OG, sitemap, los iconos completos del catálogo, analytics.
 
 ## Contenido de la página
 
