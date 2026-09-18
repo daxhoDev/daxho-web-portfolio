@@ -3,6 +3,17 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-18] El CV deja de ser relleno
+
+- **`public/resume/`:** los dos PDF son ya el CV real del usuario, uno por
+  idioma y de una página. El contenido sale de su CV anterior, de sus
+  repositorios y de Lighthouse; la maqueta, de la rampa clara del sitio.
+- **`13-roadmap.md`:** la fase 10 anota el CV como hecho, qué se dejó fuera a
+  propósito (ciudad y teléfono) y que **no se afirma una titulación que aún no
+  existe**.
+- El generador del PDF se queda **fuera del repositorio** mientras Q-G diga que
+  el CV es un archivo estático mantenido por el usuario.
+
 ## [2026-09-18] Segundo proyecto real: el portafolio de Keily Mar
 
 - **Contenido:** `lorem-ipsum-two` pasa a `keilys-portfolio`, con textos en los

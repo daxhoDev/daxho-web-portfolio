@@ -368,8 +368,23 @@ que no se puede capturar así queda dicho tal cual: el área privada de Destinos
 Únicos exige credenciales, y el pie de esa imagen describe lo que de verdad se
 ve.
 
+**CV real, en los dos idiomas (2026-09-18).** `public/resume/daxho-resume-en.pdf`
+y `-es.pdf` dejan de ser relleno. Contenido acordado con el usuario a partir de
+su CV anterior, de sus repositorios y de medidas reales de Lighthouse; maquetado
+en HTML con la rampa clara del sitio, JetBrains Mono para encabezados e Inter
+para el cuerpo, e impreso a PDF con Playwright. Una página por idioma.
+
+**Dos cosas quedaron fuera a propósito:** la ciudad y el teléfono (decisión del
+usuario), y **no se afirma una titulación que aún no existe** — la formación
+dice "titulación prevista en enero de 2027", que es la verdad.
+
+El generador **no vive en el repositorio**: por Q-G el PDF es un archivo estático
+mantenido por el usuario, y meter aquí un generador contradiría esa decisión.
+Está pendiente de que el usuario decida si quiere versionarlo (haría falta
+cambiar `05-pages/about.md`).
+
 Quedan los otros 4 proyectos, la fotografía, la formación, los idiomas, las
-redes, el PDF del CV y los textos de `src/i18n/ui.ts`.
+redes y los textos de `src/i18n/ui.ts`.
 
 **Efecto colateral en los tests:** cada proyecto que se vuelve real obliga a
 revisar los E2E que lo citaban por título, por slug o por qué enlaces tiene. Los
