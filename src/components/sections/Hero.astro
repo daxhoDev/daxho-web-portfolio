@@ -1,0 +1,64 @@
+---
+/**
+ * Hero del home — 05-pages/home.md (APROBADA).
+ *
+ * - Pantalla completa bajo el header.
+ * - `<h1>` tecleado, con prompt `>` y el ÚNICO cursor permanente del sitio.
+ *   Arranca al terminar la boot sequence, o de inmediato si no se muestra
+ *   (`trigger="boot"`, ver effects.css).
+ * - El subtítulo es estático y contiene "Software Engineer": es donde se cumple
+ *   el test de los 30 segundos mientras el titular se escribe.
+ * - Indicador de scroll: enlace real y estático. Nada se mueve en bucle salvo
+ *   el carrusel y el cursor de la marca (ADR-0014).
+ */
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import TypingText from '@/components/ui/TypingText.astro';
+import { localizePath, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** Id de la sección a la que baja el indicador de scroll. */
+  next: string;
+}
+
+const { lang, next }: Props = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="hero relative">
+  <Container class="hero-inner flex flex-col justify-center gap-8 py-16">
+    <h1 class="max-w-4xl font-mono text-3xl leading-tight lowercase md:text-5xl">
+      {/* Decorativo, como en la marca: el nombre accesible es solo la frase. */}
+      <span class="text-accent-text" aria-hidden="true">&gt;</span>
+      <TypingText text={t('home.headline')} speed={45} trigger="boot" caret="persistent" />
+    </h1>
+
+    <p class="text-fg-secondary font-mono text-base md:text-lg">{t('home.subtitle')}</p>
+
+    <div class="flex flex-wrap gap-3">
+      <Button href={localizePath('/projects', lang)}>{t('nav.projects')}</Button>
+      <Button href={localizePath('/contact', lang)} variant="secondary">
+        {t('nav.contact')}
+      </Button>
+    </div>
+  </Container>
+
+  <a
+    href={`#${next}`}
+    class="text-fg-muted hover:text-accent-text absolute bottom-6 left-1/2 inline-flex h-11 -translate-x-1/2 items-center gap-2 px-3 font-mono text-xs transition-colors"
+    data-scroll-indicator
+  >
+    {t('home.scroll')}
+    <span aria-hidden="true">↓</span>
+  </a>
+</section>
+
+<style>
+  /* Pantalla completa bajo el header sticky. `svh` y no `vh`: en móvil `vh` no
+     descuenta la barra del navegador y el indicador quedaría fuera de la
+     pantalla. */
+  .hero :global(.hero-inner) {
+    min-height: calc(100svh - var(--header-h));
+  }
+</style>

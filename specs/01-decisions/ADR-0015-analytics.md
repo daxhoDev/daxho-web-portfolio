@@ -26,4 +26,10 @@ y qué proyecto abrió. Google Analytics 4 es desproporcionado y arrastra el ban
 ## Consecuencias
 - Dependencia `@vercel/analytics`.
 - Verificar en Lighthouse que el script no penaliza la puntuación.
-- Documentar en el sitio que no se usan cookies (nota breve, no banner).
+- **Solo se monta en producción** (decidido al implementar, el 2026-09-17): en
+  desarrollo el paquete carga un script de depuración externo que no mide nada y
+  cuya espera desestabilizaba los tests de tiempos.
+- Documentar en el sitio que no se usan cookies (nota breve, no banner). **Va en
+  el footer**, en una línea junto al copyright (decidido el 2026-09-17):
+  - en: "This website does not use cookies"
+  - es: "Este sitio web no utiliza cookies"

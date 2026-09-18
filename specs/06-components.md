@@ -1,13 +1,20 @@
 # 06 — Inventario de componentes
 
-**Estado:** APROBADA · 2026-09-14 · prerrequisito de la fase 2, cumplido
+**Estado:** APROBADA · 2026-09-14 · prerrequisito de la fase 2, cumplido ·
+alcance acotado el 2026-09-17
+
+**Alcance:** los componentes del sitio, los de `src/components/`. Las plantillas
+de correo de `src/emails/` **no** entran aquí: no llegan al navegador y las rige
+`14-email.md`, que por fuerza permite colores literales —los clientes de correo
+no soportan variables CSS— con un test que los compara con `tokens.css`.
 
 ## Reglas generales
 
 1. **Astro por defecto, React solo si hace falta estado o eventos.** Ver
    `03-architecture.md`.
 2. Todo componente consume **tokens semánticos** de `02-design-system.md`. Está
-   prohibido escribir un color literal en un componente.
+   prohibido escribir un color literal en un componente. (Única excepción, fuera
+   de este inventario: las plantillas de correo, ver el alcance de arriba.)
 3. Todo componente interactivo cubre: reposo, hover, foco, activo, deshabilitado.
 4. Props tipadas. Sin `any`.
 5. Ningún componente nuevo se crea sin estar en este inventario o sin aprobación
@@ -24,7 +31,7 @@
 | `Card` | astro | contenedor con borde y superficie |
 | `Container` | astro | ancho máximo y padding lateral |
 | `SectionHeading` | astro | `<h2>` que se **teclea** al entrar en pantalla, una sola vez (ADR-0014) |
-| `TypingText` | astro | **CSS puro, sin JS.** Efecto de tecleo. `trigger`: `load` (hero) o `viewport` (encabezados); `caret`: `persistent` (hero, es la marca), `transient` (encabezados) o `none` |
+| `TypingText` | astro | **CSS puro, sin JS.** Efecto de tecleo. `trigger`: `load`, `boot` (hero: espera a la boot sequence si está en pantalla) o `viewport` (encabezados); `caret`: `persistent` (hero, es la marca), `transient` (encabezados) o `none` |
 | `Icon` | astro | envoltorio de SVG, aplica la especificación de `02-design-system.md` §6 |
 | `Prose` | astro | estilos tipográficos para el cuerpo MDX; todo con tokens semánticos, sin plugin de tipografía |
 
@@ -34,8 +41,8 @@
 |---|---|---|
 | `Header` | astro | **ocultable al bajar** (Q28): se esconde al hacer scroll hacia abajo, reaparece al subir. Debe reaparecer siempre al llegar arriba y al recibir foco por teclado |
 | `Brand` | astro | marca denominativa, enlaza al home del idioma activo (ver `12-brand.md`) |
-| `Nav` | astro | Home · About · Projects · Resume · Contact — **tres modos**, ver abajo |
-| `Footer` | astro | enlaces a redes sociales; **placeholder hasta la fase 10** (Q36 resuelta) |
+| `Nav` | astro | Home · About · Projects · Contact — **tres modos**, ver abajo. Eran 5 enlaces hasta que se eliminó `/resume` (2026-09-16) |
+| `Footer` | astro | enlaces a redes sociales desde `src/content/social.ts`, **placeholder hasta la fase 10** (Q36 resuelta) · desde la fase 8, la línea de cookies de ADR-0015 |
 | `SkipLink` | astro | "Skip to content", primer elemento tabulable de la página |
 | `BootSequence` | astro | overlay de arranque de ADR-0019. **Sin isla**: se retira por animación CSS de duración fija, y el script inline solo gestiona el "saltar" y el `sessionStorage`. Si el JS falla, el overlay desaparece igual |
 
@@ -43,13 +50,13 @@
 
 | Componente | Tipo | Notas |
 |---|---|---|
-| `Hero` | astro | usa `TypingText` con `trigger="load"` y cursor permanente; encadena con la boot sequence de ADR-0019 |
+| `Hero` | astro | pantalla completa bajo el header; usa `TypingText` con `trigger="boot"` y cursor permanente, que arranca al terminar la boot sequence de ADR-0019 o de inmediato si no se muestra; enlace estático `scroll ↓` |
 | `AboutTeaser` | astro | bloque about breve del home |
 | `TechCarousel` | astro | **CSS puro, sin JS** |
 | `FeaturedProjects` | astro | los 3 destacados |
 | `CtaBand` | astro | banda de acento con CTA final |
-| `Timeline` | astro | experiencia, marcada como `<ol>` |
-| `SkillsGrid` | astro | skills agrupadas |
+| `Timeline` | astro | experiencia, marcada como `<ol>`, de más reciente a más antigua; la usa `/about` |
+| `SkillsGrid` | astro | skills en los seis grupos de `10-tech-catalog.md`, sin nivel de dominio; la usa `/about` |
 
 ## `project/`
 
@@ -71,19 +78,19 @@ tabla de `layout/` contiene únicamente `.astro`.
 | `LanguageSwitcher` | `client:load` | escribe `localStorage.lang`; navega a la **página equivalente**, nunca al home. El destino lo calcula Astro en el servidor con `i18n/utils.ts`; la isla no reimplementa el enrutado en cliente |
 | `NavDropdown` | `client:idle` | modo intermedio del header |
 | `MobileNav` | `client:idle` | sidebar. Disparador **solo con icono de hamburguesa** (nombre accesible en `aria-label`). Con el panel abierto: **backdrop con blur** detrás que cierra al tocarlo, **botón X arriba a la derecha** del panel, **el fondo no hace scroll**. Atrapa el foco, cierra con `Esc` y devuelve el foco al botón |
-| `ContactForm` | `client:visible` | |
+| `ContactForm` | `client:visible` | renderiza un `<form>` HTML real que funciona sin JavaScript; al hidratar intercepta el envío (validación en vivo, `fetch`, estados). Incluye el honeypot |
 
 ---
 
 ## Navegación — tres modos (Q-N decidida)
 
 Decisión del usuario: en lugar de eliminar enlaces, la navegación **cambia de
-forma** antes de llegar a comprimirse. Los 5 enlaces se conservan en los tres
-modos.
+forma** antes de llegar a comprimirse. Todos los enlaces (4 desde que se eliminó
+`/resume`) se conservan en los tres modos.
 
 | Modo | Ancho | Comportamiento |
 |---|---|---|
-| **Completo** | `≥ lg` (1024px) | los 5 enlaces en línea, junto a la marca y los dos selectores |
+| **Completo** | `≥ lg` (1024px) | los 4 enlaces en línea, junto a la marca y los dos selectores |
 | **Dropdown** | `md` – `lg` | los enlaces colapsan en un desplegable; marca y selectores siguen visibles |
 | **Sidebar** | `< md` (768px) | panel lateral a pantalla completa |
 
@@ -139,6 +146,7 @@ Nota conocida del patrón: seleccionar texto dentro de la card se vuelve difíci
 Es aceptable, porque el texto de la card es corto y no está pensado para copiarse.
 
 ### Variantes
-El home usa **exactamente esta misma card** (Q-B decidida). El componente expone
-una prop `variant` para futuros usos, pero hoy solo existe la variante por
-defecto. No se crea un segundo componente.
+El home usa **exactamente esta misma card** (Q-B decidida). No se crea un segundo
+componente, y **no hay prop `variant`**: se describía "para futuros usos", nunca
+llegó a implementarse y nadie la necesita. Si un día hace falta, se añade
+entonces.

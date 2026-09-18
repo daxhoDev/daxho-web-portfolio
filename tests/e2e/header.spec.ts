@@ -95,7 +95,7 @@ test.describe('navegación', () => {
     // Se leen del HTML servido, sin ejecutar JavaScript.
     const response = await page.request.get('/');
     const html = await response.text();
-    for (const label of ['Home', 'About', 'Projects', 'Resume', 'Contact']) {
+    for (const label of ['Home', 'About', 'Projects', 'Contact']) {
       expect(html).toContain(`>${label}<`);
     }
   });
@@ -297,6 +297,24 @@ test.describe('boot sequence (ADR-0019)', () => {
 
     await page.goto('/about');
     await expect(page.locator('#boot')).toHaveCount(0);
+  });
+
+  test.describe('sin JavaScript', () => {
+    test.use({ javaScriptEnabled: false });
+
+    /**
+     * Regresión (requisito 2 de ADR-0019): el <noscript> ponía la regla como
+     * expresión de Astro dentro de <style>, que Astro no evalúa. Se servía el
+     * texto literal `{'#boot ...'}`, CSS inválido, y el overlay se mostraba a
+     * quien no tiene JavaScript, tapando la página.
+     */
+    test('ni siquiera se muestra', async ({ page }) => {
+      await page.goto('/');
+      const display = await page
+        .locator('#boot')
+        .evaluate((el) => getComputedStyle(el).display);
+      expect(display).toBe('none');
+    });
   });
 
   test('no se muestra con prefers-reduced-motion', async ({ page }) => {

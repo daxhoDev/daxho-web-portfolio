@@ -63,4 +63,33 @@ const projects = defineCollection({
       }),
 });
 
-export const collections = { projects };
+const experience = defineCollection({
+  // `src/content/experience/{lang}/{slug}.mdx` → id `{lang}/{slug}`, como projects.
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/experience' }),
+  schema: z
+    .object({
+      company: z.string().min(1),
+      role: z.string().min(1),
+      // Fechas sin hora en el frontmatter (YYYY-MM-DD).
+      startDate: z.coerce.date(),
+      // `null` = actualidad. Obligatorio para que "sigue ahí" sea explícito.
+      endDate: z.coerce.date().nullable(),
+      location: z.string().optional(),
+      type: z.enum(['full-time', 'contract', 'freelance']),
+      highlights: z.array(z.string().min(1)).min(1),
+      stack: z
+        .array(z.string())
+        .default([])
+        .refine((keys) => keys.every((key) => TECH_KEYS.has(key)), {
+          message: 'Toda clave de stack debe existir en src/content/tech.ts.',
+        }),
+      draft: z.boolean().default(true),
+      translatedByAgent: z.boolean().default(false),
+    })
+    .refine((data) => data.endDate === null || data.endDate >= data.startDate, {
+      message: 'endDate no puede ser anterior a startDate.',
+      path: ['endDate'],
+    }),
+});
+
+export const collections = { projects, experience };

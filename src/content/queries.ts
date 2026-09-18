@@ -10,7 +10,9 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 import type { Lang } from '@/i18n/utils';
 import {
+  featuredProjects,
   isPublished,
+  missingTranslations,
   neighbors,
   parseProjectId,
   sortProjects,
@@ -47,6 +49,12 @@ export async function getProjects(lang: Lang): Promise<Project[]> {
   return sortProjects(all.filter((project) => project.lang === lang));
 }
 
+/** Los 3 destacados de un idioma, ordenados por `featuredOrder`. */
+export async function getFeaturedProjects(lang: Lang): Promise<Project[]> {
+  const all = await loadPublished();
+  return featuredProjects(all.filter((project) => project.lang === lang));
+}
+
 /** Rutas estáticas del detalle para un idioma, con sus vecinos ya resueltos. */
 export async function getProjectPaths(lang: Lang) {
   const list = await getProjects(lang);
@@ -54,4 +62,35 @@ export async function getProjectPaths(lang: Lang) {
     params: { slug: project.slug },
     props: { project, ...neighbors(list, index) },
   }));
+}
+
+export type Experience = CollectionEntry<'experience'> & { lang: Lang; slug: string };
+
+let experienceCache: Promise<Experience[]> | undefined;
+
+/**
+ * Experiencia de un idioma, de más reciente a más antigua (05-pages/about.md).
+ * La lee /about.
+ */
+export async function getExperience(lang: Lang): Promise<Experience[]> {
+  experienceCache ??= (async () => {
+    const entries = await getCollection('experience', (entry) =>
+      isPublished(entry.data.draft, process.env.VERCEL_ENV),
+    );
+
+    // Ambos idiomas o el build falla, igual que projects (04-content-model.md).
+    const errors = missingTranslations(entries.map((entry) => entry.id));
+    if (errors.length > 0) {
+      throw new Error(
+        `Contenido de experience inválido (04-content-model.md):\n  - ${errors.join('\n  - ')}`,
+      );
+    }
+
+    return entries.map((entry) => ({ ...entry, ...parseProjectId(entry.id) }));
+  })();
+
+  const all = await experienceCache;
+  return all
+    .filter((entry) => entry.lang === lang)
+    .sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime());
 }

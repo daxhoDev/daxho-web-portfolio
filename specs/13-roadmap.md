@@ -52,7 +52,7 @@ pasaron de 23 a 26.
 
 ---
 
-## Fase 2 — Esqueleto del sitio · **L** · 🔍 EN REVISIÓN (PR #3)
+## Fase 2 — Esqueleto del sitio · **L** · ✅ COMPLETADA (PR #3)
 Rama: `feat/site-skeleton`
 
 **Prerrequisito cumplido (2026-09-14):** `06-components.md` y `05-pages/404.md`
@@ -112,7 +112,7 @@ deja de depender de esta.
 
 ---
 
-## Fase 4 — Contenido y proyectos · **L** · 🔍 EN REVISIÓN (PR #4)
+## Fase 4 — Contenido y proyectos · **L** · ✅ COMPLETADA (PR #4)
 Rama: `feat/projects`
 
 **Prerrequisito cumplido (2026-09-14):** `04-content-model.md`,
@@ -153,46 +153,132 @@ card.
 
 ---
 
-## Fase 5 — Home · **M**
+## Fase 5 — Home · **M** · ✅ COMPLETADA (PR #5)
 Rama: `feat/home`
+
+**Prerrequisito cumplido (2026-09-16):** `05-pages/home.md` pasa a APROBADA, con
+el texto del subtítulo y de la banda CTA, y la forma del hero y su indicador de
+scroll.
 
 Hero con boot sequence encadenada + typing · about breve · carrusel con los 25 ·
 tres destacados (misma `ProjectCard`) · banda CTA.
 
-Va **después** de las fases 3 y 4 porque depende de los iconos y de la colección
-de proyectos.
+Va **después** de la fase 4 porque depende de la colección de proyectos. (Los
+iconos, que eran la fase 3, se resolvieron en la fase 1.)
 
 **Entregable:** la portada completa. Es el momento de juzgar si el conjunto
 funciona.
 
+**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **82 tests unitarios** · **83 tests E2E** (69 + 14 del
+home) · **63,2 KB gzip** de los 75 KB, sin JS nuevo: las cuatro secciones son
+`.astro` · revisado en escritorio y móvil, en ambos temas e idiomas.
+
+**Riesgo a medir en la fase 9 — LCP.** `home.md` pide LCP < 2,0 s con el texto
+del hero como elemento LCP. En una primera visita el titular espera a la boot
+sequence (820 ms) y después se teclea (~2,2 s para la frase inglesa), así que los
+caracteres terminan de hacerse visibles hacia los 3 s. Cómo cuenta Chrome el LCP
+de un texto revelado carácter a carácter no está verificado. Si la medición lo
+confirma, las salidas razonables son que cuente el subtítulo, que es estático y
+se pinta de inmediato, o acortar el tecleo. No se decide nada sin medir.
+
 ---
 
-## Fase 6 — About y Resume · **M**
+## Fase 6 — About · **M** · ✅ COMPLETADA (PR #6)
 Rama: `feat/about-resume`
 
-Colección `experience` · `/about` (bio, foto, skills agrupadas, timeline) ·
-`/resume` con el botón de descarga del PDF arriba · hoja de estilos de impresión.
+**Prerrequisito cumplido (2026-09-16):** `05-pages/about.md` y `05-pages/resume.md`
+pasan a APROBADA. Decisiones: PDF de relleno con peso leído del archivo en el
+build; experiencia como colección MDX por idioma y formación e idiomas en
+archivos TS.
 
-**Acción del usuario:** el PDF del CV, uno por idioma (Q-G).
+**Cambio de alcance el mismo día:** se elimina `/resume`, que mostraba lo mismo
+que `/about`. El botón de descarga del CV va en `/about` tras la entradilla, y
+formación e idiomas pasan a `/about`. `resume.md` queda SUPERSEDED y la
+navegación pasa a 4 enlaces (`DEVIATIONS.md`).
+
+Colección `experience` · `/about` (bio, foto, botón del CV, skills agrupadas,
+timeline, formación, idiomas) · hoja de estilos de impresión.
+
+**Acción del usuario:** el PDF del CV, uno por idioma (Q-G). Hasta la fase 10 hay
+uno de relleno: basta con sustituir el archivo.
+
+**Revisión visual superada (2026-09-17):** el usuario da por buena la página.
+
+**Cierre real (2026-09-16):** lint limpio ·
+typecheck 0 errores · **97 tests unitarios** · **95 tests E2E** · **63,2 KB gzip**
+de los 75 KB, sin JS nuevo · 22 rutas (las 2 de `/resume` ya no existen).
+
+Comprobado que el build **falla** si falta un PDF del CV o una entrada de
+experiencia en español, y revisada la versión impresa generando el PDF con el
+navegador: sin cromo, negro sobre blanco y con todos los encabezados visibles.
+
+Hallazgo: **la hoja de impresión no puede fiarse del selector universal.** `*`
+no alcanza a los pseudo-elementos, y los nodos de la línea de tiempo y las
+viñetas salían en rojo en el papel. Corregido y cubierto por el test de
+impresión.
 
 ---
 
-## Fase 7 — Contacto · **M**
-Rama: `feat/contact` · ⚠️ **Bloqueada por Q38 y Q41**
+## Fase 7 — Contacto · **M** · ✅ COMPLETADA (PR #7)
+Rama: `feat/contact`
+
+**Prerrequisito cumplido (2026-09-16):** Q38 (honeypot + límite por IP con una
+regla del firewall de Vercel) y Q41 (sin persistencia) resueltas;
+`05-pages/contact.md` y `08-integrations.md` pasan a APROBADA. El formulario
+funciona sin JavaScript y el correo no se publica.
 
 `ContactForm` (nombre, correo, mensaje) · esquema Zod compartido cliente/servidor ·
 endpoint `POST /api/contact` · integración con Resend · estados de la interfaz ·
 enlaces directos como alternativa sin JS.
 
-**Acción del usuario:** crear la cuenta de Resend **con
+**Acción del usuario:** crear la **regla del firewall** en Vercel
+(`08-integrations.md`) y la cuenta de Resend **con
 `developer.daxho@gmail.com`** — el dominio de pruebas solo envía a la dirección de
 registro (ADR-0020). Y el filtro de "nunca a spam" en Gmail antes de la primera
 prueba.
 
+**Cierre real (2026-09-16), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **112 tests unitarios** (97 + 15 de validación, honeypot,
+correo y cliente de Resend) · **110 tests E2E** (95 + 15 de contacto y de la boot
+sequence) · home **63,2 KB gzip** sin cambios.
+
+**Revisión visual superada (2026-09-17):** el usuario da por buena la página.
+
+**Lo que estaba sin verificar, ya verificado (2026-09-17):** el envío real por
+Resend funciona —cuatro avisos llegados y leídos en Gmail, en la fase 11— y la
+**regla del firewall está configurada** en el panel de Vercel.
+
+Hallazgos de la implementación:
+
+1. **La boot sequence se mostraba sin JavaScript desde la fase 2**, incumpliendo
+   el requisito 2 de ADR-0019. El `<noscript>` escribía la regla como expresión
+   de Astro dentro de `<style>`; Astro no la evalúa y servía CSS inválido.
+   Destapado porque tapaba el botón de enviar en el test sin JS. Corregido, con
+   test de regresión que falla sin el arreglo.
+2. **Astro rechaza con 403 los POST de formulario sin `Origin` del sitio**
+   (protección CSRF activa por defecto). Es correcto y se mantiene; los tests
+   envían la cabecera como un navegador y uno comprueba el rechazo.
+3. **`/contact` pesa 84,9 KB gzip de JS**, 22 KB de ellos del formulario, sobre
+   todo por Zod completo en el cliente. El presupuesto de 75 KB rige solo para el
+   home, así que no incumple la spec. Queda anotado por si se quiere reducir.
+
 ---
 
-## Fase 8 — SEO y analytics · **M**
+## Fase 8 — SEO y analytics · **M** · ✅ COMPLETADA (PR #11)
 Rama: `feat/seo`
+
+**Prerrequisito cumplido (2026-09-17):** se cierran las cuatro decisiones que
+faltaban y se documentan donde corresponde.
+
+1. **OG con Satori + sharp en build**, no `@vercel/og` en ejecución (ADR-0016).
+   Satori no lee `woff2`, así que los TTF de JetBrains Mono entran en
+   `src/assets/fonts/` con su licencia, solo para el build.
+2. **Base oscura** para las OG (ADR-0016).
+3. **Textos de `title` y `description`** de `/projects`, `/contact` y del home
+   (provisional hasta la fase 10), aprobados y escritos en la spec de cada
+   página. La 404 no lleva `description`: es `noindex`.
+4. **La nota de cookies va en el footer**, en una línea (ADR-0015, `06-components.md`).
 
 Metadatos por página · JSON-LD (`Person`, `CreativeWork`, `BreadcrumbList`) ·
 `hreflang` verificado · sitemap y robots · **OG dinámicas por proyecto** generadas
@@ -200,9 +286,57 @@ en build · Vercel Web Analytics.
 
 Va al final porque necesita que todas las páginas existan.
 
+**Cierre real (2026-09-17), pendiente de tu revisión visual:** lint limpio ·
+typecheck 0 errores · **131 tests unitarios** (112 + 19 de SEO, OG y sitemap) ·
+**131 tests E2E** (110 + 21 de metadatos, JSON-LD, OG, robots, sitemap, la nota
+de cookies y el `<h1>` del HTML servido) · build correcto, con **13 PNG de OG** generados (6 proyectos × 2
+idiomas + la genérica) y un sitemap de **20 URL**, las públicas de los dos
+idiomas y solo esas.
+
+**JS del home: ~59,7 KB gzip** de los 75 KB. Son 58,4 KB de los cinco bundles de
+islas más 1,3 KB del script en línea de la analítica; el `script.js` de Vercel no
+cuenta porque lo sirve Vercel, no el build. (La cifra de 63,2 KB que anotaban las
+fases anteriores se midió de otra forma: estas dos no son comparables.)
+
+Hallazgos de la implementación:
+
+1. **Satori no lee `woff2`.** Es el único formato que sirve el sitio, así que la
+   fase incluye los TTF en `src/assets/fonts/` (ADR-0016). Verificado con el
+   error exacto: `Unsupported OpenType signature wOF2`.
+2. **El JSON-LD apuntaba a URL sin barra final**, mientras la canónica y el
+   sitemap sí la llevan. Para un buscador eran dos páginas distintas.
+   `absoluteUrl` normaliza, y respeta los archivos (`.png`, `.txt`), donde la
+   barra rompería el enlace.
+3. **El contenido `draft` no entra en el JSON-LD.** Un `sameAs` a `#` o una
+   universidad de relleno se publicarían como ciertos. Es regla escrita en
+   `seo.ts` y cubierta por un test.
+4. **Un título con `</script>` cerraría la etiqueta** y volcaría el resto del
+   JSON como HTML. `serializeJsonLd` escapa los `<` a `\u003c`, que sigue siendo
+   JSON válido. Con test que falla sin el arreglo.
+5. **`robots.txt` se genera en el build**, no vive en `public/`: la línea
+   `Sitemap:` necesita la URL absoluta, que sale de `SITE_URL`. Y no lleva
+   ningún `Disallow`: una página con `noindex` hay que dejarla rastrear para que
+   esa etiqueta se lea.
+6. **La barra de herramientas de desarrollo de Astro monta sus propios `<h1>`**
+   ("Audit", "Settings") dentro de un shadow DOM que los selectores de
+   Playwright atraviesan. Los tests de "un solo `<h1>`" de las fases anteriores
+   empezaron a ver cuatro sin que la página cambiara. Ahora cuentan dentro de
+   `main`, y el `<h1>` del **documento servido** —que es lo que lee un
+   rastreador, y no tiene toolbar— lo comprueba `seo.spec.ts` sobre el HTML.
+7. **La analítica se monta solo en producción.** En desarrollo el paquete carga
+   un `script.debug.js` de un dominio externo que no mide nada, y esa espera
+   retrasaba la página lo justo para que la boot sequence terminara antes de que
+   el test de tiempos la comprobara. Que el build de producción sí la lleve está
+   cubierto por un test sobre el HTML generado.
+
+**Pendiente de la fase 10:** la `description` del home es provisional, y las
+redes del footer siguen en placeholder, así que el `Person` aún no publica
+`sameAs`. **Pendiente de la fase 9:** medir con Lighthouse, incluido el efecto
+del script de analítica.
+
 ---
 
-## Fase 10 — Contenido real · **M** · va ANTES de la fase 9
+## Fase 10 — Contenido real · **M** · 🚧 EN CURSO · va ANTES de la fase 9
 Rama: `feat/real-content`
 
 Sustitución de todos los placeholders. **Revisión de layout obligatoria**: es
@@ -211,9 +345,132 @@ cuando aparecen los desbordes que el Lorem Ipsum ocultaba.
 **Acción del usuario:** textos, fotografía, datos y capturas de los 6 proyectos,
 redes del footer, formación e idiomas.
 
+### Avance (2026-09-17)
+
+**Primer proyecto real: Destinos Únicos.** El usuario pidió rellenarlo a partir
+de su repositorio, y los textos de los dos idiomas salen de leer ese código: no
+hay nada inventado sobre lo que el proyecto hace. `lorem-ipsum-one` pasa a
+`destinos-unicos` en las dos colecciones y en la carpeta de imágenes; los tests
+E2E que citaban el slug o el título viejos van con él.
+
+**Sigue en `draft: true`**, y debe seguir hasta que lleguen las capturas: el
+usuario las aporta. Lo único que falta de este proyecto son las tres imágenes
+—portada y dos de galería— y su texto alternativo.
+
+**Segundo proyecto real: Keily Mar — Portafolio fotográfico**
+(`lorem-ipsum-two` → `keilys-portfolio`), de `daxhoDev/keilys-portfolio`. Los
+textos salen del repositorio y sus decisiones de diseño; las capturas, del sitio
+en producción.
+
+**Las capturas las toma el agente**, no el usuario (decisión del 2026-09-17):
+Playwright abre el sitio en producción a 1600×900 y sharp las pasa a JPEG. Lo
+que no se puede capturar así queda dicho tal cual: el área privada de Destinos
+Únicos exige credenciales, y el pie de esa imagen describe lo que de verdad se
+ve.
+
+**CV real, en los dos idiomas (2026-09-18).** `public/resume/daxho-resume-en.pdf`
+y `-es.pdf` dejan de ser relleno. Contenido acordado con el usuario a partir de
+su CV anterior, de sus repositorios y de medidas reales de Lighthouse; maquetado
+en HTML con la rampa clara del sitio, JetBrains Mono para encabezados e Inter
+para el cuerpo, e impreso a PDF con Playwright. Una página por idioma.
+
+**Dos cosas quedaron fuera a propósito:** la ciudad y el teléfono (decisión del
+usuario), y **no se afirma una titulación que aún no existe** — la formación
+dice "titulación prevista en enero de 2027", que es la verdad.
+
+El generador **no vive en el repositorio**: por Q-G el PDF es un archivo estático
+mantenido por el usuario, y meter aquí un generador contradiría esa decisión.
+Está pendiente de que el usuario decida si quiere versionarlo (haría falta
+cambiar `05-pages/about.md`).
+
+**`/about` con contenido real (2026-09-18).** Entradilla y los tres párrafos de
+la biografía en los dos idiomas · la colección `experience` pasa a ser la de
+verdad —Xlynx, Destinos Únicos y Delicias Yordan, con sus fechas, sus logros y
+su stack— · `education.ts` con la Universidad de Holguín **en curso**, no
+titulada · `languages.ts` con español nativo e inglés intermedio alto declarado
+como autoevaluación.
+
+**Proyectos 3 y 4: La Cava Negra y Notaría 123** (`lorem-ipsum-three` y
+`lorem-ipsum-four`). Son las dos caras de una misma prueba técnica y por eso
+entran juntas: una vende ambiente a oscuras y la otra confianza a plena luz.
+Ambas están etiquetadas como prueba técnica, sin nombrar a la empresa. Las
+capturas salen de los sitios en producción, con las animaciones congeladas para
+que no se fotografíen a medio revelar.
+
+**Proyecto 5: US Northside Parts** (`lorem-ipsum-five`), la tienda de
+climatización y repuestos que el usuario construyó de cero. Su repositorio es
+**privado y de la organización del cliente**, así que la ficha se limita a lo
+que cualquiera puede ver en el sitio público —qué hace, cómo se compra, cómo se
+sigue un pedido— y **no enlaza código ni describe arquitectura interna ni
+dependencias** (decisión del usuario, 2026-09-18). Es el único proyecto con
+`liveUrl` y sin `repoUrl`, y el test de botones lo usa justamente para cubrir
+ese caso.
+
+Queda **1 proyecto**: Survey System, que espera a estar desplegado —el usuario
+prefiere capturas reales antes que diagramas—, más la fotografía, las redes y la
+entradilla de `/projects`. Delicias Yordan se queda en la experiencia laboral y
+no ocupa hueco en la galería.
+
+**Efecto colateral en los tests:** cada proyecto que se vuelve real obliga a
+revisar los E2E que lo citaban por título, por slug o por qué enlaces tiene. Los
+de `/styleguide` **no**: sus tarjetas llevan datos literales y no salen de la
+colección.
+
 Al terminar, **no puede quedar ningún `draft: true`**: la guarda de CI
 (`scripts/check-drafts.mjs`) sigue protegiendo cualquier PR hacia `master`, lo
 haga quien lo haga.
+
+### Inventario exacto de lo que hace falta (2026-09-17)
+
+Escrito al cerrar la fase 8, para que reunir el material no dependa de ir
+preguntando. Todo lo que aquí no se diga ya está resuelto en el código.
+
+**1. Los 6 proyectos** — `src/content/projects/{en,es}/{slug}.mdx`, el **mismo
+slug** en los dos idiomas (12 archivos). Por cada uno:
+
+| Campo | Obligatorio | Nota |
+|---|---|---|
+| `title` | sí | |
+| `summary` | sí | **máximo 160 caracteres**: es la `description` de la página |
+| `cover` / `coverAlt` | sí | captura principal **16:9** y su texto alternativo |
+| `gallery` | no | lista de `{ image, alt, caption? }` |
+| `stack` | sí | claves del catálogo (`10-tech-catalog.md`); una clave que no exista **rompe el build** |
+| `liveUrl` / `repoUrl` | no | sin `liveUrl` no se pinta "Open project" |
+| `featured` + `featuredOrder` | sí en 3 | **exactamente 3** por idioma, con orden 1-2-3 |
+| `order` | sí | orden de la galería |
+| `year`, `role`, `status` | `role` opcional | `status`: `live`, `archived` o `wip` |
+| `draft` | sí | pasa a `false` |
+
+El cuerpo MDX empieza en `##`: el `#` de la página es el título del proyecto.
+
+**2. Capturas** — en `src/assets/projects/{slug}/`, sustituyendo los SVG de
+relleno. **16:9** (1600×900 va sobrado; el ancho útil máximo son 1200 px), PNG o
+JPG: Astro genera AVIF y WebP en el build.
+
+**3. Experiencia** — `src/content/experience/{en,es}/{slug}.mdx`: `company`,
+`role`, `startDate`, `endDate` (`null` = actualidad), `location`, `type`
+(`full-time`, `contract` o `freelance`), `highlights` (mínimo uno), `stack`,
+`draft: false`, y el cuerpo con el párrafo de contexto.
+
+**4. Formación** — `src/content/education.ts`: institución, titulación en los dos
+idiomas, año de inicio y de fin (`null` si sigue en curso).
+
+**5. Idiomas hablados** — `src/content/languages.ts`: nombre y nivel, en los dos
+idiomas.
+
+**6. Redes** — `src/content/social.ts`: nombre y URL reales. Hasta que dejen de
+ser `draft`, el `Person` del JSON-LD **no publica `sameAs`** (ADR-0016).
+
+**7. Fotografía** — sustituye `src/assets/profile/placeholder.svg`, y su texto
+alternativo va en `home.about.photoAlt`.
+
+**8. CV en PDF** — `public/resume/daxho-resume-en.pdf` y `-es.pdf`. Basta con
+sustituir los archivos: el peso que se enseña se lee del archivo en el build, y
+si falta uno el build falla.
+
+**9. Textos de `src/i18n/ui.ts`**, en los dos idiomas — todos marcados con
+`TODO(fase 10)`: `home.about.text`, `home.description` (hoy provisional),
+`projects.intro`, `about.intro` y `about.bio.1..3`.
 
 ---
 
@@ -233,6 +490,69 @@ y lo hace el usuario (Q-P).
 
 ---
 
+## Fase 11 — Plantillas de correo · **S** · ✅ COMPLETADA (PR #10)
+Rama: `feat/email-templates`
+
+Añadida el 2026-09-16 a petición del usuario, sin fecha. El 2026-09-17 el usuario
+pide empezarla, **antes que la fase 8**: solo depende de la fase 7, así que el
+orden de las fases 8, 10 y 9 no cambia.
+
+**Prerrequisito cumplido (2026-09-17):** `14-email.md` pasa a APROBADA. Q-Q ya
+estaba resuelta (2026-09-16): base clara con variante oscura. Al aprobarla se
+cerraron las dos vías que la spec dejaba abiertas: **estilos en línea** desde
+`theme.ts` (no el componente `Tailwind`, que duplicaría la configuración de
+colores) y **sin previsualización local**: la revisión se hace sobre envíos
+reales a la bandeja de Daxho, que ejercitan el camino de producción entero.
+
+Aviso del formulario con React Email siguiendo la estética del sitio (ADR-0022) ·
+`EmailLayout` + `ContactNotification` · colores en literales con test contra los
+tokens · envío de `html` y `text` · si la plantilla falla, se envía el texto plano.
+
+**Entregable:** un aviso real recibido en Gmail web y en la app móvil, legible en
+claro y en oscuro.
+
+**Acción del usuario:** leer ese envío de prueba en los dos clientes y en los dos
+modos, que es la verificación que no se puede automatizar.
+
+**Verificación manual superada (2026-09-17):** el usuario leyó los cuatro
+envíos reales y los dio por buenos —*"Los correos funcionando"*—, que era la
+única comprobación que no se podía automatizar. Con eso, los cinco criterios de
+aceptación de `14-email.md` quedan cumplidos.
+
+**Cierre real (2026-09-17):** lint limpio ·
+typecheck 0 errores · **144 tests unitarios** (112 + 32 de contenido, escapado,
+saltos de línea, modo oscuro, colores contra `tokens.css` y caída a texto plano)
+· **110 tests E2E** sin cambios · build correcto · **cuatro envíos reales
+aceptados por Resend** (mensaje corto, saltos de línea desde la página inglesa,
+intento de HTML con acentos, y nombre y URL larguísimos).
+
+El sitio **no gana ni un byte de JavaScript**: el home carga los mismos cinco
+bundles de islas y nada de `src/emails/` aparece en `_astro/*.js` (comprobado por
+búsqueda). Lo que crece es la función del endpoint, como anticipaba ADR-0022:
+`react-email` arrastra prettier, tailwindcss, css-tree, marked y html-to-text,
+unos **2,6 MB** sobre los 25 MB que ya ocupaba —18 de ellos de `sharp`—, muy
+lejos del límite de Vercel.
+
+Hallazgos de la implementación:
+
+1. **El paquete cambió de nombre.** `@react-email/components` está deprecado en
+   npm en todas sus versiones, junto con los 19 paquetes por componente. En la
+   versión 6 los componentes viven en `react-email`, que es lo que documenta hoy
+   react.email. Propagado a `14-email.md`.
+2. **El `export` del CLI de React Email no escribe nada.** Era el candidato
+   natural para la previsualización: anuncia `✔ Rendered all files` y después
+   falla con `ENOENT` sobre el directorio de salida, que nunca crea. Con eso y
+   con que Node no interpreta JSX, la previsualización local se descartó y la
+   revisión pasó a hacerse sobre envíos reales (`14-email.md`).
+3. **Dos hijos de texto seguidos meten un comentario en medio.** React separa
+   los nodos de texto adyacentes con `<!-- -->` al renderizar, así que
+   `Enviado desde ... {siteUrl}` llegaba partido. La frase se compone en JS.
+4. **La variante oscura necesita `!important`.** El `<style>` del `<Head>` pierde
+   siempre contra el atributo `style`, y sin eso el modo oscuro no se vería en
+   ningún cliente. Cubierto por un test.
+
+---
+
 ## Regla transversal
 
 Cada fase incluye **sus tests** (`09-testing.md`) y no se da por cerrada sin
@@ -244,6 +564,8 @@ cumplir la definición de "hecho". Sin tests, la fase no está terminada.
 F1 ──> F2 ──┬─> F4 ──> F5 ──┐
             ├─> F6 ─────────┼─> F8 ──> F10 ──> F9
             └─> F7 ─────────┘
+                    │
+                    └─> F11 (sin fecha, cuando el usuario lo pida)
 ```
 
 F4, F6 y F7 son independientes entre sí una vez cerrada F2: si en algún momento
@@ -251,6 +573,7 @@ se quiere reordenar por disponibilidad de contenido, se puede.
 (F3 eliminada: resuelta dentro de F1.)
 F10 va antes que F9: la auditoría se hace sobre el contenido real (Q-P).
 El plan termina en `development`; `master` lo gestiona el usuario.
+F11 cuelga solo de F7 y no bloquea ni depende de las demás.
 
 ## Lo que puede desbloquearse en paralelo desde ya
 
@@ -258,6 +581,5 @@ Acciones del usuario que no dependen de ninguna fase y que conviene ir haciendo:
 
 1. Crear el proyecto en Vercel.
 2. Crear la cuenta de Resend con `developer.daxho@gmail.com`.
-3. Decidir Q38 (anti-spam) y Q41 (persistencia).
-4. Reunir el contenido real: textos, foto, datos y capturas de los proyectos,
+3. Reunir el contenido real: textos, foto, datos y capturas de los proyectos,
    redes, PDF del CV.

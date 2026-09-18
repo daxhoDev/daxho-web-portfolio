@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  featuredProjects,
   isPublished,
   neighbors,
   parseProjectId,
@@ -78,6 +79,18 @@ describe('sortProjects', () => {
     const list = [entry('en/b', { order: 2 }), entry('en/a', { order: 1 })];
     sortProjects(list);
     expect(list.map((e) => e.id)).toEqual(['en/b', 'en/a']);
+  });
+});
+
+describe('featuredProjects', () => {
+  it('devuelve solo los destacados, ordenados por featuredOrder y no por order', () => {
+    const result = featuredProjects([
+      entry('en/a', { order: 1, featured: true, featuredOrder: 3 }),
+      entry('en/b', { order: 2, featured: false }),
+      entry('en/c', { order: 3, featured: true, featuredOrder: 1 }),
+      entry('en/d', { order: 4, featured: true, featuredOrder: 2 }),
+    ]);
+    expect(result.map((e) => e.id)).toEqual(['en/c', 'en/d', 'en/a']);
   });
 });
 

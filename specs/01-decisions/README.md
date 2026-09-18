@@ -27,3 +27,4 @@ apuntando al nuevo, y se registra en `../DEVIATIONS.md`.
 | 0019 | Pantalla de carga: boot sequence acotada | APROBADA |
 | 0020 | Correo: Resend con dominio de pruebas | APROBADA |
 | 0021 | Proceso de diseño: ruta /styleguide | APROBADA |
+| 0022 | Plantillas de correo con React Email (fase 11) | APROBADA |

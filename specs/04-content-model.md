@@ -88,7 +88,7 @@ cada card y la sección de skills.
 | `label` | string | nombre visible, ej. `React` |
 | `icon` | string \| null | slug de Simple Icons; `null` si el icono es propio (Playwright). Silueta sólida, ver `02-design-system.md` §6 |
 | `category` | enum | `language` · `framework` · `tool` · `platform` |
-| `inCarousel` | boolean | hoy `true` en las 25 (Q-K: el carrusel muestra todas); se conserva por si se vuelve a filtrar |
+| `inCarousel` | boolean | hoy `true` en todas (Q-K: el carrusel muestra todas); se conserva por si se vuelve a filtrar |
 
 Lista concreta de tecnologías: ver `10-tech-catalog.md`.
 Iconos: trazados oficiales de Simple Icons, dibujados a mano solo los que falten
@@ -98,27 +98,49 @@ Iconos: trazados oficiales de Simple Icons, dibujados a mano solo los que falten
 
 ## Colección: `experience`
 
-Para la página `/about` y la página `/resume`.
+Para la página `/about`.
 
-| Campo | Tipo | Req. |
-|---|---|---|
-| `company` | string | sí |
-| `role` | string | sí |
-| `startDate` | date | sí |
-| `endDate` | date \| null | sí (`null` = actualidad) |
-| `location` | string | no |
-| `type` | enum: `full-time`·`contract`·`freelance` | sí |
-| `highlights` | array de string | sí |
-| `stack` | array de string | no |
+Un archivo MDX por entrada e idioma: `src/content/experience/{lang}/{slug}.mdx`,
+como `projects` y **con la misma regla: ambos idiomas o el build falla**
+(decidido 2026-09-16). Se ordena por `startDate` descendente.
+
+| Campo | Tipo | Req. | Notas |
+|---|---|---|---|
+| `company` | string | sí | |
+| `role` | string | sí | |
+| `startDate` | date | sí | |
+| `endDate` | date \| null | sí | `null` = actualidad |
+| `location` | string | no | |
+| `type` | enum: `full-time`·`contract`·`freelance` | sí | |
+| `highlights` | array de string | sí | |
+| `stack` | array de string | no | validadas contra el catálogo |
+| `draft` | boolean | sí | por defecto `true` |
+| `translatedByAgent` | boolean | no | |
 
 Cuerpo: descripción opcional en MDX.
 
 ---
 
+## Formación, idiomas y redes
+
+Datos cortos sin cuerpo largo: **archivos TypeScript tipados**, como `tech.ts`
+(decidido 2026-09-16), con los textos traducibles en los dos idiomas y
+`draft: true` en cada entrada de relleno.
+
+- `src/content/education.ts` — institución, título, años.
+- `src/content/languages.ts` — idioma y nivel.
+- `src/content/social.ts` — redes del footer.
+
+La guarda de CI (`scripts/check-drafts.mjs`) también revisa estos archivos: un
+`draft: true` en ellos bloquea igual un PR a `master`.
+
+---
+
 ## Skills
 
-`src/content/skills.ts`, agrupadas por categoría, referenciando claves del
-catálogo de tecnologías.
+`src/content/skills.ts`, con los seis grupos de `10-tech-catalog.md` (Lenguajes,
+Frontend, Backend, Datos, Infraestructura, Herramientas), referenciando claves del
+catálogo de tecnologías. Toda clave debe existir en el catálogo.
 
 **Solo agrupación, sin nivel de dominio** (Q-D resuelta, ver
 `05-pages/about.md`).

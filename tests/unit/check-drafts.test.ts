@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isDraft } from '../../scripts/check-drafts.mjs';
+import { isDraft, tsHasDrafts } from '../../scripts/check-drafts.mjs';
 
 /**
  * Guarda de CI de la regla de drafts (04-content-model.md, DEVIATIONS.md).
@@ -31,5 +31,23 @@ describe('isDraft', () => {
 
   it('un archivo sin frontmatter se bloquea', () => {
     expect(isDraft('Solo cuerpo')).toBe(true);
+  });
+});
+
+/**
+ * Archivos TS de contenido (education.ts, languages.ts, social.ts): sin esquema
+ * con valor por defecto, cada entrada de relleno lleva `draft: true` explícito.
+ */
+describe('tsHasDrafts', () => {
+  it('detecta una entrada de relleno', () => {
+    expect(tsHasDrafts("{ name: 'GitHub', href: '#', draft: true },")).toBe(true);
+  });
+
+  it('pasa un archivo con todo publicado', () => {
+    expect(tsHasDrafts("{ name: 'GitHub', href: 'https://github.com/x', draft: false },")).toBe(false);
+  });
+
+  it('pasa un archivo sin el campo, como tech.ts', () => {
+    expect(tsHasDrafts("{ key: 'react', label: 'React' },")).toBe(false);
   });
 });

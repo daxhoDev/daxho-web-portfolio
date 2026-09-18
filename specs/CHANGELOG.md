@@ -3,6 +3,347 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-18] Quinto proyecto: US Northside Parts, con el freno puesto
+
+- **Contenido:** `lorem-ipsum-five` pasa a `us-northside-parts`. Es el proyecto
+  más grande del usuario y **el único cuyo repositorio no es suyo**: privado, de
+  la organización del cliente.
+- **Regla aplicada:** la ficha cuenta solo lo que enseña el sitio público y no
+  enlaza el código. Nada de arquitectura interna ni de dependencias, aunque las
+  tenga a la vista quien construyó el proyecto. Decisión del usuario tras
+  plantearle el conflicto entre autoría y permiso.
+- **Tests:** aparece el caso "enlace vivo sin repositorio", que antes no existía
+  en la galería; el de "ninguna de las dos URL" pasa al último relleno.
+
+## [2026-09-18] `/about` real y dos proyectos más
+
+- **`/about`:** entradilla y biografía reales en los dos idiomas, experiencia
+  laboral con las tres entradas verdaderas, formación **en curso** (la
+  titulación llega en enero de 2027 y no se adelanta) e idiomas con el nivel de
+  inglés declarado como autoevaluación.
+- **Proyectos:** `la-cava-negra` y `notaria-123` sustituyen a los rellenos tres
+  y cuatro, con capturas del sitio en producción.
+- **Tests E2E:** el caso "sin `liveUrl`" pasa a `lorem-ipsum-five`, que es hoy
+  el único relleno que lo representa, y el resto de fixtures siguen a los slugs
+  nuevos.
+
+## [2026-09-18] El CV deja de ser relleno
+
+- **`public/resume/`:** los dos PDF son ya el CV real del usuario, uno por
+  idioma y de una página. El contenido sale de su CV anterior, de sus
+  repositorios y de Lighthouse; la maqueta, de la rampa clara del sitio.
+- **`13-roadmap.md`:** la fase 10 anota el CV como hecho, qué se dejó fuera a
+  propósito (ciudad y teléfono) y que **no se afirma una titulación que aún no
+  existe**.
+- El generador del PDF se queda **fuera del repositorio** mientras Q-G diga que
+  el CV es un archivo estático mantenido por el usuario.
+- **Segunda pasada el mismo día**, a petición del usuario: se presenta como
+  **Software Engineer**, el copy pasa de tareas a resultados, el resumen deja de
+  citar el número de proyectos, y entran arquitectura e ingeniería asistida por
+  IA entre las competencias. Cada enlace lleva su icono de destino **en SVG**,
+  no en texto, para no ensuciar lo que extrae un ATS.
+- **Verificado con un extractor real** (`pdfjs-dist`), no a ojo: el
+  `letter-spacing` de los encabezados hacía que el texto saliera como
+  "E X P E R I E N C E" y el prompt de la marca se colaba dentro del nombre. Se
+  quitó el primero y el segundo pasó a ser un SVG. Las cinco secciones se
+  extraen ahora limpias en los dos idiomas.
+
+## [2026-09-18] Segundo proyecto real: el portafolio de Keily Mar
+
+- **Contenido:** `lorem-ipsum-two` pasa a `keilys-portfolio`, con textos en los
+  dos idiomas sacados del repositorio y de sus decisiones de diseño, y tres
+  capturas tomadas del sitio en producción: portada, galería con filtros por
+  tono y el lightbox escrito a mano.
+- **Tests E2E:** el caso de "solo `liveUrl`, sin `repoUrl`" ya no existe entre
+  los proyectos reales, así que la prueba de "cada botón solo si existe su URL"
+  pasa a cubrir los tres casos con los proyectos que hoy los representan.
+- **`13-roadmap.md`:** avance de la fase 10 y la regla de que cada proyecto que
+  se vuelve real obliga a revisar los E2E que lo citaban.
+
+## [2026-09-17] Capturas reales de Destinos Únicos y Cloudinary en el catálogo
+
+- **Capturas:** tomadas del sitio en producción con Playwright a 1600×900 y
+  convertidas a JPEG con sharp (114, 69 y 59 KB). Portada, catálogo con sus
+  filtros por ocasión y la ficha de un regalo con el botón que arranca el pedido
+  por WhatsApp. **El área privada no se pudo capturar**: exige credenciales, así
+  que el pie de la segunda imagen dice lo que de verdad se ve.
+- **Cloudinary entra en el catálogo** (`DEVIATIONS.md`): 26 tecnologías, icono de
+  Simple Icons, grupo de infraestructura, y añadida al `stack` del proyecto.
+  Q34 —catálogo cerrado en 25— queda derogada y el catálogo pasa a estar abierto
+  a añadidos del usuario.
+- **El proyecto sigue en `draft: true`,** ahora por un motivo distinto: ya no le
+  faltan ni textos ni imágenes, sino que la validación del conjunto exige 3
+  destacados por idioma y los otros 5 proyectos siguen siendo relleno.
+
+## [2026-09-17] Primer proyecto real y cierre de las fases 6, 7, 8 y 11
+
+Las dos PRs (fases 8 y 11) quedan mergeadas en `development`, el usuario da por
+buenas `/about` y `/contact`, confirma que la regla del firewall está puesta, y
+pide rellenar el primer proyecto con su repositorio `destinos-unicos-landing-page`.
+
+- **`13-roadmap.md`:** las fases 6, 7, 8 y 11 pasan a COMPLETADA; la 10 pasa a
+  EN CURSO y anota qué se ha rellenado y qué falta.
+- **Contenido:** `lorem-ipsum-one` pasa a `destinos-unicos` en las dos
+  colecciones y en `src/assets/projects/`. Los textos de los dos idiomas salen
+  de leer el repositorio del proyecto. **Sigue en `draft: true`**: faltan las
+  capturas, que aporta el usuario.
+- **Tests E2E:** los que citaban el slug o el título antiguos pasan al nuevo. La
+  comprobación de "títulos propios en español" se mueve al segundo proyecto,
+  porque "Destinos Únicos" es un nombre propio y no se traduce.
+- **`OPEN-QUESTIONS.md`:** la regla del firewall queda cerrada como acción hecha.
+
+## [2026-09-17] Fase 11 verificada a mano: los correos se leen bien
+
+El usuario revisó los cuatro envíos reales en Gmail y los dio por buenos
+(*"Los correos funcionando"*). Era la única comprobación que no se puede
+automatizar, y con ella la fase queda cerrada.
+
+- **`14-email.md`:** los cinco criterios de aceptación pasan a cumplidos, cada
+  uno con su fuente: la revisión del usuario o el test que lo cubre.
+- **`13-roadmap.md`:** la fase 11 pasa a COMPLETADA, pendiente solo del merge.
+
+## [2026-09-17] Inventario de contenido de la fase 10
+
+Al cerrar la fase 8, la única fase que queda por delante depende por completo de
+material del usuario. `13-roadmap.md` gana el **inventario exacto** de lo que
+hace falta —los 9 bloques, con los campos obligatorios de cada archivo, el
+límite de 160 caracteres del `summary`, el 16:9 de las capturas y la regla de
+los 3 destacados por idioma—, para que reunirlo no dependa de ir preguntando.
+
+## [2026-09-17] Fase 8 — SEO y analytics
+
+Implementación de la fase 8, sin cambios de decisión.
+
+- **`13-roadmap.md`:** cierre real de la fase (131 unitarios, 131 E2E, 13 OG,
+  sitemap de 20 URL, ~59,7 KB de JS en el home) y seis hallazgos: el `woff2` que
+  Satori no lee, las URL sin barra final en el JSON-LD, la regla de que el
+  contenido `draft` no entra en datos estructurados, el escapado de `<` para que
+  un título no cierre el `<script>`, el `robots.txt` generado en el build y los
+  `<h1>` que la barra de desarrollo de Astro añade en el shadow DOM.
+- **ADR-0015:** la analítica **solo se monta en producción**; en desarrollo su
+  script de depuración no mide nada y su espera desestabilizaba los tests.
+- **`OPEN-QUESTIONS.md`:** el proyecto de Vercel queda cerrado como acción hecha.
+
+## [2026-09-17] Decisiones de la fase 8 (SEO y analytics)
+
+Cuatro decisiones del usuario antes de implementar, más una comprobación del
+entorno.
+
+- **ADR-0016:** las OG dinámicas se generan en el build con **Satori + sharp**,
+  no con `@vercel/og` en ejecución, y se dibujan sobre la **base oscura**.
+  Satori **no lee `woff2`** (verificado: `Unsupported OpenType signature wOF2`),
+  así que los TTF de JetBrains Mono entran en `src/assets/fonts/` con su licencia
+  OFL, para uso exclusivo del build.
+- **ADR-0015:** la nota de "sin cookies" va en **una línea del footer**, con los
+  textos exactos en los dos idiomas. Propagado a `06-components.md`.
+- **`05-pages/projects.md` y `05-pages/contact.md`:** ganan sección de SEO con
+  `title` y `description` aprobados. `projects` deja de usar su entradilla de
+  Lorem Ipsum como `description`.
+- **`05-pages/home.md` y `05-pages/about.md`:** `description` aprobada; la del
+  home es **provisional** hasta la fase 10.
+- **`05-pages/404.md`:** no lleva `description`, por `noindex`.
+- **`OPEN-QUESTIONS.md`:** el proyecto de Vercel ya existe; la acción del usuario
+  queda cerrada.
+
+## [2026-09-17] Fase 11 — Plantillas de correo
+
+Implementación de la fase 11. Un cambio de decisión y dos hallazgos que tocan a
+las specs.
+
+- **`14-email.md`:** el paquete es **`react-email`**, no `@react-email/components`
+  —deprecado en npm en todas sus versiones—; `src/emails/render.ts` es la entrada
+  del render, y el idioma de la página y `SITE_URL` llegan cerrados desde la ruta.
+- **`14-email.md` y `13-roadmap.md`:** **sin previsualización local** (decisión
+  del usuario, el mismo día): el `export` del CLI de React Email no escribe nada
+  y un script propio obligaría a añadir un transformador de TSX, porque Node no
+  interpreta JSX. La revisión se hace sobre envíos reales, que además ejercitan
+  el camino de producción entero.
+- **`13-roadmap.md`:** cierre real de la fase, con los cuatro envíos de prueba,
+  el crecimiento de la función del endpoint y los hallazgos de React (el
+  `<!-- -->` entre textos adyacentes y el `!important` de la variante oscura).
+- **`06-components.md`:** acota su alcance a `src/components/`. Su regla 2
+  prohíbe los colores literales en un componente, y `src/emails/` los usa por
+  obligación; sin esta línea las dos specs se contradecían.
+
+## [2026-09-17] Aprobada `14-email.md` y arranca la fase 11
+
+El usuario pide empezar la fase 11 antes que la fase 8 y aprueba la spec tal
+cual, cerrando las dos vías que quedaban abiertas dentro de ella.
+
+- **`14-email.md` (APROBADA):** estilos **en línea** desde `src/emails/theme.ts`
+  —se descarta el componente `Tailwind` de React Email, que duplicaría la
+  configuración de colores y puede emitir selectores que algunos clientes
+  descartan— y **sin previsualización local**: la revisión se hace sobre envíos
+  reales a la bandeja de Daxho. La media query oscura va en un `<style>` del
+  `<Head>`, porque `@media` no cabe en un atributo `style`.
+- **ADR-0022:** anota que el servidor de previsualización que se cita como
+  ventaja de React Email no se instala.
+- **`13-roadmap.md`:** la fase 11 pasa a EN CURSO, con el prerrequisito cumplido.
+- **`03-architecture.md`:** `src/emails/render.ts` es la entrada del render.
+- **`OPEN-QUESTIONS.md`:** no queda ninguna spec en BORRADOR.
+- Verificado antes de aprobar: los 12 colores de la spec coinciden exactamente
+  con `src/styles/tokens.css`; `@react-email/components@1.0.12` declara peer
+  `react ^19`, compatible con el `react@19.2.8` del proyecto; y el idioma del
+  visitante ya viaja en el formulario (`input.lang` en `src/pages/api/contact.ts`),
+  así que el punto 3 del contenido no obliga a tocar `05-pages/contact.md`.
+
+## [2026-09-16] Q-Q resuelta: correos con base clara y variante oscura
+
+Decisión del usuario: opción (a). No queda ninguna pregunta abierta.
+
+- **`14-email.md`:** la sección de Q-Q pasa a ser la decisión, con los colores
+  exactos de cada tema tomados de `tokens.css` y la aceptación de que los
+  clientes que invierten colores (Gmail móvil) deciden el resultado sobre la base
+  clara.
+- **`13-roadmap.md`:** a la fase 11 solo le queda aprobar `14-email.md`.
+- **`OPEN-QUESTIONS.md`:** Q-Q pasa a resueltas.
+
+## [2026-09-16] Plantillas de correo: ADR-0022, `14-email.md` y fase 11
+
+Petición del usuario: especificar el paso a correos HTML con React Email
+siguiendo la estética del sitio, como etapa para más adelante.
+
+- **ADR-0022 (APROBADA):** React Email frente a mantener texto plano, HTML a mano
+  o MJML. Modifica la regla de formato de ADR-0020, efectiva en la fase 11 →
+  `DEVIATIONS.md`.
+- **`14-email.md` (BORRADOR):** una plantilla (el aviso a Daxho), su contenido,
+  la traducción de la estética del sitio a lo que soportan los clientes de correo
+  (colores en literales con test contra los tokens, fuentes del sistema, sin
+  animación, píxeles), seguridad (escapado, sin `dangerouslySetInnerHTML`), envío
+  de `html` + `text` con caída a texto plano si falla el render, y verificación
+  manual en Gmail web y móvil.
+- **`13-roadmap.md`:** nueva **fase 11**, sin fecha, que solo depende de la 7.
+- **`OPEN-QUESTIONS.md`:** nueva **Q-Q** (tema claro u oscuro del correo), que
+  bloquea la fase 11.
+- Verificado antes de escribir la spec, en la documentación de React Email:
+  `render()` es asíncrono y ofrece `plainText`; su componente `Tailwind` soporta
+  v4, recomienda píxeles y no soporta selectores complejos ni `hover`. Gmail no
+  carga fuentes web.
+- Propagado a ADR-0020, `03-architecture.md`, `08-integrations.md`,
+  `05-pages/contact.md` y los dos índices.
+
+## [2026-09-16] Fase 7 — Contacto
+
+Implementación de la fase 7, sin cambios de decisión.
+
+- **`05-pages/contact.md`:** documenta la protección CSRF de Astro sobre el
+  endpoint y la lectura de secretos con `astro:env/server`.
+- **ADR-0019:** anota que el requisito 2 (sin JS no se muestra el overlay) estuvo
+  incumplido desde la fase 2 por un `<style>` con una expresión que Astro no
+  evalúa. Corregido con test de regresión.
+- **`13-roadmap.md`:** cierre real de la fase, lo que queda sin verificar (envío
+  real y regla del firewall, que dependen de tus cuentas) y el peso de JS de
+  `/contact`.
+
+## [2026-09-16] Aprobadas las specs de la fase 7
+
+`05-pages/contact.md` y `08-integrations.md` pasan de BORRADOR a APROBADA.
+Verificaciones previas y decisiones del usuario:
+
+- **Resend verificado** en su documentación: el dominio de pruebas solo envía a la
+  dirección de la cuenta (403 con otra). Era la condición de ADR-0020.
+- **Límite por IP: regla del firewall de Vercel**, configurada en el panel
+  (3 peticiones por IP cada 10 minutos). Disponible en Hobby. Su definición
+  completa vive en `08-integrations.md`, porque no está en el repositorio.
+- **El formulario funciona sin JavaScript**: `<form>` HTML real mejorado por la
+  isla; sin JS, el endpoint redirige a `/contact/sent` o `/contact/error`. Con
+  eso **se elimina el correo directo** como alternativa, que contradecía el
+  anti-spam.
+- **Frase de la página en voz de terminal:** `> ready when you are. Tell me about
+  your project.`
+
+`07-conventions.md` regla 10 pierde su excepción: el sitio entero, formulario
+incluido, funciona sin JavaScript.
+
+Desfases corregidos: `08-integrations.md` hablaba de la analítica "si se aprueba"
+(ADR-0015 la aprobó); ADR-0020 pedía verificar Resend (hecho) y usaba un asunto
+`[Portfolio] {asunto}` para un formulario sin campo de asunto.
+
+## [2026-09-16] Q38 y Q41 resueltas
+
+Decisiones del usuario. No queda ninguna pregunta abierta en `OPEN-QUESTIONS.md`.
+
+- **Q38 — anti-spam: (b) honeypot + límite de envíos por IP.** `contact.md`
+  describe el honeypot (campo fuera de pantalla, inaccesible por teclado y lector
+  de pantalla, respuesta de éxito falsa al bot). Queda por concretar cómo se
+  implementa el límite en Vercel, donde las ejecuciones no comparten memoria.
+- **Q41 — persistencia: (a) no.** El correo es el único registro.
+- Propagado a `05-pages/contact.md`, ADR-0004 (decía "anti-spam pendiente") y
+  `13-roadmap.md`: la fase 7 deja de estar bloqueada por estas preguntas; le
+  falta aprobar `contact.md` y `08-integrations.md`.
+
+## [2026-09-16] Se elimina `/resume`: el CV se descarga desde `/about`
+
+Decisión del usuario, registrada en `DEVIATIONS.md`: *"about y resume muestran lo
+mismo"*. Antes de mergear la fase 6.
+
+- `about.md` absorbe el botón de descarga (tras la entradilla), las reglas del PDF,
+  formación, idiomas y la hoja de impresión. Perfil y contacto se eliminan.
+- `resume.md` pasa a SUPERSEDED, con una tabla de adónde fue cada bloque.
+- Navegación de 5 a 4 enlaces: `06-components.md`, Q-N en `OPEN-QUESTIONS.md`.
+- Propagado a `05-pages/README.md`, `03-architecture.md`, `04-content-model.md` y
+  `13-roadmap.md` (la fase 6 pasa a llamarse "About").
+
+## [2026-09-16] Aprobadas las specs de la fase 6
+
+`05-pages/about.md` y `05-pages/resume.md` pasan de BORRADOR a APROBADA.
+Decisiones del usuario:
+
+- **PDF del CV:** uno de relleno por idioma hasta la fase 10. El texto del botón
+  muestra formato, idioma y peso leído del archivo al compilar; si falta un PDF,
+  el build falla.
+- **Contacto en `/resume`:** GitHub, LinkedIn y enlace al formulario. **Sin
+  correo** publicado.
+- **Datos:** experiencia como colección MDX por idioma (misma regla de ambos
+  idiomas que `projects`); formación, idiomas y redes como archivos TS tipados.
+
+Consecuencias propagadas:
+- `04-content-model.md`: estructura por idioma y campos `draft` y
+  `translatedByAgent` en `experience`; nueva sección para formación, idiomas y
+  redes; los grupos de skills son los de `10-tech-catalog.md`.
+- `src/content/social.ts` pasa a ser la fuente única de las redes, que hasta
+  ahora vivían escritas dentro del footer.
+- La guarda de drafts de CI se extiende a los archivos TS de contenido: de lo
+  contrario el relleno de formación, idiomas y redes podría llegar a `master`
+  sin que nada lo detectara.
+- `resume.md`: la hoja de impresión fuerza visibles los encabezados tecleados.
+- `13-roadmap.md`: fase 5 completada (PR #5), fase 6 en curso.
+
+## [2026-09-16] Fase 5 — Home
+
+Implementación de la fase 5. Sin cambios de decisión; se documenta:
+
+- **`13-roadmap.md`:** cierre real de la fase y un **riesgo de LCP** a medir en la
+  fase 9. En la primera visita el titular espera a la boot sequence y después se
+  teclea, y no está verificado cómo cuenta Chrome el LCP de un texto revelado
+  carácter a carácter.
+- **Nota de accesibilidad conocida:** en español, la lista del carrusel y las
+  filas de stack de las cards comparten el nombre accesible "Tecnologías". Son
+  listas distintas en secciones con encabezados distintos, así que no se ha
+  cambiado; queda anotado por si la auditoría de la fase 9 lo señala.
+
+## [2026-09-16] Aprobada la spec de la fase 5
+
+`05-pages/home.md` pasa de BORRADOR a APROBADA. Decisiones del usuario:
+
+- **Hero** a pantalla completa bajo el header, con un enlace estático `scroll ↓`.
+- **Subtítulo:** `Software Engineer · full-stack web` /
+  `Software Engineer · desarrollo web full-stack`.
+- **Banda CTA** en voz de terminal: `> ready when you are` + `contact` /
+  `> listo cuando tú lo estés` + `contacto`.
+
+Añadido por el agente, sin decisión nueva: el tecleo del hero arranca **de
+inmediato** cuando la boot sequence no se muestra o se salta, en vez de esperar
+siempre su duración. Es lo que ya pedía ADR-0019 al encadenar las dos piezas.
+
+Desfases corregidos:
+- `home.md` daba el carrusel por bloqueado por Q-A, resuelta desde la fase 1.
+- `home.md` y `06-components.md` describían una prop `variant` de `ProjectCard`
+  "para futuros usos" que nunca se implementó. Se elimina la mención.
+- `13-roadmap.md` decía que la fase 5 depende de la fase 3, eliminada. Fases 2 y 4
+  marcadas como completadas (PR #3 y #4).
+- JSON-LD, OG y `description` del home quedan explícitamente en la fase 8.
+
 ## [2026-09-14] Q-P resuelta: contenido real antes de la auditoría, sin `master`
 
 Decisión del usuario, registrada en `DEVIATIONS.md`: *"Adelantamos la fase de

@@ -53,7 +53,7 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 ├── specs/
 ├── public/
 │   ├── fonts/                (si no se usa el paquete de Fontsource)
-│   ├── resume/               (PDF del CV)
+│   ├── resume/               (PDF del CV, enlazado desde /about)
 │   └── favicon/
 ├── src/
 │   ├── assets/               (imágenes procesadas por Astro)
@@ -71,11 +71,17 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │                          src/content/)
 │   ├── content/
 │   │   ├── tech.ts           (catálogo de tecnologías)
+│   │   ├── skills.ts         (grupos de skills sobre el catálogo)
+│   │   ├── education.ts      (formación)
+│   │   ├── languages.ts      (idiomas)
+│   │   ├── social.ts         (redes del footer)
 │   │   ├── queries.ts        (carga y validación de las colecciones en el build)
 │   │   ├── projects/
 │   │   │   ├── en/
 │   │   │   └── es/
 │   │   └── experience/
+│   │       ├── en/
+│   │       └── es/
 │   ├── i18n/
 │   │   ├── ui.ts             (diccionarios)
 │   │   └── utils.ts          (localizePath, getLangFromUrl, canonicalPath,
@@ -84,6 +90,8 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   ├── layouts/
 │   │   ├── BaseLayout.astro
 │   │   └── ProjectLayout.astro
+│   ├── emails/               (plantillas React Email, solo servidor — fase 11,
+│   │                          ver 14-email.md; render.ts es la entrada)
 │   ├── lib/                  (utilidades puras — objetivo de Vitest;
 │   │                          projects.ts: validaciones del conjunto de proyectos)
 │   ├── pages/
@@ -92,7 +100,6 @@ con la carga de la página y el texto se ve igual, nunca invisible. Ver
 │   │   ├── projects/
 │   │   │   ├── index.astro
 │   │   │   └── [slug].astro
-│   │   ├── resume.astro
 │   │   ├── contact.astro
 │   │   ├── 404.astro
 │   │   ├── es/               (espejo completo del árbol anterior)

@@ -21,6 +21,7 @@ obligado cumplimiento.
 | `11-styleguide.md` | Ruta `/styleguide`: primer incremento de implementación |
 | `12-brand.md` | Marca denominativa y favicon |
 | `13-roadmap.md` | Plan de implementación por fases |
+| `14-email.md` | Plantillas de correo con React Email (fase 11) |
 | `OPEN-QUESTIONS.md` | Decisiones pendientes de aprobación del usuario |
 | `DEVIATIONS.md` | Reglas cambiadas por decisión explícita del usuario |
 | `CHANGELOG.md` | Historial de cambios de estas specs |

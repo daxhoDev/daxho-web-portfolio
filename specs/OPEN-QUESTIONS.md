@@ -3,7 +3,7 @@
 Decisiones pendientes. Por la Regla 2 de `../AGENTS.md`, **nada que dependa de una
 pregunta abierta se implementa** hasta que el usuario la resuelva.
 
-Última actualización: 2026-09-14 (Q-P resuelta)
+Última actualización: 2026-09-17 (`14-email.md` aprobada; no queda ninguna spec en BORRADOR)
 
 Una pregunta aparece **en una sola sección**. Si está en "Resueltas", no puede
 seguir en "Abiertas" ni en "Aplazado".
@@ -12,57 +12,32 @@ seguir en "Abiertas" ni en "Aplazado".
 
 ## Abiertas
 
-### Q38 · Estrategia anti-spam del formulario
-**Bloquea la fase 7** (`13-roadmap.md`).
-
-El endpoint `POST /api/contact` queda expuesto en cuanto se publique. Sin ninguna
-medida, recibe spam automatizado sobre `developer.daxho@gmail.com`.
-
-- **(a)** Honeypot: campo oculto que un bot rellena y un humano no. Coste 0 KB,
-  sin servicios de terceros, sin fricción para el visitante. Para el volumen de un
-  portafolio personal, suele bastar.
-- **(b)** Honeypot + límite de tasa por IP en el endpoint.
-- **(c)** Captcha (Turnstile de Cloudflare o similar): añade un tercero, JS extra
-  y fricción.
-
-**Recomendación: (b).** El honeypot filtra los bots genéricos y el límite de tasa
-acota el daño de uno dirigido. Un captcha es desproporcionado para el volumen
-esperado y gasta presupuesto de JS en la única página donde ya hay una isla.
-
-### Q41 · Persistencia de los mensajes
-**Bloquea la fase 7** (`13-roadmap.md`).
-
-¿Se guardan los mensajes en algún sitio además de enviarlos por correo?
-
-- **(a)** No. El correo es el único registro. Cero infraestructura.
-- **(b)** Sí, en una base de datos, para no depender del buzón.
-
-**Recomendación: (a).** Una base de datos para un formulario de contacto de un
-portafolio añade una pieza de infraestructura, un coste y una superficie de datos
-personales que hay que justificar en un aviso de privacidad. Si un correo se
-pierde, el visitante reescribe.
+Ninguna. Q-Q, la última, se resolvió el 2026-09-16.
 
 ## Resueltas
 
 | Ref | Resolución | Documentado en |
 |---|---|---|
+| Q-Q | Correos con **base clara y variante oscura** por `prefers-color-scheme` (a) | `14-email.md` |
+| Q38 | Anti-spam: **honeypot + límite de envíos por IP** (b). Cómo se implementa el límite en Vercel, sin memoria compartida entre ejecuciones, se decide al aprobar `contact.md` | `05-pages/contact.md` |
+| Q41 | **Sin persistencia**: el correo es el único registro (a) | `05-pages/contact.md` |
 | Q-A | Iconos dibujados a mano, uno por archivo — **luego derogada** | ADR-0018, `DEVIATIONS.md` |
 | Q-B | Card del home **idéntica** a la de `/projects` | `05-pages/home.md`, `06-components.md` |
 | Q-C | **Sin filtros** en `/projects` | `05-pages/projects.md` |
 | Q-D | Skills **solo agrupadas**, sin nivel de dominio | `05-pages/about.md` |
 | Q-E | Galería **en línea** con enlace, sin lightbox | `05-pages/project-detail.md` |
 | Q-F | Ruta `/styleguide` en vez de mockups en Figma | ADR-0021, `11-styleguide.md` |
-| Q-G | PDF del CV **estático**, mantenido por el usuario | `05-pages/resume.md` |
+| Q-G | PDF del CV **estático**, mantenido por el usuario; se descarga desde `/about` | `05-pages/about.md` |
 | Q-I | Boot sequence acotada, primera visita de sesión | ADR-0019 |
 | Q-J | Resend con dominio de pruebas → Gmail | ADR-0020 |
-| Q-K | Carrusel con **las 25**, no una selección | `DEVIATIONS.md`, `10-tech-catalog.md` |
+| Q-K | Carrusel con **todas** las del catálogo, no una selección | `DEVIATIONS.md`, `10-tech-catalog.md` |
 | Q-L | Express **entra**, con marca circular "ex" | `DEVIATIONS.md`, `10-tech-catalog.md` |
 | Q-M | Marca `>daxho▮` — prompt + cursor de bloque | `12-brand.md` |
-| Q-N | Navegación en 3 modos, se conservan los 5 enlaces | `06-components.md` |
+| Q-N | Navegación en 3 modos, se conservan todos los enlaces (4 desde que se eliminó `/resume`) | `06-components.md`, `DEVIATIONS.md` |
 | Q-O | Texto del brief intacto; "guarida" en español | `05-pages/home.md` |
 | Q32 | Texto "about me" — Lorem Ipsum hasta la fase 10 | `13-roadmap.md` |
 | Q33 | Fotografía — placeholder hasta la fase 10 | `13-roadmap.md` |
-| Q34 | Catálogo cerrado en 25 tecnologías | `10-tech-catalog.md` |
+| Q34 | Catálogo cerrado en 25 tecnologías — **derogada** el 2026-09-17: entra Cloudinary y el catálogo queda abierto a añadidos del usuario | `10-tech-catalog.md`, `DEVIATIONS.md` |
 | Q35 | Datos de los 6 proyectos — Lorem Ipsum hasta la fase 10 | `13-roadmap.md` |
 | Q36 | Redes del footer — placeholder hasta la fase 10 | `13-roadmap.md` |
 | Q37 | Formulario: nombre, correo, mensaje | `05-pages/contact.md` |
@@ -91,14 +66,17 @@ traslado de `NavDropdown` y `MobileNav` a `islands/`.
 
 **Las tres de la fase 4 (`04-content-model.md`, `05-pages/projects.md` y
 `05-pages/project-detail.md`) se aprobaron el mismo día**, con tres decisiones:
-filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta. Quedan:
+filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta.
 
-| Spec | La consume | Estado |
-|---|---|---|
-| `05-pages/home.md` | Fase 5 | BORRADOR |
-| `05-pages/about.md`, `resume.md` | Fase 6 | BORRADOR |
-| `05-pages/contact.md` | Fase 7 | BORRADOR + Q38/Q41 |
-| `08-integrations.md` | Fases 7 y 8 | BORRADOR |
+**La de la fase 5 (`05-pages/home.md`) se aprobó el 2026-09-16, y las dos de la
+fase 6 (`about.md`, `resume.md`) el mismo día, igual que las dos de la fase 7 (`contact.md`, `08-integrations.md`).** `resume.md` quedó SUPERSEDED esa misma tarde: la página se eliminó.
+
+**La de la fase 11 (`14-email.md`) se aprobó el 2026-09-17**, con dos decisiones
+que la spec dejaba abiertas: estilos **en línea** desde `theme.ts` en vez del
+componente `Tailwind` de React Email, y **sin previsualización local** — la
+revisión se hace sobre envíos reales.
+
+**No queda ninguna spec en BORRADOR.**
 
 ---
 
@@ -106,12 +84,15 @@ filtrado de drafts, ambos idiomas obligatorios y navegación sin vuelta. Quedan:
 
 No son decisiones de diseño, sino trabajo fuera del repositorio que bloquea fases:
 
-1. **Crear el proyecto en Vercel** — recomendado al cerrar la fase 2 (fija
-   `SITE_URL` y activa las previews por PR).
-2. **Crear la cuenta de Resend con `developer.daxho@gmail.com`** — el dominio de
-   pruebas solo envía a la dirección de registro (ADR-0020). Bloquea la fase 7.
-3. **Filtro "nunca a spam" en Gmail** antes de la primera prueba de envío.
-4. **Contenido real** (fase 10, que va antes de la 9): textos, fotografía, datos y capturas de los 6
+1. ~~**Crear el proyecto en Vercel**~~ — **hecho**: confirmado el 2026-09-17, la
+   preview de una PR desplegó en `daxhos-projects/daxho-web-portfolio`.
+2. ~~**Crear la regla del firewall** del formulario en Vercel~~ — **hecha**:
+   configurada por el usuario el 2026-09-17.
+3. ~~**Crear la cuenta de Resend con `developer.daxho@gmail.com`**~~ — **hecha**:
+   el 2026-09-17 llegaron cuatro envíos reales a esa dirección.
+4. ~~**Filtro "nunca a spam" en Gmail**~~ — sin efecto práctico pendiente: los
+   cuatro envíos de prueba se leyeron en la bandeja.
+5. **Contenido real** (fase 10, que va antes de la 9): textos, fotografía, datos y capturas de los 6
    proyectos, redes del footer, formación, idiomas y el PDF del CV por idioma.
 
 **Consecuencia a tener presente:** el contenido de relleno afecta al diseño. Un

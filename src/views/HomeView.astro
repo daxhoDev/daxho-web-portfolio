@@ -1,0 +1,44 @@
+---
+/**
+ * Home — 05-pages/home.md (APROBADA).
+ *
+ * Sirve / y /es: cada página es una cáscara que pasa el idioma
+ * (03-architecture.md). Secciones en el orden de la spec.
+ */
+import AboutTeaser from '@/components/sections/AboutTeaser.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+import FeaturedProjects from '@/components/sections/FeaturedProjects.astro';
+import Hero from '@/components/sections/Hero.astro';
+import TechCarousel from '@/components/sections/TechCarousel.astro';
+import { SOCIAL_LINKS } from '@/content/social';
+import { TECH_CATALOG } from '@/content/tech';
+import { useTranslations, type Lang } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { personJsonLd } from '@/lib/seo';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+
+// ADR-0016: `Person` en el home. Las redes de relleno de la fase 10 NO entran:
+// un `sameAs` a `#` es una mentira que se lleva el buscador (`seo.ts`).
+const person = personJsonLd({
+  siteUrl: (Astro.site ?? Astro.url).toString(),
+  lang,
+  sameAs: SOCIAL_LINKS.filter((link) => !link.draft).map((link) => link.href),
+  knowsAbout: TECH_CATALOG.map((tech) => tech.label),
+});
+---
+
+<BaseLayout title={t('home.title')} description={t('home.description')} jsonLd={person}>
+  <Hero lang={lang} next="about" />
+  <AboutTeaser lang={lang} id="about" />
+  <div class="border-subtle border-y">
+    <TechCarousel label={t('home.tech')} />
+  </div>
+  <FeaturedProjects lang={lang} />
+  <CtaBand lang={lang} />
+</BaseLayout>

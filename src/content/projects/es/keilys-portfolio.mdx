@@ -1,0 +1,66 @@
+---
+title: Keily Mar — Portafolio fotográfico
+summary: Portafolio bilingüe para una fotógrafa autodidacta, sin framework de interfaz y con las fotografías, nunca la interfaz, llevando la voz.
+cover: ../../../assets/projects/keilys-portfolio/cover.jpg
+coverAlt: 'Portada del portafolio: una fotografía en blanco y negro de un ave ocupando la pantalla, con el titular "Hola, soy Keily, y soy fotógrafa".'
+gallery:
+  - image: ../../../assets/projects/keilys-portfolio/gallery-1.jpg
+    alt: 'La página de galería, con los filtros de todas, blanco y negro y color, cada uno con su recuento, y las primeras fotografías en mosaico.'
+    caption: La galería, con filtros por tono y el recuento de cada uno.
+  - image: ../../../assets/projects/keilys-portfolio/gallery-2.jpg
+    alt: 'Una fotografía abierta en el lightbox, centrada sobre fondo oscuro, con flechas para moverse y el contador de posición en la esquina.'
+    caption: El lightbox, escrito a mano en unos 3 KB y sin librería.
+stack: [astro, typescript, tailwindcss, playwright, vercel]
+liveUrl: https://keilymargallery-sage.vercel.app
+repoUrl: https://github.com/daxhoDev/keilys-portfolio
+featured: true
+featuredOrder: 2
+order: 2
+year: 2026
+role: Front-end
+status: live
+# Textos y capturas reales. Sigue en `draft` hasta que los 6 proyectos lo sean:
+# la validación del conjunto exige 3 destacados por idioma (04-content-model.md).
+draft: true
+translatedByAgent: true
+---
+
+## Qué hace
+
+Un portafolio para una fotógrafa autodidacta de Holguín, Cuba, cuyo trabajo es
+sobre todo en blanco y negro. El sitio entero es bilingüe —español en la raíz,
+inglés bajo `/en`— y no hay ni un texto escrito a fuego en los componentes.
+
+Lo sostienen tres páginas. La portada abre con una fotografía a pantalla
+completa, una presentación breve y una selección de trabajos, y termina en un
+formulario de contacto. La página "sobre mí" recoge la biografía completa con un
+retrato y una lista de datos: desde dónde trabaja, desde cuándo, qué fotografía,
+con qué equipo. La galería lo enseña todo en mosaico con filtros por tono
+—todas, blanco y negro, color— y cada fotografía se abre en un lightbox.
+
+## Cómo está hecho
+
+Astro con salida estática y TypeScript estricto, con Tailwind CSS, las fuentes
+autoalojadas para que no salga ninguna petición hacia Google y las imágenes
+procesadas en el build a AVIF y WebP.
+
+**No hay framework de interfaz**: ni React, ni Vue, ni Svelte. La poca
+interactividad que tiene el sitio —los filtros, el lightbox, el cambio de
+idioma— es TypeScript a secas dentro de bloques `<script>`. Eso es lo que
+mantiene la portada por debajo de 30 KB de JavaScript, lightbox incluido.
+
+Las pruebas van en tres niveles: `node:test` para las unidades y para la salida
+del build, Playwright para el navegador y axe-core para accesibilidad en las
+siete rutas.
+
+## Las decisiones que lo definen
+
+La paleta es acromática: negro puro, grises por capas y un único acento elegido
+por la fotógrafa para filetes y estados activos. La jerarquía la lleva el brillo,
+no el color, precisamente para que nada compita con las fotografías. Los únicos
+colores de la interfaz son el rojo y el verde de los mensajes del formulario, y
+ninguno viaja solo: los dos van acompañados de texto y de un icono.
+
+Las fotografías nunca se redondean, nunca se recortan en la galería y nunca las
+tiñe la interfaz. El movimiento es expresivo, y se detiene por completo bajo
+`prefers-reduced-motion`.

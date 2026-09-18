@@ -2,7 +2,7 @@
 /**
  * Navegación principal — 06-components.md, tres modos (Q-N).
  *
- * UN SOLO <ul> con los 5 enlaces, siempre presente en el HTML. Los tres modos
+ * UN SOLO <ul> con los enlaces, siempre presente en el HTML. Los tres modos
  * son presentación (CSS por breakpoint); los disparadores de las islas React
  * solo escriben `data-open` sobre este elemento. **Ningún enlace se inyecta.**
  *
@@ -22,7 +22,6 @@ const LINKS = [
   { path: '/', key: 'nav.home' },
   { path: '/about', key: 'nav.about' },
   { path: '/projects', key: 'nav.projects' },
-  { path: '/resume', key: 'nav.resume' },
   { path: '/contact', key: 'nav.contact' },
 ] as const;
 

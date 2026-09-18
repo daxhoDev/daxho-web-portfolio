@@ -1,0 +1,71 @@
+---
+/**
+ * Contacto — 05-pages/contact.md (APROBADA).
+ *
+ * Sirve /contact y /es/contact. El formulario funciona sin JavaScript; como
+ * alternativa solo se ofrecen las redes: el correo no se publica (Q38).
+ */
+import ContactForm from '@/components/islands/ContactForm.tsx';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { SOCIAL_LINKS } from '@/content/social';
+import { useTranslations, type Lang } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang }: Props = Astro.props;
+const t = useTranslations(lang);
+
+const labels = {
+  name: t('contact.name'),
+  email: t('contact.email'),
+  message: t('contact.message'),
+  submit: t('contact.submit'),
+  sending: t('contact.sending'),
+  success: t('contact.success'),
+  errorGeneric: t('contact.error.generic'),
+  errorRateLimited: t('contact.error.rateLimited'),
+  errorFields: t('contact.error.fields'),
+  required: t('contact.field.required'),
+  tooShort: t('contact.field.tooShort'),
+  tooLong: t('contact.field.tooLong'),
+  invalidEmail: t('contact.field.invalidEmail'),
+  honeypot: t('contact.honeypot'),
+};
+---
+
+<BaseLayout title={t('contact.title')} description={t('contact.description')}>
+  <Container class="flex flex-col gap-12 py-16">
+    <header class="flex flex-col gap-4">
+      <SectionHeading text={t('nav.contact')} as="h1" class="text-4xl" />
+      <p class="text-fg-secondary font-mono text-lg">
+        {/* Decorativo, como en la marca y el home. */}
+        <span class="text-accent-text" aria-hidden="true">&gt;</span>
+        {t('contact.intro')}
+      </p>
+    </header>
+
+    <ContactForm client:visible lang={lang} labels={labels} />
+
+    <p
+      class="text-fg-secondary flex flex-wrap gap-x-4 gap-y-2 font-mono text-sm"
+      data-contact-elsewhere
+    >
+      <span>{t('contact.elsewhere')}</span>
+      {
+        SOCIAL_LINKS.map((item) => (
+          <a
+            class="hover:text-accent-text underline-offset-4 transition-colors hover:underline"
+            href={item.href}
+            data-placeholder={item.draft ? 'fase-10' : undefined}
+          >
+            {item.name}
+          </a>
+        ))
+      }
+    </p>
+  </Container>
+</BaseLayout>

@@ -56,6 +56,16 @@ export function sortProjects<T extends ProjectEntryLike>(entries: readonly T[]):
 }
 
 /**
+ * Los destacados del home, en el orden de `featuredOrder` (05-pages/home.md).
+ * Que sean exactamente 3 ya lo garantiza `validateProjectSet` en el build.
+ */
+export function featuredProjects<T extends ProjectEntryLike>(entries: readonly T[]): T[] {
+  return entries
+    .filter((entry) => entry.data.featured)
+    .sort((a, b) => (a.data.featuredOrder ?? 0) - (b.data.featuredOrder ?? 0));
+}
+
+/**
  * Proyecto anterior y siguiente. **Sin vuelta circular** (decisión del usuario,
  * 2026-09-14): el primero no tiene anterior y el último no tiene siguiente.
  */
@@ -79,12 +89,10 @@ export const FEATURED_COUNT = 3;
 export function validateProjectSet(entries: readonly ProjectEntryLike[]): string[] {
   const errors: string[] = [];
   const byLang = new Map<Lang, ProjectEntryLike[]>();
-  const slugsByLang = new Map<Lang, Set<string>>();
 
   for (const entry of entries) {
-    const { lang, slug } = parseProjectId(entry.id);
+    const { lang } = parseProjectId(entry.id);
     byLang.set(lang, [...(byLang.get(lang) ?? []), entry]);
-    slugsByLang.set(lang, (slugsByLang.get(lang) ?? new Set()).add(slug));
   }
 
   const langs: Lang[] = ['en', 'es'];
@@ -115,15 +123,30 @@ export function validateProjectSet(entries: readonly ProjectEntryLike[]): string
     }
   }
 
-  // Ambos idiomas siempre, sin escapatoria (DEVIATIONS.md, 2026-09-14): sin
-  // versión en español el selector de idioma llevaría a una 404.
-  const [en, es] = langs.map((lang) => slugsByLang.get(lang) ?? new Set<string>());
-  for (const slug of en!) {
-    if (!es!.has(slug)) errors.push(`"${slug}" existe en inglés pero no en español.`);
-  }
-  for (const slug of es!) {
-    if (!en!.has(slug)) errors.push(`"${slug}" existe en español pero no en inglés.`);
+  errors.push(...missingTranslations(entries.map((entry) => entry.id)));
+
+  return errors;
+}
+
+/**
+ * Ambos idiomas siempre, sin escapatoria (DEVIATIONS.md, 2026-09-14): sin
+ * versión en español el selector de idioma llevaría a una 404. La regla vale
+ * para toda colección `{lang}/{slug}`: `projects` y `experience`.
+ */
+export function missingTranslations(ids: readonly string[]): string[] {
+  const en = new Set<string>();
+  const es = new Set<string>();
+  for (const id of ids) {
+    const { lang, slug } = parseProjectId(id);
+    (lang === 'en' ? en : es).add(slug);
   }
 
+  const errors: string[] = [];
+  for (const slug of en) {
+    if (!es.has(slug)) errors.push(`"${slug}" existe en inglés pero no en español.`);
+  }
+  for (const slug of es) {
+    if (!en.has(slug)) errors.push(`"${slug}" existe en español pero no en inglés.`);
+  }
   return errors;
 }
