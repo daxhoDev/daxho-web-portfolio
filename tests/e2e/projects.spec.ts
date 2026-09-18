@@ -24,7 +24,7 @@ test.describe('/projects', () => {
       'Keily Mar — Photography portfolio',
       'La Cava Negra',
       'Notaría 123',
-      'Lorem Ipsum Five',
+      'US Northside Parts',
       'Lorem Ipsum Six',
     ]);
   });
@@ -69,8 +69,8 @@ test.describe('/projects', () => {
 
   test('sin liveUrl no aparece "Open project"', async ({ page }) => {
     await visit(page, '/projects');
-    // lorem-ipsum-five es hoy el único relleno sin liveUrl en la galería.
-    const card = page.getByRole('article').filter({ hasText: 'Lorem Ipsum Five' });
+    // lorem-ipsum-six es el último relleno, y no tiene ninguna de las dos URL.
+    const card = page.getByRole('article').filter({ hasText: 'Lorem Ipsum Six' });
     await expect(card.getByRole('link', { name: 'Open project' })).toHaveCount(0);
   });
 
@@ -111,9 +111,10 @@ test.describe('detalle de proyecto', () => {
   });
 
   test('muestra cada botón solo si existe su URL', async ({ page }) => {
-    await visit(page, '/projects/lorem-ipsum-five'); // repoUrl sí, liveUrl no
-    await expect(page.getByRole('link', { name: 'Open project' })).toHaveCount(0);
-    await expect(page.getByRole('link', { name: 'View repository' })).toHaveCount(1);
+    // US Northside Parts sale de un repositorio privado: enlace vivo, sin código.
+    await visit(page, '/projects/us-northside-parts'); // liveUrl sí, repoUrl no
+    await expect(page.getByRole('link', { name: 'Open project' })).toHaveCount(1);
+    await expect(page.getByRole('link', { name: 'View repository' })).toHaveCount(0);
 
     await visit(page, '/projects/destinos-unicos'); // las dos
     await expect(page.getByRole('link', { name: 'Open project' })).toHaveAttribute(
@@ -161,7 +162,7 @@ test.describe('detalle de proyecto', () => {
     await expect(page.locator('[data-project-nav="next"]')).toHaveCount(0);
     await expect(page.locator('[data-project-nav="prev"]')).toHaveAttribute(
       'href',
-      '/projects/lorem-ipsum-five',
+      '/projects/us-northside-parts',
     );
   });
 

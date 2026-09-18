@@ -397,8 +397,19 @@ Ambas están etiquetadas como prueba técnica, sin nombrar a la empresa. Las
 capturas salen de los sitios en producción, con las animaciones congeladas para
 que no se fotografíen a medio revelar.
 
-Quedan **2 proyectos** (Delicias Yordan, sin sitio vivo, y Survey System, sin
-desplegar), la fotografía, las redes y la entradilla de `/projects`.
+**Proyecto 5: US Northside Parts** (`lorem-ipsum-five`), la tienda de
+climatización y repuestos que el usuario construyó de cero. Su repositorio es
+**privado y de la organización del cliente**, así que la ficha se limita a lo
+que cualquiera puede ver en el sitio público —qué hace, cómo se compra, cómo se
+sigue un pedido— y **no enlaza código ni describe arquitectura interna ni
+dependencias** (decisión del usuario, 2026-09-18). Es el único proyecto con
+`liveUrl` y sin `repoUrl`, y el test de botones lo usa justamente para cubrir
+ese caso.
+
+Queda **1 proyecto**: Survey System, que espera a estar desplegado —el usuario
+prefiere capturas reales antes que diagramas—, más la fotografía, las redes y la
+entradilla de `/projects`. Delicias Yordan se queda en la experiencia laboral y
+no ocupa hueco en la galería.
 
 **Efecto colateral en los tests:** cada proyecto que se vuelve real obliga a
 revisar los E2E que lo citaban por título, por slug o por qué enlaces tiene. Los

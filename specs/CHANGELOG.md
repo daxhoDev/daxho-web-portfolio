@@ -3,6 +3,18 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-18] Quinto proyecto: US Northside Parts, con el freno puesto
+
+- **Contenido:** `lorem-ipsum-five` pasa a `us-northside-parts`. Es el proyecto
+  más grande del usuario y **el único cuyo repositorio no es suyo**: privado, de
+  la organización del cliente.
+- **Regla aplicada:** la ficha cuenta solo lo que enseña el sitio público y no
+  enlaza el código. Nada de arquitectura interna ni de dependencias, aunque las
+  tenga a la vista quien construyó el proyecto. Decisión del usuario tras
+  plantearle el conflicto entre autoría y permiso.
+- **Tests:** aparece el caso "enlace vivo sin repositorio", que antes no existía
+  en la galería; el de "ninguna de las dos URL" pasa al último relleno.
+
 ## [2026-09-18] `/about` real y dos proyectos más
 
 - **`/about`:** entradilla y biografía reales en los dos idiomas, experiencia
