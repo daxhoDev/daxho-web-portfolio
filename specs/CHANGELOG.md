@@ -3,6 +3,18 @@
 Historial de cambios de la especificación. No confundir con el changelog del
 producto.
 
+## [2026-09-18] `/about` real y dos proyectos más
+
+- **`/about`:** entradilla y biografía reales en los dos idiomas, experiencia
+  laboral con las tres entradas verdaderas, formación **en curso** (la
+  titulación llega en enero de 2027 y no se adelanta) e idiomas con el nivel de
+  inglés declarado como autoevaluación.
+- **Proyectos:** `la-cava-negra` y `notaria-123` sustituyen a los rellenos tres
+  y cuatro, con capturas del sitio en producción.
+- **Tests E2E:** el caso "sin `liveUrl`" pasa a `lorem-ipsum-five`, que es hoy
+  el único relleno que lo representa, y el resto de fixtures siguen a los slugs
+  nuevos.
+
 ## [2026-09-18] El CV deja de ser relleno
 
 - **`public/resume/`:** los dos PDF son ya el CV real del usuario, uno por

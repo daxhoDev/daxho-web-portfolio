@@ -111,7 +111,7 @@ test.describe('home — estructura', () => {
     await expect(featured.getByRole('heading', { level: 3 })).toHaveText([
       'Destinos Únicos',
       'Keily Mar — Photography portfolio',
-      'Lorem Ipsum Three',
+      'La Cava Negra',
     ]);
     await expect(featured.getByRole('link', { name: 'View more projects' })).toHaveAttribute(
       'href',

@@ -22,8 +22,8 @@ test.describe('/projects', () => {
     await expect(titles).toHaveText([
       'Destinos Únicos',
       'Keily Mar — Photography portfolio',
-      'Lorem Ipsum Three',
-      'Lorem Ipsum Four',
+      'La Cava Negra',
+      'Notaría 123',
       'Lorem Ipsum Five',
       'Lorem Ipsum Six',
     ]);
@@ -69,8 +69,8 @@ test.describe('/projects', () => {
 
   test('sin liveUrl no aparece "Open project"', async ({ page }) => {
     await visit(page, '/projects');
-    // lorem-ipsum-three no tiene liveUrl en su contenido.
-    const card = page.getByRole('article').filter({ hasText: 'Lorem Ipsum Three' });
+    // lorem-ipsum-five es hoy el único relleno sin liveUrl en la galería.
+    const card = page.getByRole('article').filter({ hasText: 'Lorem Ipsum Five' });
     await expect(card.getByRole('link', { name: 'Open project' })).toHaveCount(0);
   });
 
@@ -111,7 +111,7 @@ test.describe('detalle de proyecto', () => {
   });
 
   test('muestra cada botón solo si existe su URL', async ({ page }) => {
-    await visit(page, '/projects/lorem-ipsum-three'); // repoUrl sí, liveUrl no
+    await visit(page, '/projects/lorem-ipsum-five'); // repoUrl sí, liveUrl no
     await expect(page.getByRole('link', { name: 'Open project' })).toHaveCount(0);
     await expect(page.getByRole('link', { name: 'View repository' })).toHaveCount(1);
 
@@ -166,13 +166,11 @@ test.describe('detalle de proyecto', () => {
   });
 
   test('el selector de idioma lleva al MISMO proyecto en el otro idioma', async ({ page }) => {
-    await visit(page, '/projects/lorem-ipsum-four');
+    await visit(page, '/projects/notaria-123');
     await hydrated(page, '[data-lang="es"]');
     await page.getByRole('button', { name: /^es/i }).click();
-    await expect(page).toHaveURL(/\/es\/projects\/lorem-ipsum-four$/);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName(
-      'Lorem Ipsum Cuatro',
-    );
+    await expect(page).toHaveURL(/\/es\/projects\/notaria-123$/);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName('Notaría 123');
   });
 
   test('un slug inexistente devuelve 404', async ({ page }) => {

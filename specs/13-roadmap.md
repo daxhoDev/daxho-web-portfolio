@@ -383,8 +383,22 @@ mantenido por el usuario, y meter aquí un generador contradiría esa decisión.
 Está pendiente de que el usuario decida si quiere versionarlo (haría falta
 cambiar `05-pages/about.md`).
 
-Quedan los otros 4 proyectos, la fotografía, la formación, los idiomas, las
-redes y los textos de `src/i18n/ui.ts`.
+**`/about` con contenido real (2026-09-18).** Entradilla y los tres párrafos de
+la biografía en los dos idiomas · la colección `experience` pasa a ser la de
+verdad —Xlynx, Destinos Únicos y Delicias Yordan, con sus fechas, sus logros y
+su stack— · `education.ts` con la Universidad de Holguín **en curso**, no
+titulada · `languages.ts` con español nativo e inglés intermedio alto declarado
+como autoevaluación.
+
+**Proyectos 3 y 4: La Cava Negra y Notaría 123** (`lorem-ipsum-three` y
+`lorem-ipsum-four`). Son las dos caras de una misma prueba técnica y por eso
+entran juntas: una vende ambiente a oscuras y la otra confianza a plena luz.
+Ambas están etiquetadas como prueba técnica, sin nombrar a la empresa. Las
+capturas salen de los sitios en producción, con las animaciones congeladas para
+que no se fotografíen a medio revelar.
+
+Quedan **2 proyectos** (Delicias Yordan, sin sitio vivo, y Survey System, sin
+desplegar), la fotografía, las redes y la entradilla de `/projects`.
 
 **Efecto colateral en los tests:** cada proyecto que se vuelve real obliga a
 revisar los E2E que lo citaban por título, por slug o por qué enlaces tiene. Los

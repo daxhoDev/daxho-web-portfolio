@@ -13,7 +13,9 @@ async function visit(page: Page, path: string, lang: 'en' | 'es' = 'en') {
   await page.goto(path);
 }
 
-const EXPECTED_ORDER = ['Lorem Ipsum Studio', 'Dolor Sit Labs', 'Amet Consectetur'];
+// Orden por fecha de INICIO, de más reciente a más antigua: Destinos Únicos
+// empezó antes que Delicias Yordan aunque terminara después.
+const EXPECTED_ORDER = ['Xlynx LLC', 'Delicias Yordan', 'Destinos Únicos'];
 
 test.describe('/about', () => {
   test('un solo <h1> y las secciones de la spec, en orden', async ({ page }) => {
@@ -57,9 +59,9 @@ test.describe('/about', () => {
     for (const [index, company] of EXPECTED_ORDER.entries()) {
       await expect(items.nth(index).getByRole('heading')).toContainText(company);
     }
-    await expect(items.first()).toContainText('Mar 2023 – Present');
+    await expect(items.first()).toContainText('Sep 2025 – Present');
     await expect(items.first().getByRole('heading')).toHaveText(
-      'Lorem ipsum dolor · Lorem Ipsum Studio',
+      'Software Engineer (Full-Stack) · Xlynx LLC',
     );
   });
 
